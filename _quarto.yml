@@ -22,3 +22,5 @@ format:
   html:
     theme: custom.scss #minty
     # css: styles.css
+execute:
+  freeze: auto
