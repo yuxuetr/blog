@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "posts/started/index.html",
+    "href": "posts/started/index.html",
+    "title": "你好, Quarto",
+    "section": "",
+    "text": "今天把博客从Hugo迁移到Quarto。在这一天也有了自己人生未来的新计划。\n                             | |\n__  ___   _  __ _ _ __    ___| |__  _   _\n\\ \\/ / | | |/ _` | '_ \\  / __| '_ \\| | | |\n >  <| |_| | (_| | | | | \\__ \\ | | | |_| |\n/_/\\_\\\\__,_|\\__,_|_| |_| |___/_| |_|\\__,_|\n\n__   __    __   ___\n\\ \\ / /    \\ \\ / (_)\n \\ V /___   \\ V / _ _ __   __ _\n  \\ // _ \\   \\ / | | '_ \\ / _` |\n  | |  __/   | | | | | | | (_| |\n  \\_/\\___|   \\_/ |_|_| |_|\\__, |\n                           __/ |\n                          |___/"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "曳影",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  }
+]

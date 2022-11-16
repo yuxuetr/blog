@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "曳影"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/54yeying
+      - icon: twitter
+        href: https://twitter.com/54yeying
+  page-footer:
+    left: "Copyright 2022, 曳影"
+    right:
+      - icon: github
+        href: https://github.com/54yeying
+      - icon: twitter
+        href: https://twitter.com/54yeying
+format:
+  html:
+    theme: custom.scss #minty
+    # css: styles.css
