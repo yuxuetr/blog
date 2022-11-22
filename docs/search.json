@@ -18,7 +18,7 @@
     "href": "posts/poetry_pyright_doom_emacs/index.html",
     "title": "你好, Quarto",
     "section": "",
-    "text": "Doom Emacs的python配置\n\n(python\n  +poetry\n  +pyright)\n\nInstall Poetry\n\npip install poetry\n\nInstall Pyright\n\nnpm install -g pyright\n\n\n\nmkdir project_name && cd project_name\npoetry init\npoetry install\npoetry add flask\nEmacs打开project_name/app.py\n这样Doom Emacs配置的Poetry的虚拟环境中的Flask,可以在python的LSP补全后端补全flask的代码了\n\n\n\n刚配置完成后，创建Poetry项目后可以正常激活，但是Pyright始终无法补全 最终在Redit Link 中有人编辑器用了Github Repo上的一个项目后，然后 打开别的Poetry创建的项目，有人讨论说，可能是因为上面的Github仓库中多了poetry.toml文件 内容如下:\n[virtualenvs]\nin-project = true"
+    "text": "Doom Emacs的python配置\n\n(python\n  +poetry\n  +pyright)\n\nInstall Poetry\n\npip install poetry\n\nInstall Pyright\n\nnpm install -g pyright\n\n\n\nmkdir project_name && cd project_name\npoetry init\npoetry install\npoetry add flask\nEmacs打开project_name/app.py\n这样Doom Emacs配置的Poetry的虚拟环境中的Flask,可以在python的LSP补全后端补全flask的代码了\n\n\n\n刚配置完成后，创建Poetry项目后可以正常激活，但是Pyright始终无法补全 最终在Reddit Link 中有人编辑器用了Github Repo上的一个项目后，然后 打开别的Poetry创建的项目，有人讨论说，可能是因为上面的Github仓库中多了poetry.toml文件 内容如下:\n[virtualenvs]\nin-project = true"
   },
   {
     "objectID": "index.html",
