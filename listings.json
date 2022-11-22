@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/kubernetes_the_hard_way/index.html",
       "/posts/started/index.html"
     ]
   }
