@@ -1,0 +1,56 @@
+---
+title: "Doom Emacs & Poetry & Pyright管理Python开发环境"
+author: "曳影"
+date: "2022-11-23"
+categories: [Doom Emacs, Pyright, Poetry]
+# image: "image.jpg"
+---
+
+## 记录`Doom Emacs` 使用`Poetry`管理的多虚拟环境使用`Pyright`补全
+
+### 安装和配置
+1. `Doom Emacs`的`python`配置
+
+```clojure
+(python
+  +poetry
+  +pyright)
+```
+
+2. Install Poetry
+
+```bash
+pip install poetry
+```
+
+3. Install Pyright
+
+```bash
+npm install -g pyright
+```
+
+### 使用`Poetry`创建虚拟环境
+
+```bash
+mkdir project_name && cd project_name
+poetry init
+poetry install
+poetry add flask
+```
+
+`Emacs`打开`project_name/app.py`
+
+这样`Doom Emacs`配置的`Poetry`的虚拟环境中的`Flask`,可以在`python`的`LSP补全后端`补全`flask`的代码了
+
+### 问题记录
+
+刚配置完成后，创建`Poetry`项目后可以正常激活，但是`Pyright`始终无法补全
+最终在[Reddit Link](https://www.reddit.com/r/emacs/comments/tiqbro/getting_pyright_to_detect_my_poetry_environment/)
+中有人编辑器用了[Github Repo](https://github.com/jaeheonji/python-boilerplate)上的一个项目后，然后
+打开别的`Poetry`创建的项目，有人讨论说，可能是因为上面的Github仓库中多了`poetry.toml`文件
+内容如下:
+
+```toml
+[virtualenvs]
+in-project = true
+```
