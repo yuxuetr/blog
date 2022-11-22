@@ -11,6 +11,8 @@ website:
         href: https://github.com/54yeying
       - icon: twitter
         href: https://twitter.com/54yeying
+      - icon: email
+        href: 54.yeying@gmail.com
   page-footer:
     left: "Copyright 2022, 曳影"
     right:
@@ -18,9 +20,14 @@ website:
         href: https://github.com/54yeying
       - icon: twitter
         href: https://twitter.com/54yeying
+      - icon: email
+        href: 54.yeying@gmail.com
 format:
   html:
     theme: custom.scss #minty
+    # code-overflow: wrap
+    code-line-numbers: true
+    code-link: true
     # css: styles.css
 execute:
   freeze: auto

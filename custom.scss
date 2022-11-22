@@ -53,6 +53,8 @@ $border-radius-sm: .3rem !default;
 
 // Fonts
 $font-family-monospace: Monaco;
+$code-block-font-size: 1em;
+$code-block-bg: #e7f1f4;
 // stylelint-disable-next-line value-keyword-case
 $headings-font-family: Montserrat, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 $headings-color: $gray-700 !default;
