@@ -1,0 +1,46 @@
+---
+title: "Emacs获取当前系统时间生成文件名"
+author: "曳影"
+date: "2022-11-28"
+categories: [Emacs, Elisp]
+---
+
+### 格式化当前时间函数
+
+1. Format yyyy-mm-dd
+```clojure
+(format-time-string "%Y-%m-%d")
+;; "2022-11-28"
+```
+
+2. Unix Time Format(number of seconds since 1970-01-01)
+```clojure
+(format-time-string "%s")
+;; "1669620311"
+```
+
+3. Names for Month and Week
+```clojure
+(format-time-string "%B") ; "November"
+(format-time-string "%b") ; "Nov"
+(format-time-string "%A") ; "Monday"
+(format-time-string "%a") ; "Tue"
+```
+
+4. Timezone
+```clojure
+(format-time-string "%z")
+```
+
+### 拼接字符串(concat)
+
+```clojure
+(concat "/path/to/root" "cur_dir" "file_name" ".extend")
+```
+
+### 打开(创建)当天日期文件
+
+```clojure
+(open-file
+  (concat "~/org" (format-time-string "%Y-%m-%d") ".org"))
+```

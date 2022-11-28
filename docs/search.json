@@ -7,6 +7,13 @@
     "text": "今天把博客从Hugo迁移到Quarto。在这一天也有了自己人生未来的新计划。\n                             | |\n__  ___   _  __ _ _ __    ___| |__  _   _\n\\ \\/ / | | |/ _` | '_ \\  / __| '_ \\| | | |\n >  <| |_| | (_| | | | | \\__ \\ | | | |_| |\n/_/\\_\\\\__,_|\\__,_|_| |_| |___/_| |_|\\__,_|\n__   __    __   ___\n\\ \\ / /    \\ \\ / (_)\n \\ V /___   \\ V / _ _ __   __ _\n  \\ // _ \\   \\ / | | '_ \\ / _` |\n  | |  __/   | | | | | | | (_| |\n  \\_/\\___|   \\_/ |_|_| |_|\\__, |\n                           __/ |\n                          |___/"
   },
   {
+    "objectID": "posts/emacs_time_func/index.html",
+    "href": "posts/emacs_time_func/index.html",
+    "title": "Emacs获取当前系统时间生成文件名",
+    "section": "",
+    "text": "格式化当前时间函数\n\nFormat yyyy-mm-dd\n\n(format-time-string \"%Y-%m-%d\")\n;; \"2022-11-28\"\n\nUnix Time Format(number of seconds since 1970-01-01)\n\n(format-time-string \"%s\")\n;; \"1669620311\"\n\nNames for Month and Week\n\n(format-time-string \"%B\") ; \"November\"\n(format-time-string \"%b\") ; \"Nov\"\n(format-time-string \"%A\") ; \"Monday\"\n(format-time-string \"%a\") ; \"Tue\"\n\nTimezone\n\n(format-time-string \"%z\")\n\n\n拼接字符串(concat)\n(concat \"/path/to/root\" \"cur_dir\" \"file_name\" \".extend\")\n\n\n打开(创建)当天日期文件\n(open-file\n  (concat \"~/org\" (format-time-string \"%Y-%m-%d\") \".org\"))"
+  },
+  {
     "objectID": "posts/kubernetes_the_hard_way/index.html",
     "href": "posts/kubernetes_the_hard_way/index.html",
     "title": "Kubernetes the hard way",
@@ -33,12 +40,5 @@
     "title": "About",
     "section": "",
     "text": "About this blog"
-  },
-  {
-    "objectID": "posts/emacs_time_func/index.html",
-    "href": "posts/emacs_time_func/index.html",
-    "title": "Emacs获取当前系统时间生成文件名",
-    "section": "",
-    "text": "格式化当前时间函数\n\nFormat yyyy-mm-dd\n\n(format-time-string \"%Y-%m-%d\")\n;; \"2022-11-28\"\n\nUnix Time Format(number of seconds since 1970-01-01)\n\n(format-time-string \"%s\")\n;; \"1669620311\"\n\nNames for Month and Week\n\n(format-time-string \"%B\") ; \"November\"\n(format-time-string \"%b\") ; \"Nov\"\n(format-time-string \"%A\") ; \"Monday\"\n(format-time-string \"%a\") ; \"Tue\"\n\nTimezone\n\n(format-time-string \"%z\")\n\n\n拼接字符串(concat)\n(concat \"/path/to/root\" \"cur_dir\" \"file_name\" \".extend\")\n\n\n打开(创建)当天日期文件\n(open-file\n  (concat \"~/org\" (format-time-string \"%Y-%m-%d\") \".org\"))"
   }
 ]
