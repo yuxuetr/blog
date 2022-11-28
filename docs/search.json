@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -33,5 +33,12 @@
     "title": "About",
     "section": "",
     "text": "About this blog"
+  },
+  {
+    "objectID": "posts/emacs_time_func/index.html",
+    "href": "posts/emacs_time_func/index.html",
+    "title": "Emacs获取当前系统时间生成文件名",
+    "section": "",
+    "text": "格式化当前时间函数\n\nFormat yyyy-mm-dd\n\n(format-time-string \"%Y-%m-%d\")\n;; \"2022-11-28\"\n\nUnix Time Format(number of seconds since 1970-01-01)\n\n(format-time-string \"%s\")\n;; \"1669620311\"\n\nNames for Month and Week\n\n(format-time-string \"%B\") ; \"November\"\n(format-time-string \"%b\") ; \"Nov\"\n(format-time-string \"%A\") ; \"Monday\"\n(format-time-string \"%a\") ; \"Tue\"\n\nTimezone\n\n(format-time-string \"%z\")\n\n\n拼接字符串(concat)\n(concat \"/path/to/root\" \"cur_dir\" \"file_name\" \".extend\")\n\n\n打开(创建)当天日期文件\n(open-file\n  (concat \"~/org\" (format-time-string \"%Y-%m-%d\") \".org\"))"
   }
 ]

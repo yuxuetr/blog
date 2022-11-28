@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/emacs_time_func/index.html",
       "/posts/poetry_pyright_doom_emacs/index.html",
       "/posts/kubernetes_the_hard_way/index.html",
       "/posts/started/index.html"
