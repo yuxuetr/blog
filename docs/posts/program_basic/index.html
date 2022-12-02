@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="曳影">
+<meta name="dcterms.date" content="2022-12-02">
+
+<title>曳影 - Programming Basic Concept</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">曳影</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com"><i class="bi bi-email" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Programming Basic Concept</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Basic</div>
+                <div class="quarto-category">Concept</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>曳影 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 2, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="内存memory" class="level2">
+<h2 class="anchored" data-anchor-id="内存memory">内存(Memory)</h2>
+<ul>
+<li>只读数据段(RODATA/RDATE)</li>
+<li>堆(Heap)</li>
+<li>栈(Stack)</li>
+</ul>
+<ol type="1">
+<li>只读数据段
+<ul>
+<li>存放常量</li>
+</ul></li>
+<li>Stack
+<ul>
+<li>是程序运行的基础</li>
+<li>每当一个函数被调用时，一块连续的内存就会在栈顶被分配出来，这块内存被称为帧(frame).</li>
+<li>自顶向下增长,出去入口帧(entry frame),就是main()对应的帧,随着main()函数一层层调用,栈会一层层扩展,调用结束,栈又会一层层回溯,把内存释放</li>
+<li>调用过程中,一个新的帧会分配足够的空间存储寄存器的上下文</li>
+<li>在函数里使用到的通用寄存器在栈保存一个副本，函数调用结束,通过副本,可以恢复出原本的寄存器的上下文</li>
+<li>函数的局部变量也都会在帧分配的时候被预留出来</li>
+</ul></li>
+<li>Heap
+<ul>
+<li>当我们需要动态大小的内存时，只能用堆</li>
+<li>动态生命周期的内存也需要分配到堆上</li>
+<li>堆上分配出来的每一块内存需要显式地释放，这就使内存有更加灵活的生命周期</li>
+</ul></li>
+</ol>
+<section id="数据什么时候放在栈上什么时候放在堆上" class="level3">
+<h3 class="anchored" data-anchor-id="数据什么时候放在栈上什么时候放在堆上">数据什么时候放在栈上什么时候放在堆上?</h3>
+<ul>
+<li>在编译时，一切无法确定大小或者可以改变的数据，都无法安全地放在栈上，最好放在堆上</li>
+<li>只要可能，我们应该把变量分配到栈上，这样可以达到更好的运行速度</li>
+<li>栈上存放的数据是静态的，固定大小，固定生命周期，在编译期可以确定</li>
+<li>堆上存放的数据是动态的，不固定大小，不固定生命周期，在编译期不能确定</li>
+</ul>
+</section>
+</section>
+<section id="数据" class="level2">
+<h2 class="anchored" data-anchor-id="数据">数据</h2>
+<ul>
+<li>值</li>
+<li>类型</li>
+<li>指针</li>
+<li>引用</li>
+</ul>
+<ol type="1">
+<li>值</li>
+</ol>
+<ul>
+<li>类型是对值的区分,包含了值在内存中的<code>长度</code>,对齐以及值可以进行操作等信息</li>
+<li>一个值是符合一个特定类型的数据的某个实体</li>
+<li>值是无法脱离具体的类型讨论的</li>
+</ul>
+<ol start="2" type="1">
+<li>类型</li>
+</ol>
+<ul>
+<li>原生类型(primitive type): 固定大小,可以分配在栈上
+<ul>
+<li>字符</li>
+<li>整数</li>
+<li>浮点数</li>
+<li>布尔值</li>
+<li>数组</li>
+<li>元组</li>
+<li>枚举</li>
+<li>指针: 指针的使用限制少，如果没有正确的类型解引用一个指针，会引发各种内存问题，造成潜在安全漏洞</li>
+<li>引用: 引用的解引用访问是受限的，它只能解引用到它引用数据的类型，不能用作它用</li>
+</ul></li>
+<li>组合类型(composite type)
+<ul>
+<li>结构体: 多个类型组合在一起共同表达一个值的复杂数据结构</li>
+<li>标签联合: 可以存储一组不同但固定的类型的类型中的某个类型的对象，具体是由标签决定</li>
+</ul></li>
+<li>其他类型
+<ul>
+<li>函数</li>
+<li>闭包</li>
+</ul></li>
+</ul>
+</section>
+<section id="代码" class="level2">
+<h2 class="anchored" data-anchor-id="代码">代码</h2>
+<ul>
+<li>函数: 对代码中重复行为的抽象</li>
+<li>方法: 在类中或者对象中定义的函数，只为某种类型定义的函数,和对象的指针发生关联</li>
+<li>闭包: 将函数或者说代码和其环境(自由变量)一起存储的一种数据结构。</li>
+<li>接口: 将使用方和实现方隔离开来，使两者不直接有依赖关系，大大提高了复用性和扩展性</li>
+<li>虚表: 存储多态接口方法的列表,辅助运行时代码执行，方便进行动态分派，是运行时多态的基础</li>
+</ul>
+<p><code>面向接口</code>的设计师软件开发中的重要能力，当我们在运行期使用接口来引用具体类型的时候，代码就具备了<code>运行时多态</code>的能力。 在<code>运行时</code>，一旦使用了关于<code>接口的引用</code>，变量原本的类型被抹去，我们无法单纯从一个指针分析出这个引用具备什么样的能力。 在生成这个引用的时候，我们需要构建<code>胖指针</code>，除了指向数据本身，还需要指向一张涵盖这个接口所支持方法的列表。 这个列表就是我们熟知的<code>虚表</code>(virtual table)</p>
+</section>
+<section id="运行方式" class="level2">
+<h2 class="anchored" data-anchor-id="运行方式">运行方式</h2>
+<ul>
+<li>并发: 是一种能力, 同时与多件事情打交道的能力(交替执行多件不同的事情)</li>
+<li>并行: 是一种手段, 在多个<code>CPU Core</code>上执行同样的代码</li>
+<li>同步: 一个任务开始后，后续的操作会阻塞，直到这个任务结束，保证了代码的因果关系，保证程序正确性</li>
+<li>异步: 指一个任务开始执行后，与它没有因果关系的其它任务可以正常执行，不必等待前一个任务结束</li>
+<li>Promise / Future / Delay / Deferred: 是一个对象，用来描述在未来某个时刻才能获得的结果的值</li>
+<li>async / await: <code>async</code>用来<code>定义</code>一个可以并发执行的任务, <code>await</code>则<code>触发</code>这个任务并执行</li>
+</ul>
+<p>在遭遇<code>I/O</code>处理时，<code>高效CPU指令</code>和<code>低效I/O</code>之间的巨大鸿沟，成为了软件的性能杀手。</p>
+<p>和内存访问相比，<code>I/O</code>操作的访问速度低了两个数量级,一旦遇到<code>I/O操作</code>，<code>CPU</code>就只能闲置来<code>等待I/O设备</code>运行完毕。</p>
+<p>因此操作系统为应用程序提供了<code>异步I/O</code>，让应用可以在<code>当前I/O</code>处理完毕之前，将<code>CPU时间</code>用作其它任务的处理</p>
+<p>很多拥有<code>高并发处理能力</code>的编程语言，会在用户程序中嵌入一个<code>M:N</code>的调度器，把<code>M</code>个并发任务，合理地分配在<code>N</code>个<code>CPU Core</code>上并行运行， 让程序的吞吐量达到最大。比如Golang的Goroutine</p>
+<p>Promise一般存在三个状态: - 初始状态, Promise还未运行 - 等待(pending)状态, Promise已运行，还未结束 - 结束状态, Promise成功解析出一个值，或者执行失败</p>
+</section>
+<section id="编程范式" class="level2">
+<h2 class="anchored" data-anchor-id="编程范式">编程范式</h2>
+<ul>
+<li>泛型编程
+<ul>
+<li><code>数据结构的泛型</code>: 把参数化数据结构理解成一个产生类型的函数，是一种高级抽象</li>
+<li><code>代码的泛型化</code>: 当我们使用泛型结构编写代码时，相关的代码也需要额外的抽象</li>
+</ul>
+通过参数化让数据结构像函数一样延迟绑定，提升通用性，类型的参数可以用接口约束，使类型满足一定的行为， 同时，在使用泛型结构时，我们的代码也需要更高的抽象度。</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com">
+      <i class="bi bi-email" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
