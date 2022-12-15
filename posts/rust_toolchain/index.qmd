@@ -1,0 +1,95 @@
+---
+title: "Rust Toolchain常用功能介绍"
+author: "曳影"
+date: "2022-12-09"
+categories: [Rust, Tool]
+---
+
+### `rustup`常用命令
+`rustup`是Rust语言的一个安装器。
+
+可以管理`Rust Toolchain`以及`rustup`等工具链组件
+
+1. 查看当前编译器信息
+```bash
+rustup show
+```
+
+2. 更新`Rust Toolchain`
+```bash
+rust update
+```
+3. 检查更新`Rust Toolchain`和`rustup`
+```bash
+rustup check
+```
+
+4. 设置默认工具链
+```bash
+rustup default -h
+```
+
+5. 管理`component`
+- 安装组件
+```bash
+rust component add <component_name>
+```
+- 删除组件
+```bash
+rust component remove <component_name>
+```
+- 列出所有可用组件
+```bash
+rust component list
+```
+- 列出以安装组件
+```bash
+rust component list --installed
+```
+
+### Clippy
+一系列`lints`，用于捕获常见错误并改进Rust代码。
+
+#### 安装
+```bash
+rustup update
+rustup component add clippy
+```
+
+#### 运行Clippy
+```bash
+cargo clippy
+```
+或者
+```bash
+cargo check
+```
+
+#### 自动应用Clippy建议
+```bash
+cargo clippy --fix
+```
+
+#### 配置文件
+  - clippy.toml
+  - .clippy.toml
+
+### Rustfmt
+Rust代码格式化工具
+
+#### 安装
+```bash
+rustup component add rustfmt
+```
+
+#### 运行
+```bash
+cargo fmt
+```
+
+#### 配置文件
+  - rustfmt.toml
+  - .rustfmt.toml
+
+### Rust-Analyzer
+`rust-analyzer`是Rust编程语言的语言服务器协议的实现。
