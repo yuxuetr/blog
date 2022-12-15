@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "posts/rust_toolchain/index.html",
+    "href": "posts/rust_toolchain/index.html",
+    "title": "Rust Toolchain常用功能介绍",
+    "section": "",
+    "text": "rustup常用命令\nrustup是Rust语言的一个安装器。\n可以管理Rust Toolchain以及rustup等工具链组件\n\n查看当前编译器信息\n\nrustup show\n\n更新Rust Toolchain\n\nrust update\n\n检查更新Rust Toolchain和rustup\n\nrustup check\n\n设置默认工具链\n\nrustup default -h\n\n管理component\n\n\n安装组件\n\nrust component add <component_name>\n\n删除组件\n\nrust component remove <component_name>\n\n列出所有可用组件\n\nrust component list\n\n列出以安装组件\n\nrust component list --installed\n\n\nClippy\n一系列lints，用于捕获常见错误并改进Rust代码。\n\n安装\nrustup update\nrustup component add clippy\n\n\n运行Clippy\ncargo clippy\n或者\ncargo check\n\n\n自动应用Clippy建议\ncargo clippy --fix\n\n\n配置文件\n\nclippy.toml\n.clippy.toml\n\n\n\n\nRustfmt\nRust代码格式化工具\n\n安装\nrustup component add rustfmt\n\n\n运行\ncargo fmt\n\n\n配置文件\n\nrustfmt.toml\n.rustfmt.toml\n\n\n\n\nRust-Analyzer\nrust-analyzer是Rust编程语言的语言服务器协议的实现。"
+  },
+  {
     "objectID": "posts/started/index.html",
     "href": "posts/started/index.html",
     "title": "你好, Quarto",
@@ -67,7 +74,7 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
