@@ -7,6 +7,13 @@
     "text": "About this blog"
   },
   {
+    "objectID": "posts/poetry_githubactions/index.html",
+    "href": "posts/poetry_githubactions/index.html",
+    "title": "Poetry & Github Action",
+    "section": "",
+    "text": "使用Poetry做Python的项目管理工具，集成到Github Actions，包含以下内容: - Check out 代码仓库 - 启动Python环境，可以限制版本，也可以使用多个版本 - 安装Poetry - 设置虚拟环境缓存 - 安装依赖 - 代码格式化(yapf) - 代码静态类型检查(pytype) - 代码测试，以及覆盖率测试报告\nGithub Action workflow 配置如下:\nname: CI\non: push\n\njobs:\n  ci:\n    strategy:\n      fail-fast: false\n      matrix:\n        python-version: [\"3.8.5\"]\n        poetry-version: [\"1.2.2\"]\n        os: [ubuntu-18.04]\n    runs-on: ${{ matrix.os }}\n    steps:\n      - name: Check out repository\n        uses: actions/checkout@v3\n      - name: Set up Python\n        uses: actions/setup-python@v4\n        with:\n          python-version: ${{ matrix.python-version }}\n      - name: Install Poetry\n        uses: snok/install-poetry@v1\n        with:\n          virtualenvs-create: true\n          virtualenvs-in-project: true\n          installer-parallel: true\n      - name: Load cached venv\n        id: cached-poetry-dependencies\n        uses: actions/cache@v3\n        with:\n          path: .venv\n          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}\n\n      - name: Install Denpendencies\n        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'\n        run: poetry install --no-interaction --no-root\n\n      - name: Code Format\n        run: poetry run yapf\n\n      - name: Type Check\n        run: poetry run pytype --config=pytype.cfg\n\n      - name: Testing and coverage\n        run: poetry run pytest --cov"
+  },
+  {
     "objectID": "posts/kubernetes_the_hard_way/index.html",
     "href": "posts/kubernetes_the_hard_way/index.html",
     "title": "Kubernetes the hard way",
@@ -81,6 +88,6 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影\n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
   }
 ]

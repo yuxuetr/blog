@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/poetry_githubactions/index.html",
       "/posts/rust_toolchain/index.html",
       "/posts/program_basic/index.html",
       "/posts/emacs_time_func/index.html",
