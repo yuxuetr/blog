@@ -1,0 +1,298 @@
+---
+title: "从LaTex到PowerPoint"
+author: "曳影"
+date: "2023-02-24"
+categories: [LaTex, Beamer, ImageMagick, Pandoc, MarkDown]
+---
+
+# 文档处理
+
+## 从LaTex Beamer到PowerPoint
+
+```
+         xeLaTex         ImageMagick
+Beamer -----------> PDF --------------> PowerPoint
+```
+
+### Beamer软件安装
+
+### Beamer基础环境
+```latex
+\documentclass{beamer} % 声明Latex文档格式为幻灯片
+\begin{document} % 要显示的内容都必须卸载document环境中
+  % frame环境表示单张幻灯片页面
+  \section{幻灯片章节名} % 显示在目录页面中的条目
+  \subsection{子章节名} % 可选
+  \begin{frame}{幻灯片主题}{幻灯片子主题}
+  \end{frame}
+\end{document}
+```
+
+### Beamer幻灯片常用`package`
+- ctex: 支持中文(UTF8字符)
+- color/xcolor: 颜色
+- fontspec: 字体
+- graphicx: 图形包
+- tikz: 图形包
+- tikz-uml: 基于`tikz`的`UML`包
+
+### Beamer幻灯片首页
+1. 首页的`设置`放在`\begin{document}`之前，不在正文部分
+```latex
+\title{主题}
+\subtitle{子主题}
+\author{作者}
+\institute{研究所}
+\date{日期}
+```
+
+2. 显示首页要放在`document环境`中
+```latex
+\begin{frame}
+  \titlepage
+\end{frame}
+```
+
+### Beamer幻灯片目录
+```latex
+\begin{frame}
+  \frametitle{目录}
+  \tableofcontents
+\end{frame}
+```
+
+### Beamer幻灯片正文: 写在`frame环境`中
+- Lists
+- Pictures
+- Description
+- Tables
+- Blocks
+- Code
+- Hyperlinks
+- Theorem
+
+#### Lists(列表)
+- 有序列表: `enumerate`
+- 无序列表: `itemize`
+
+##### 无序列表
+
+```latex
+\begin{itemize}
+  \item 条目1
+  \item 条目2
+\end{itemize}
+```
+
+##### 有序列表
+1. 不同的序号表示方式:
+- 数值
+- 字母
+- 罗马数字
+- i
+
+```latex
+% 基于数字，默认方式
+\begin{enumerate}
+  \item 条目1
+  \item 条目2
+\end{enumerate}
+
+\begin{enumerate}[I]
+  \item 条目1
+  \item 条目2
+\end{enumerate}
+
+\begin{enumerate}[i]
+  \item 条目1
+  \item 条目2
+\end{enumerate}
+
+\begin{enumerate}[(I)]
+  \item 条目1
+  \item 条目2
+\end{enumerate}
+```
+
+2. 给序号添加上括号
+```latex
+\begin{enumerate}[(I)]
+  \item 条目1
+  \item 条目2
+\end{enumerate}
+```
+
+3. 给需要加上强调内容
+
+#### Pictures(图片)
+导入图片，格式包括: jpg, png, pdf
+
+```latex
+\begin{figure}
+  % 导入图片指令, scale为图片缩放系数
+  \includegraphics[scale=0.5]{文件路径}
+  \caption{图片说明}
+\end{figure}
+```
+
+#### Description
+是一种Lists环境，是要用在`\item`后面，内容放在方括号里面
+
+```latex
+\begin{description}
+  \item[API] Application Programing Interface
+  \item[LAN] Local Area Network
+\end{description}
+```
+
+#### Table(表格)
+- `\hline`: 表示表格中的水平线，横线
+- `{l | c | r}`
+  - `|`: 用来表示表格中竖线
+  - `l`: 表示左对齐
+  - `c`: 居中
+  - `r`: 表示右对齐
+- `&`: 单行中实际内容每个列之间的隔离符号
+- `\\`: 表示行的换行
+```latex
+
+\begin{table}
+  \begin{tabular}{l | c | r} % 表示列，如图表示三个列的竖线由 | 表示, l表示左对齐
+    \hline % 表示画一条表格的横线
+  \end{tabular}
+\end{table}
+```
+
+#### Blocks(块)
+以块的方式显示信息。普通块与警告块。
+
+```latex
+\begin{block}{块名称}
+   显示内容
+\end{block}
+
+\begin{alertblock}{块名称} % 显示未红色
+   显示内容
+\end{alertblock}
+```
+
+#### Code(代码块)
+使用`listings`软件包
++ 设置代码风格
+  - 设置字体
+  - 设置代码字体颜色
+  - 设置代码风格
+  - 应用代码风格
++ 实际代码环境
+
+1. 设置字体，颜色以及代码风格并全局应用
+```latex
+\setmonofont{Monaco} % 设置等宽字体为Monaco
+
+% 设置颜色
+\definecolor{codegreen}{rgb}{0, 0.6, 0}
+\definecolor{codegray}{rgb}{0.5, 0.5, 0.5}
+\definecolor{codepurple}{rgb}{0.58, 0, 0.82}
+\definecolor{backcolor}{rgb}{0.95, 0.95, 0.92}
+
+% 代码风格设置
+\lstdefinestyle{customstyle}{
+    backgroundcolor=\color{backcolor},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=3pt,
+    showspaces=flase,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+}
+% 应用代码风格
+\lstset{style=customstyle}
+```
+
+2. 应用代码风格
+在`frame`环境中
+```latex
+\lstinputlisting[
+  firstline=1, % 从文件导入代码，从文件的开始的行号
+  lastline=5, % 从文件导入代码，从文件的结束的行号
+  language=Python, % 编程语言
+  frame=single,
+  caption=First ten lines of some Python code, % 代码的说明
+  label=python
+  ]{perceptron_and.py} % 导入代码的文件
+```
+
+#### Hyperlinks(超链接)
+```latex
+\hyperlink{链接文字描述}{链接地址}
+```
+
+#### Theorem(定理.推理)
+定理和推论环境会自动将其内容放在斜体字中。
+beamer会自动加载`amsmath`软件包，所以可以直接添加数学公式。
+
+```latex
+\begin{theorem}[定理名称]
+$ a^2 + b^2 = c^2$
+\end{theorem}
+\begin{corollary} % 推论
+$ x + y = y + x  $
+\end{corollary}
+\begin{proof} % 论据
+$\omega +\phi = \epsilon $
+\end{proof}
+```
+
+### Beamer中插入Logo
+- 把Logo作为一个图片或者PDF文件
+- 以插入图片的方式进行插入
+- 对相关属性进行设置
+
+### Beamer排版
+- 居中
+- 换行
+
+#### 居中
+```latex
+\centering % 写在需要居中的环境命令上面一行
+```
+
+#### 换行
+```latex
+\\
+```
+
+### 从`latex beamer`到`PowerPoint`
+- 使用`xelatex`将`*.tex`生成`PDF`文件
+- 使用`ImageMagick`的脚本将`PDF`转成`PowerPoint`
+
+```bash
+xelatex demo.tex # 生成demo.pdf
+# https://github.com/ashafaei/pdf2pptx/blob/master/pdf2pptx.sh
+./pdf2pptx.sh demo.pdf # 生成 demo.pptx
+```
+
+## 从Markdown/Orgmode到Pdf
+
+```
+                   Pandoc
+Markdown/Orgmode ----------->  PDF/epub
+```
+pandoc参数说明
+- `-f`: 表示from, 表示源格式
+- `-t`: 表示to, 表示目标格式
+- `-o`: 表示输出文件名
+
+```bash
+pandoc -f org -t pdf -o demo.pdf demo.org
+pandoc -f markdown -t pdf -o demo.pdf demo.md
+```
