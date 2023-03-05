@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/convert_latex_to_pptx/index.html",
       "/posts/poetry_githubactions/index.html",
       "/posts/rust_toolchain/index.html",
       "/posts/program_basic/index.html",
