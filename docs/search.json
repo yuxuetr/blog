@@ -81,7 +81,7 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影\n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影\n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影\n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影\n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影\n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影\n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影\n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影\n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -89,5 +89,12 @@
     "title": "About",
     "section": "",
     "text": "About this blog"
+  },
+  {
+    "objectID": "posts/convert_latex_to_pptx/index.html",
+    "href": "posts/convert_latex_to_pptx/index.html",
+    "title": "从LaTex到PowerPoint",
+    "section": "",
+    "text": "xeLaTex         ImageMagick\nBeamer ———–> PDF ————–> PowerPoint\n\n\n\n\n\n\\documentclass{beamer} % 声明Latex文档格式为幻灯片\n\\begin{document} % 要显示的内容都必须卸载document环境中\n  % frame环境表示单张幻灯片页面\n  \\section{幻灯片章节名} % 显示在目录页面中的条目\n  \\subsection{子章节名} % 可选\n  \\begin{frame}{幻灯片主题}{幻灯片子主题}\n  \\end{frame}\n\\end{document}\n\n\n\n\nctex: 支持中文(UTF8字符)\ncolor/xcolor: 颜色\nfontspec: 字体\ngraphicx: 图形包\ntikz: 图形包\ntikz-uml: 基于tikz的UML包\n\n\n\n\n\n首页的设置放在\\begin{document}之前，不在正文部分\n\n\\title{主题}\n\\subtitle{子主题}\n\\author{作者}\n\\institute{研究所}\n\\date{日期}\n\n显示首页要放在document环境中\n\n\\begin{frame}\n  \\titlepage\n\\end{frame}\n\n\n\n\\begin{frame}\n  \\frametitle{目录}\n  \\tableofcontents\n\\end{frame}\n\n\n\n\nLists\nPictures\nDescription\nTables\nBlocks\nCode\nHyperlinks\nButtons\n\n\n\n\n有序列表: enumerate\n无序列表: itemize\n\n\n\n\\begin{itemize}\n  \\item 条目1\n  \\item 条目2\n\\end{itemize}\n\n\n\n\n不同的序号表示方式:\n\n\n数值\n字母\n罗马数字\ni\n\n% 基于数字，默认方式\n\\begin{enumerate}\n  \\item 条目1\n  \\item 条目2\n\\end{enumerate}\n\n\\begin{enumerate}[I]\n  \\item 条目1\n  \\item 条目2\n\\end{enumerate}\n\n\\begin{enumerate}[i]\n  \\item 条目1\n  \\item 条目2\n\\end{enumerate}\n\n\\begin{enumerate}[(I)]\n  \\item 条目1\n  \\item 条目2\n\\end{enumerate}\n\n给序号添加上括号\n\n\\begin{enumerate}[(I)]\n  \\item 条目1\n  \\item 条目2\n\\end{enumerate}\n\n给需要加上强调内容\n\n\n\n\n\n导入图片，格式包括: jpg, png, pdf\n\\begin{figure}\n  % 导入图片指令, scale为图片缩放系数\n  \\includegraphics[scale=0.5]{文件路径}\n  \\caption{图片说明}\n\\end{figure}\n\n\n\n是一种Lists环境，是要用在\\item后面，内容放在方括号里面\n\\begin{description}\n  \\item[API] Application Programing Interface\n  \\item[LAN] Local Area Network\n\\end{description}\n\n\n\n\n\\hline: 表示表格中的水平线，横线\n{l | c | r}\n\n|: 用来表示表格中竖线\nl: 表示左对齐\nc: 居中\nr: 表示右对齐\n\n&: 单行中实际内容每个列之间的隔离符号\n\\\\: 表示行的换行\n\n\n\\begin{table}\n  \\begin{tabular}{l | c | r} % 表示列，如图表示三个列的竖线由 | 表示, l表示左对齐\n    \\hline % 表示画一条表格的横线\n  \\end{tabular}\n\\end{table}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n居中\n换行\n\n\n\n\n\n               Pandoc\nMarkdown/Orgmode ———–> PDF/epub"
   }
 ]
