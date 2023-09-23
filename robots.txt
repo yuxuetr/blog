@@ -1,1 +1,1 @@
-Sitemap: https://54yeying.github.io/blog/sitemap.xml
+Sitemap: https://github.com/54yeying/blog/sitemap.xml
