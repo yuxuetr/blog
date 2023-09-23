@@ -1,0 +1,33 @@
+---
+title: "Rust Prelude"
+author: "曳影"
+date: "2023-09-23"
+categories: [Rust]
+---
+
+## 什么是Rust Prelude
+
+Rust Prelude是Rust标准库隐式导入到每个Rust程序中。
+
+它就像呼吸一样无需调用就存在，也可以明确调用。
+
+它包含许多常用类型、函数和宏。
+
+为编写Rust程序提供了大量功能。但不是所有情况下都是最佳选择。
+
+
+## 什么时候使用Rust Prelude
+
+Rust Prelude时一款出色的默认设置，可满足大多数基本需求，在以下情况下应使用
+
++ 需要常见的数据结构例如：`Strings`, `Vectors`, `HashMaps`
++ 需要常用的迭代函数，如：`map`, `filter`, `any`, `all`等
++ 需要常见的转换函数，如：`from_str` 和 `to_string`
++ 需要使用常见宏，如：`println!`, `panic!`, `unreachable!`等
++ 程序比较短小精悍，需要大量功能而不需要很多导入
+
+## 什么时候不使用Rust Prelude
+
++ 名称冲突：Prelude到处了许多常用名称，因此导入具有相同名称的另一个`crates`可能会导致冲突
++ 更专业的功能：对于更多特定领域的用例，最好使用专门的`crates`
++ 为了提高性能：一些Prelude是通用的，对于高性能需求，专门的`crates`可能更好
