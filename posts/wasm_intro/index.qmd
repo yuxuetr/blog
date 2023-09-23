@@ -1,0 +1,52 @@
+---
+title: "WebAssembly简单介绍"
+author: "曳影"
+date: "2023-09-18"
+categories: [WebAssembly]
+---
+
+# WebAssembly简单介绍
+
+## 为什么需要WASM
+
+如果我问你：Javascript是什么？你的答案是什么？
+
+一种变成语言，对吗？
+
+这个答案是正确的但不完全正确。让我们看看是为什么？
+
+在当今世界，直接在浏览器里面写JS代码很少见。有时候你可能写Typescript并且转换成Javascript
+
+有时候你使用flutter构建web应用，也是将dart代码编译成Javascript，同样Kotlin，CoffeeScript, Elm等都是这样
+
+也就是说Javascript是唯一在浏览器上运行的编程语言(假设没有WASM)，任何想要针对浏览器和语言和框架都必须转为Javascript
+
+但Javascript不是被设计成编译目标(Compilation Target)，并且它没有针对此用例进行优化，WASM是更好的编译目标(Compilation Target)
+
+## 什么是WASM
+
+WebAssembly 是一种新型代码，可以在现代 Web 浏览器上运行，
+它是一种低级代码具有紧凑二进制格式的类汇编语言，可以以接近本机的性能运行
+并为 C/C++、C# 和 Rust 等语言提供编译目标，以便它们可以在网络上运行。
+
+
+Wasm 和 WASI 之间的关系几乎与 JS 和 NodeJS 之间的关系相同。
+
+事实上，WASM 与 JS 一样，在浏览器沙箱内运行时的访问权限受到限制。
+
+例如，它无法读取系统上的文件或执行比 HTTP 更低级别的网络工作，
+例如 TCP 和 UDP。 为什么，因为它的 API 不存在于浏览器上。
+
+
+## 什么是WASI
+
+WASI可以操作浏览器中不存在的系统API
+
+WasmTime的运行时(Runtime)可以在浏览器外以CLI程序的形式运行WASM文件。
+这个用于系统任务(如读取文件和使用网络等)的WASM CLI程序使用WASI定义的标准。
+这些标准与WASM本身一样，独立于平台，这一点非常重要。
+以致于Docker的创建者在推特上写到：
+
+WASI不仅仅适用于云计算，未来我们还会看到需要WASM运行时才能运行的GUI和CLI程序，因为
+通过这种方式，开发人员可以更轻松获得输出结果，并在一个操作系统上进行测试，然后就可以放心了。
+因为他的程序在任何地方都能以同样的方式运行。
