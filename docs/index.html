@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -57,7 +57,8 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -90,6 +91,7 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -105,32 +107,34 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">曳影</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
+    <a class="nav-link" href="./about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/54yeying"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/54yeying" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/54yeying"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/54yeying" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./54.yeying@gmail.com"><i class="bi bi-email" role="img">
+    <a class="nav-link" href="./54.yeying@gmail.com" rel="" target=""><i class="bi bi-email" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -193,92 +197,92 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-categories="LaTex,Beamer,ImageMagick,Pandoc,MarkDown" data-listing-date-sort="1677168000000" data-listing-file-modified-sort="1677340355166" data-listing-reading-time-sort="0.56" data-listing-title-sort="从LaTex到PowerPoint" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Feb 24, 2023
+<tr data-index="0" data-categories="LaTex,Beamer,ImageMagick,Pandoc,MarkDown" data-listing-date-sort="1677168000000" data-listing-file-modified-sort="1695489058647" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="从LaTex到PowerPoint" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Feb 24, 2023</span>
 </td>
-<td class="listing-title">
-<a href="./posts/convert_latex_to_pptx/index.html" class="title">从LaTex到PowerPoint</a>
+<td>
+<a href="./posts/convert_latex_to_pptx/index.html" class="title listing-title">从LaTex到PowerPoint</a>
 </td>
-<td class="listing-author">
-曳影
-</td>
-</tr>
-<tr data-index="1" data-categories="Python,Github Action,Poetry" data-listing-date-sort="1672329600000" data-listing-file-modified-sort="1672457008515" data-listing-reading-time-sort="1.755" data-listing-title-sort="Poetry &amp; Github Action" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Dec 30, 2022
-</td>
-<td class="listing-title">
-<a href="./posts/poetry_githubactions/index.html" class="title">Poetry &amp; Github Action</a>
-</td>
-<td class="listing-author">
-曳影
+<td>
+<span class="listing-author">曳影 </span>
 </td>
 </tr>
-<tr data-index="2" data-categories="Rust,Tool" data-listing-date-sort="1670515200000" data-listing-file-modified-sort="1671071947074" data-listing-reading-time-sort="0.315" data-listing-title-sort="Rust Toolchain常用功能介绍" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Dec 9, 2022
+<tr data-index="1" data-categories="Python,Github Action,Poetry" data-listing-date-sort="1672329600000" data-listing-file-modified-sort="1695489058648" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-title-sort="Poetry &amp; Github Action" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Dec 30, 2022</span>
 </td>
-<td class="listing-title">
-<a href="./posts/rust_toolchain/index.html" class="title">Rust Toolchain常用功能介绍</a>
+<td>
+<a href="./posts/poetry_githubactions/index.html" class="title listing-title">Poetry &amp; Github Action</a>
 </td>
-<td class="listing-author">
-曳影
-</td>
-</tr>
-<tr data-index="3" data-categories="Basic,Concept" data-listing-date-sort="1669910400000" data-listing-file-modified-sort="1669979635361" data-listing-reading-time-sort="1.04" data-listing-title-sort="Programming Basic Concept" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Dec 2, 2022
-</td>
-<td class="listing-title">
-<a href="./posts/program_basic/index.html" class="title">Programming Basic Concept</a>
-</td>
-<td class="listing-author">
-曳影
+<td>
+<span class="listing-author">曳影 </span>
 </td>
 </tr>
-<tr data-index="4" data-categories="Emacs,Elisp" data-listing-date-sort="1669564800000" data-listing-file-modified-sort="1669621189524" data-listing-reading-time-sort="0.225" data-listing-title-sort="Emacs获取当前系统时间生成文件名" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Nov 28, 2022
+<tr data-index="2" data-categories="Rust,Tool" data-listing-date-sort="1670515200000" data-listing-file-modified-sort="1695489058648" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="Rust Toolchain常用功能介绍" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Dec 9, 2022</span>
 </td>
-<td class="listing-title">
-<a href="./posts/emacs_time_func/index.html" class="title">Emacs获取当前系统时间生成文件名</a>
+<td>
+<a href="./posts/rust_toolchain/index.html" class="title listing-title">Rust Toolchain常用功能介绍</a>
 </td>
-<td class="listing-author">
-曳影
-</td>
-</tr>
-<tr data-index="5" data-categories="Doom Emacs,Pyright,Poetry" data-listing-date-sort="1669132800000" data-listing-file-modified-sort="1669138548567" data-listing-reading-time-sort="0.16" data-listing-title-sort="Doom Emacs &amp; Poetry &amp; Pyright管理Python开发环境" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Nov 23, 2022
-</td>
-<td class="listing-title">
-<a href="./posts/poetry_pyright_doom_emacs/index.html" class="title">Doom Emacs &amp; Poetry &amp; Pyright管理Python开发环境</a>
-</td>
-<td class="listing-author">
-曳影
+<td>
+<span class="listing-author">曳影 </span>
 </td>
 </tr>
-<tr data-index="6" data-categories="kubernetes" data-listing-date-sort="1668787200000" data-listing-file-modified-sort="1669108494569" data-listing-reading-time-sort="42.28" data-listing-title-sort="Kubernetes the hard way" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Nov 19, 2022
+<tr data-index="3" data-categories="Basic,Concept" data-listing-date-sort="1669910400000" data-listing-file-modified-sort="1695489058648" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-title-sort="Programming Basic Concept" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Dec 2, 2022</span>
 </td>
-<td class="listing-title">
-<a href="./posts/kubernetes_the_hard_way/index.html" class="title">Kubernetes the hard way</a>
+<td>
+<a href="./posts/program_basic/index.html" class="title listing-title">Programming Basic Concept</a>
 </td>
-<td class="listing-author">
-曳影
+<td>
+<span class="listing-author">曳影 </span>
 </td>
 </tr>
-<tr data-index="7" data-categories="news" data-listing-date-sort="1668441600000" data-listing-file-modified-sort="1668608021229" data-listing-reading-time-sort="1.22" data-listing-title-sort="你好, Quarto" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
-Nov 15, 2022
+<tr data-index="4" data-categories="Emacs,Elisp" data-listing-date-sort="1669564800000" data-listing-file-modified-sort="1695489058647" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="Emacs获取当前系统时间生成文件名" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Nov 28, 2022</span>
 </td>
-<td class="listing-title">
-<a href="./posts/started/index.html" class="title">你好, Quarto</a>
+<td>
+<a href="./posts/emacs_time_func/index.html" class="title listing-title">Emacs获取当前系统时间生成文件名</a>
 </td>
-<td class="listing-author">
-曳影
+<td>
+<span class="listing-author">曳影 </span>
+</td>
+</tr>
+<tr data-index="5" data-categories="Doom Emacs,Pyright,Poetry" data-listing-date-sort="1669132800000" data-listing-file-modified-sort="1695489058648" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="Doom Emacs &amp; Poetry &amp; Pyright管理Python开发环境" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Nov 23, 2022</span>
+</td>
+<td>
+<a href="./posts/poetry_pyright_doom_emacs/index.html" class="title listing-title">Doom Emacs &amp; Poetry &amp; Pyright管理Python开发环境</a>
+</td>
+<td>
+<span class="listing-author">曳影 </span>
+</td>
+</tr>
+<tr data-index="6" data-categories="kubernetes" data-listing-date-sort="1668787200000" data-listing-file-modified-sort="1695489058647" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-title-sort="Kubernetes the hard way" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Nov 19, 2022</span>
+</td>
+<td>
+<a href="./posts/kubernetes_the_hard_way/index.html" class="title listing-title">Kubernetes the hard way</a>
+</td>
+<td>
+<span class="listing-author">曳影 </span>
+</td>
+</tr>
+<tr data-index="7" data-categories="news" data-listing-date-sort="1668441600000" data-listing-file-modified-sort="1695489058648" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-title-sort="你好, Quarto" data-listing-filename-sort="index.qmd">
+<td>
+<span class="listing-date">Nov 15, 2022</span>
+</td>
+<td>
+<a href="./posts/started/index.html" class="title listing-title">你好, Quarto</a>
+</td>
+<td>
+<span class="listing-author">曳影 </span>
 </td>
 </tr>
 </tbody>
@@ -315,9 +319,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -382,6 +400,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -425,6 +529,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
