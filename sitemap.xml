@@ -2,46 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/54yeying/blog/about.html</loc>
-    <lastmod>2023-09-23T17:23:41.598Z</lastmod>
+    <lastmod>2023-09-23T17:30:08.739Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/convert_latex_to_pptx/index.html</loc>
-    <lastmod>2023-09-23T17:23:40.814Z</lastmod>
+    <lastmod>2023-09-23T17:30:07.759Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/emacs_time_func/index.html</loc>
-    <lastmod>2023-09-23T17:23:40.066Z</lastmod>
+    <lastmod>2023-09-23T17:30:06.847Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/54yeying/blog/posts/rust-prelude/index.html</loc>
+    <lastmod>2023-09-23T17:30:06.126Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust_toolchain/index.html</loc>
-    <lastmod>2023-09-23T17:23:38.598Z</lastmod>
+    <lastmod>2023-09-23T17:30:04.330Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/program_basic/index.html</loc>
-    <lastmod>2023-09-23T17:23:37.914Z</lastmod>
+    <lastmod>2023-09-23T17:30:03.554Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/index.html</loc>
-    <lastmod>2023-09-23T17:23:36.442Z</lastmod>
+    <lastmod>2023-09-23T17:30:01.762Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust_sdl2/index.html</loc>
-    <lastmod>2023-09-23T17:23:37.522Z</lastmod>
+    <lastmod>2023-09-23T17:30:03.066Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/poetry_githubactions/index.html</loc>
-    <lastmod>2023-09-23T17:23:38.262Z</lastmod>
+    <lastmod>2023-09-23T17:30:03.938Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/kubernetes_the_hard_way/index.html</loc>
-    <lastmod>2023-09-23T17:23:39.742Z</lastmod>
+    <lastmod>2023-09-23T17:30:05.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/54yeying/blog/posts/wasm_intro/index.html</loc>
+    <lastmod>2023-09-23T17:30:06.479Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/poetry_pyright_doom_emacs/index.html</loc>
-    <lastmod>2023-09-23T17:23:40.378Z</lastmod>
+    <lastmod>2023-09-23T17:30:07.235Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/started/index.html</loc>
-    <lastmod>2023-09-23T17:23:41.330Z</lastmod>
+    <lastmod>2023-09-23T17:30:08.391Z</lastmod>
   </url>
 </urlset>
