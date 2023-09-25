@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/candle_intro/index.html",
       "/posts/rust-prelude/index.html",
       "/posts/wasm_intro/index.html",
       "/posts/rust_sdl2/index.html",

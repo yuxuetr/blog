@@ -133,6 +133,41 @@
     "text": "格式化当前时间函数\n\nFormat yyyy-mm-dd\n\n(format-time-string \"%Y-%m-%d\")\n;; \"2022-11-28\"\n\nUnix Time Format(number of seconds since 1970-01-01)\n\n(format-time-string \"%s\")\n;; \"1669620311\"\n\nNames for Month and Week\n\n(format-time-string \"%B\") ; \"November\"\n(format-time-string \"%b\") ; \"Nov\"\n(format-time-string \"%A\") ; \"Monday\"\n(format-time-string \"%a\") ; \"Tue\"\n\nTimezone\n\n(format-time-string \"%z\")\n\n\n拼接字符串(concat)\n(concat \"/path/to/root\" \"cur_dir\" \"file_name\" \".extend\")\n\n\n打开(创建)当天日期文件\n(open-file\n  (concat \"~/org\" (format-time-string \"%Y-%m-%d\") \".org\"))"
   },
   {
+    "objectID": "posts/candle_intro/index.html",
+    "href": "posts/candle_intro/index.html",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "Candle是Rust的极简ML框架，重点关注性能，包括GPU支持和易用性。\n\n\n\nCandle项目包括一些crates,如下：\n\ncandle-book: candle相关的文档\ncandle-core: 核心功能库，核心操作，设备，Tensor结构定义等。\ncandle-nn: 神经网络，构建真实模型的工具\ncandle-examples: 在实际环境中使用库的示例\ncandle-datasets: 数据集和数据加载\ncandle-transformers: Transformer相关实现工具\ncandle-flash-attn: Flash Attention v2实现\ncandle-kernels: CUDA加速实现\ncandle-pyo3: Rust提供的Python接口\ncandle-wasm-examples: Rust WASM示例\n\n其它有用的库：\n\ncandle-lora: 提供了符合官方peft实现的LoRA实现\n\n\n\n\n\n语法简单(看起来像PyTorch)\n\n支持模型训练\n支持用于自定义操作运算\n\n后端\n\n优化的CPU后端，具有针对x86的可选MKL支持和针对Mac的Accelerate支持\nCUDA后端可以再GPU上高效运行，通过NCCL运行多GPU分配\nWASM支持，在浏览器中运行模型\n\n包含的模型\n\n语言模型\n\nLLaMA v1 and v2\nFaIcon\nStarCoder\nPhi v1.5\nT5\nBert\n\nWhisper(多语言支持)\nStable Diffusion v1.5, v2.1, XL v1.0\nWurstchen v2\nComputer Vision Models\n\nDINOv2\nEfficientNet\nyolo-v3\nyolo-v8\nSegmeng-Anything(SAM)\n\n\n文件格式\n\n加载模型支持的格式如下:\n\nsafetensors\nnpz\nggml\nPyTorch files\n\n\n无服务部署\n\n小型且快速的部署\n\n使用llama.cpp量化类型的量化支持\n\n\n\n\n\n创建张量\nTensor::new(&[[1f32, 2.], [3., 4.]], &Device::Cpu)?\nTensor::zeros((2, 2), DType::F32, &Device::Cpu)?\n张量索引\ntensor.i((.., ..4))?\n张量重塑\ntensor.reshape((2, 2))?\n张量矩阵乘法\na.matmul(&b)?\n张量数据移动到特定设备\ntensor.to_device(&Device::new_cuda(0)?)?\n更改张量数据类型\ntensor.to_dtype(&Device::F16)?\n张量算术运算\n&a + &b\n保存模型\ncandle::safetensors::save(&HashMap::from([(\"A\", A)]), \"model.safetensors\")?\n加载模型\ncandle::safetensors::load(\"model.safetensors\", &device)"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#简介",
+    "href": "posts/candle_intro/index.html#简介",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "Candle是Rust的极简ML框架，重点关注性能，包括GPU支持和易用性。"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#模块",
+    "href": "posts/candle_intro/index.html#模块",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "Candle项目包括一些crates,如下：\n\ncandle-book: candle相关的文档\ncandle-core: 核心功能库，核心操作，设备，Tensor结构定义等。\ncandle-nn: 神经网络，构建真实模型的工具\ncandle-examples: 在实际环境中使用库的示例\ncandle-datasets: 数据集和数据加载\ncandle-transformers: Transformer相关实现工具\ncandle-flash-attn: Flash Attention v2实现\ncandle-kernels: CUDA加速实现\ncandle-pyo3: Rust提供的Python接口\ncandle-wasm-examples: Rust WASM示例\n\n其它有用的库：\n\ncandle-lora: 提供了符合官方peft实现的LoRA实现"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#特点",
+    "href": "posts/candle_intro/index.html#特点",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "语法简单(看起来像PyTorch)\n\n支持模型训练\n支持用于自定义操作运算\n\n后端\n\n优化的CPU后端，具有针对x86的可选MKL支持和针对Mac的Accelerate支持\nCUDA后端可以再GPU上高效运行，通过NCCL运行多GPU分配\nWASM支持，在浏览器中运行模型\n\n包含的模型\n\n语言模型\n\nLLaMA v1 and v2\nFaIcon\nStarCoder\nPhi v1.5\nT5\nBert\n\nWhisper(多语言支持)\nStable Diffusion v1.5, v2.1, XL v1.0\nWurstchen v2\nComputer Vision Models\n\nDINOv2\nEfficientNet\nyolo-v3\nyolo-v8\nSegmeng-Anything(SAM)\n\n\n文件格式\n\n加载模型支持的格式如下:\n\nsafetensors\nnpz\nggml\nPyTorch files\n\n\n无服务部署\n\n小型且快速的部署\n\n使用llama.cpp量化类型的量化支持"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#基本用法介绍",
+    "href": "posts/candle_intro/index.html#基本用法介绍",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "创建张量\nTensor::new(&[[1f32, 2.], [3., 4.]], &Device::Cpu)?\nTensor::zeros((2, 2), DType::F32, &Device::Cpu)?\n张量索引\ntensor.i((.., ..4))?\n张量重塑\ntensor.reshape((2, 2))?\n张量矩阵乘法\na.matmul(&b)?\n张量数据移动到特定设备\ntensor.to_device(&Device::new_cuda(0)?)?\n更改张量数据类型\ntensor.to_dtype(&Device::F16)?\n张量算术运算\n&a + &b\n保存模型\ncandle::safetensors::save(&HashMap::from([(\"A\", A)]), \"model.safetensors\")?\n加载模型\ncandle::safetensors::load(\"model.safetensors\", &device)"
+  },
+  {
     "objectID": "posts/rust_toolchain/index.html",
     "href": "posts/rust_toolchain/index.html",
     "title": "Rust Toolchain常用功能介绍",
@@ -235,6 +270,6 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
   }
 ]

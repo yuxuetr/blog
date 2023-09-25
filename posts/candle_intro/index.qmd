@@ -1,0 +1,127 @@
+---
+title: "Rust机器学习框架-HuggingFace Candle"
+author: "曳影"
+date: "2023-09-25"
+categories: [Rust, Machine Learning, Candle]
+---
+
+# Rust机器学习框架-HuggingFace Candle
+
+## 简介
+
+Candle是Rust的极简ML框架，重点关注性能，包括GPU支持和易用性。
+
+
+## 模块
+
+Candle项目包括一些crates,如下：
+
++ candle-book: candle相关的文档
++ candle-core: 核心功能库，核心操作，设备，Tensor结构定义等。
++ candle-nn: 神经网络，构建真实模型的工具
++ candle-examples: 在实际环境中使用库的示例
++ candle-datasets: 数据集和数据加载
++ candle-transformers: Transformer相关实现工具
++ candle-flash-attn: Flash Attention v2实现
++ candle-kernels: CUDA加速实现
++ candle-pyo3: Rust提供的Python接口
++ candle-wasm-examples: Rust WASM示例
+
+其它有用的库：
+
++ candle-lora: 提供了符合官方`peft`实现的`LoRA`实现
+
+## 特点
+
++ 语法简单(看起来像PyTorch)
+  - 支持模型训练
+  - 支持用于自定义操作运算
++ 后端
+  - 优化的CPU后端，具有针对`x86`的可选`MKL`支持和针对`Mac`的`Accelerate`支持
+  - CUDA后端可以再GPU上高效运行，通过NCCL运行多GPU分配
+  - WASM支持，在浏览器中运行模型
++ 包含的模型
+  - 语言模型
+    - LLaMA v1 and v2
+    - FaIcon
+    - StarCoder
+    - Phi v1.5
+    - T5
+    - Bert
+  - Whisper(多语言支持)
+  - Stable Diffusion v1.5, v2.1, XL v1.0
+  - Wurstchen v2
+  - Computer Vision Models
+    - DINOv2
+    - EfficientNet
+    - yolo-v3
+    - yolo-v8
+    - Segmeng-Anything(SAM)
++ 文件格式
+  - 加载模型支持的格式如下:
+    - safetensors
+    - npz
+    - ggml
+    - PyTorch files
++ 无服务部署
+  - 小型且快速的部署
++ 使用`llama.cpp`量化类型的量化支持
+
+## 基本用法介绍
+1. 创建张量
+   
+   ```rust
+   Tensor::new(&[[1f32, 2.], [3., 4.]], &Device::Cpu)?
+   ```
+
+   ```rust
+   Tensor::zeros((2, 2), DType::F32, &Device::Cpu)?
+   ```
+
+2. 张量索引
+
+   ```rust
+   tensor.i((.., ..4))?
+   ```
+
+3. 张量重塑
+
+   ```rust
+   tensor.reshape((2, 2))?
+   ```
+
+4. 张量矩阵乘法
+
+   ```rust
+   a.matmul(&b)?
+   ```
+
+5. 张量数据移动到特定设备
+
+   ```rust
+   tensor.to_device(&Device::new_cuda(0)?)?
+   ```
+
+6. 更改张量数据类型
+ 
+   ```rust
+   tensor.to_dtype(&Device::F16)?
+   ```
+
+7. 张量算术运算
+
+   ```rust
+   &a + &b
+   ```
+
+8. 保存模型
+
+   ```rust
+   candle::safetensors::save(&HashMap::from([("A", A)]), "model.safetensors")?
+   ```
+
+9. 加载模型
+
+   ```rust
+   candle::safetensors::load("model.safetensors", &device)
+   ```
