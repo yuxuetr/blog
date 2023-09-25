@@ -70,53 +70,39 @@
     "text": "rustup常用命令\nrustup是Rust语言的一个安装器。\n可以管理Rust Toolchain以及rustup等工具链组件\n\n查看当前编译器信息\n\nrustup show\n\n更新Rust Toolchain\n\nrust update\n\n检查更新Rust Toolchain和rustup\n\nrustup check\n\n设置默认工具链\n\nrustup default -h\n\n管理component\n\n\n安装组件\n\nrust component add &lt;component_name&gt;\n\n删除组件\n\nrust component remove &lt;component_name&gt;\n\n列出所有可用组件\n\nrust component list\n\n列出以安装组件\n\nrust component list --installed\n\n\nClippy\n一系列lints，用于捕获常见错误并改进Rust代码。\n\n安装\nrustup update\nrustup component add clippy\n\n\n运行Clippy\ncargo clippy\n或者\ncargo check\n\n\n自动应用Clippy建议\ncargo clippy --fix\n\n\n配置文件\n\nclippy.toml\n.clippy.toml\n\n\n\n\nRustfmt\nRust代码格式化工具\n\n安装\nrustup component add rustfmt\n\n\n运行\ncargo fmt\n\n\n配置文件\n\nrustfmt.toml\n.rustfmt.toml\n\n\n\n\nRust-Analyzer\nrust-analyzer是Rust编程语言的语言服务器协议的实现。"
   },
   {
-    "objectID": "posts/program_basic/index.html",
-    "href": "posts/program_basic/index.html",
-    "title": "Programming Basic Concept",
+    "objectID": "posts/candle_intro/index.html",
+    "href": "posts/candle_intro/index.html",
+    "title": "Rust机器学习框架-HuggingFace Candle",
     "section": "",
-    "text": "只读数据段(RODATA/RDATE)\n堆(Heap)\n栈(Stack)\n\n\n只读数据段\n\n存放常量\n\nStack\n\n是程序运行的基础\n每当一个函数被调用时，一块连续的内存就会在栈顶被分配出来，这块内存被称为帧(frame).\n自顶向下增长,出去入口帧(entry frame),就是main()对应的帧,随着main()函数一层层调用,栈会一层层扩展,调用结束,栈又会一层层回溯,把内存释放\n调用过程中,一个新的帧会分配足够的空间存储寄存器的上下文\n在函数里使用到的通用寄存器在栈保存一个副本，函数调用结束,通过副本,可以恢复出原本的寄存器的上下文\n函数的局部变量也都会在帧分配的时候被预留出来\n\nHeap\n\n当我们需要动态大小的内存时，只能用堆\n动态生命周期的内存也需要分配到堆上\n堆上分配出来的每一块内存需要显式地释放，这就使内存有更加灵活的生命周期\n\n\n\n\n\n在编译时，一切无法确定大小或者可以改变的数据，都无法安全地放在栈上，最好放在堆上\n只要可能，我们应该把变量分配到栈上，这样可以达到更好的运行速度\n栈上存放的数据是静态的，固定大小，固定生命周期，在编译期可以确定\n堆上存放的数据是动态的，不固定大小，不固定生命周期，在编译期不能确定"
+    "text": "Candle是Rust的极简ML框架，重点关注性能，包括GPU支持和易用性。\n\n\n\nCandle项目包括一些crates,如下：\n\ncandle-book: candle相关的文档\ncandle-core: 核心功能库，核心操作，设备，Tensor结构定义等。\ncandle-nn: 神经网络，构建真实模型的工具\ncandle-examples: 在实际环境中使用库的示例\ncandle-datasets: 数据集和数据加载\ncandle-transformers: Transformer相关实现工具\ncandle-flash-attn: Flash Attention v2实现\ncandle-kernels: CUDA加速实现\ncandle-pyo3: Rust提供的Python接口\ncandle-wasm-examples: Rust WASM示例\n\n其它有用的库：\n\ncandle-lora: 提供了符合官方peft实现的LoRA实现\n\n\n\n\n\n语法简单(看起来像PyTorch)\n\n支持模型训练\n支持用于自定义操作运算\n\n后端\n\n优化的CPU后端，具有针对x86的可选MKL支持和针对Mac的Accelerate支持\nCUDA后端可以再GPU上高效运行，通过NCCL运行多GPU分配\nWASM支持，在浏览器中运行模型\n\n包含的模型\n\n语言模型\n\nLLaMA v1 and v2\nFaIcon\nStarCoder\nPhi v1.5\nT5\nBert\n\nWhisper(多语言支持)\nStable Diffusion v1.5, v2.1, XL v1.0\nWurstchen v2\nComputer Vision Models\n\nDINOv2\nEfficientNet\nyolo-v3\nyolo-v8\nSegmeng-Anything(SAM)\n\n\n文件格式\n\n加载模型支持的格式如下:\n\nsafetensors\nnpz\nggml\nPyTorch files\n\n\n无服务部署\n\n小型且快速的部署\n\n使用llama.cpp量化类型的量化支持\n\n\n\n\n\n创建张量\nTensor::new(&[[1f32, 2.], [3., 4.]], &Device::Cpu)?\nTensor::zeros((2, 2), DType::F32, &Device::Cpu)?\n张量索引\ntensor.i((.., ..4))?\n张量重塑\ntensor.reshape((2, 2))?\n张量矩阵乘法\na.matmul(&b)?\n张量数据移动到特定设备\ntensor.to_device(&Device::new_cuda(0)?)?\n更改张量数据类型\ntensor.to_dtype(&Device::F16)?\n张量算术运算\n&a + &b\n保存模型\ncandle::safetensors::save(&HashMap::from([(\"A\", A)]), \"model.safetensors\")?\n加载模型\ncandle::safetensors::load(\"model.safetensors\", &device)"
   },
   {
-    "objectID": "posts/program_basic/index.html#内存memory",
-    "href": "posts/program_basic/index.html#内存memory",
-    "title": "Programming Basic Concept",
+    "objectID": "posts/candle_intro/index.html#简介",
+    "href": "posts/candle_intro/index.html#简介",
+    "title": "Rust机器学习框架-HuggingFace Candle",
     "section": "",
-    "text": "只读数据段(RODATA/RDATE)\n堆(Heap)\n栈(Stack)\n\n\n只读数据段\n\n存放常量\n\nStack\n\n是程序运行的基础\n每当一个函数被调用时，一块连续的内存就会在栈顶被分配出来，这块内存被称为帧(frame).\n自顶向下增长,出去入口帧(entry frame),就是main()对应的帧,随着main()函数一层层调用,栈会一层层扩展,调用结束,栈又会一层层回溯,把内存释放\n调用过程中,一个新的帧会分配足够的空间存储寄存器的上下文\n在函数里使用到的通用寄存器在栈保存一个副本，函数调用结束,通过副本,可以恢复出原本的寄存器的上下文\n函数的局部变量也都会在帧分配的时候被预留出来\n\nHeap\n\n当我们需要动态大小的内存时，只能用堆\n动态生命周期的内存也需要分配到堆上\n堆上分配出来的每一块内存需要显式地释放，这就使内存有更加灵活的生命周期\n\n\n\n\n\n在编译时，一切无法确定大小或者可以改变的数据，都无法安全地放在栈上，最好放在堆上\n只要可能，我们应该把变量分配到栈上，这样可以达到更好的运行速度\n栈上存放的数据是静态的，固定大小，固定生命周期，在编译期可以确定\n堆上存放的数据是动态的，不固定大小，不固定生命周期，在编译期不能确定"
+    "text": "Candle是Rust的极简ML框架，重点关注性能，包括GPU支持和易用性。"
   },
   {
-    "objectID": "posts/program_basic/index.html#数据",
-    "href": "posts/program_basic/index.html#数据",
-    "title": "Programming Basic Concept",
-    "section": "数据",
-    "text": "数据\n\n值\n类型\n指针\n引用\n\n\n值\n\n\n类型是对值的区分,包含了值在内存中的长度,对齐以及值可以进行操作等信息\n一个值是符合一个特定类型的数据的某个实体\n值是无法脱离具体的类型讨论的\n\n\n类型\n\n\n原生类型(primitive type): 固定大小,可以分配在栈上\n\n字符\n整数\n浮点数\n布尔值\n数组\n元组\n枚举\n指针: 指针的使用限制少，如果没有正确的类型解引用一个指针，会引发各种内存问题，造成潜在安全漏洞\n引用: 引用的解引用访问是受限的，它只能解引用到它引用数据的类型，不能用作它用\n\n组合类型(composite type)\n\n结构体: 多个类型组合在一起共同表达一个值的复杂数据结构\n标签联合: 可以存储一组不同但固定的类型的类型中的某个类型的对象，具体是由标签决定\n\n其他类型\n\n函数\n闭包"
-  },
-  {
-    "objectID": "posts/program_basic/index.html#代码",
-    "href": "posts/program_basic/index.html#代码",
-    "title": "Programming Basic Concept",
-    "section": "代码",
-    "text": "代码\n\n函数: 对代码中重复行为的抽象\n方法: 在类中或者对象中定义的函数，只为某种类型定义的函数,和对象的指针发生关联\n闭包: 将函数或者说代码和其环境(自由变量)一起存储的一种数据结构。\n接口: 将使用方和实现方隔离开来，使两者不直接有依赖关系，大大提高了复用性和扩展性\n虚表: 存储多态接口方法的列表,辅助运行时代码执行，方便进行动态分派，是运行时多态的基础\n\n面向接口的设计师软件开发中的重要能力，当我们在运行期使用接口来引用具体类型的时候，代码就具备了运行时多态的能力。 在运行时，一旦使用了关于接口的引用，变量原本的类型被抹去，我们无法单纯从一个指针分析出这个引用具备什么样的能力。 在生成这个引用的时候，我们需要构建胖指针，除了指向数据本身，还需要指向一张涵盖这个接口所支持方法的列表。 这个列表就是我们熟知的虚表(virtual table)"
-  },
-  {
-    "objectID": "posts/program_basic/index.html#运行方式",
-    "href": "posts/program_basic/index.html#运行方式",
-    "title": "Programming Basic Concept",
-    "section": "运行方式",
-    "text": "运行方式\n\n并发: 是一种能力, 同时与多件事情打交道的能力(交替执行多件不同的事情)\n并行: 是一种手段, 在多个CPU Core上执行同样的代码\n同步: 一个任务开始后，后续的操作会阻塞，直到这个任务结束，保证了代码的因果关系，保证程序正确性\n异步: 指一个任务开始执行后，与它没有因果关系的其它任务可以正常执行，不必等待前一个任务结束\nPromise / Future / Delay / Deferred: 是一个对象，用来描述在未来某个时刻才能获得的结果的值\nasync / await: async用来定义一个可以并发执行的任务, await则触发这个任务并执行\n\n在遭遇I/O处理时，高效CPU指令和低效I/O之间的巨大鸿沟，成为了软件的性能杀手。\n和内存访问相比，I/O操作的访问速度低了两个数量级,一旦遇到I/O操作，CPU就只能闲置来等待I/O设备运行完毕。\n因此操作系统为应用程序提供了异步I/O，让应用可以在当前I/O处理完毕之前，将CPU时间用作其它任务的处理\n很多拥有高并发处理能力的编程语言，会在用户程序中嵌入一个M:N的调度器，把M个并发任务，合理地分配在N个CPU Core上并行运行， 让程序的吞吐量达到最大。比如Golang的Goroutine\nPromise一般存在三个状态: - 初始状态, Promise还未运行 - 等待(pending)状态, Promise已运行，还未结束 - 结束状态, Promise成功解析出一个值，或者执行失败"
-  },
-  {
-    "objectID": "posts/program_basic/index.html#编程范式",
-    "href": "posts/program_basic/index.html#编程范式",
-    "title": "Programming Basic Concept",
-    "section": "编程范式",
-    "text": "编程范式\n\n泛型编程\n\n数据结构的泛型: 把参数化数据结构理解成一个产生类型的函数，是一种高级抽象\n代码的泛型化: 当我们使用泛型结构编写代码时，相关的代码也需要额外的抽象\n\n通过参数化让数据结构像函数一样延迟绑定，提升通用性，类型的参数可以用接口约束，使类型满足一定的行为， 同时，在使用泛型结构时，我们的代码也需要更高的抽象度。"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "曳影",
+    "objectID": "posts/candle_intro/index.html#模块",
+    "href": "posts/candle_intro/index.html#模块",
+    "title": "Rust机器学习框架-HuggingFace Candle",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+    "text": "Candle项目包括一些crates,如下：\n\ncandle-book: candle相关的文档\ncandle-core: 核心功能库，核心操作，设备，Tensor结构定义等。\ncandle-nn: 神经网络，构建真实模型的工具\ncandle-examples: 在实际环境中使用库的示例\ncandle-datasets: 数据集和数据加载\ncandle-transformers: Transformer相关实现工具\ncandle-flash-attn: Flash Attention v2实现\ncandle-kernels: CUDA加速实现\ncandle-pyo3: Rust提供的Python接口\ncandle-wasm-examples: Rust WASM示例\n\n其它有用的库：\n\ncandle-lora: 提供了符合官方peft实现的LoRA实现"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#特点",
+    "href": "posts/candle_intro/index.html#特点",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "语法简单(看起来像PyTorch)\n\n支持模型训练\n支持用于自定义操作运算\n\n后端\n\n优化的CPU后端，具有针对x86的可选MKL支持和针对Mac的Accelerate支持\nCUDA后端可以再GPU上高效运行，通过NCCL运行多GPU分配\nWASM支持，在浏览器中运行模型\n\n包含的模型\n\n语言模型\n\nLLaMA v1 and v2\nFaIcon\nStarCoder\nPhi v1.5\nT5\nBert\n\nWhisper(多语言支持)\nStable Diffusion v1.5, v2.1, XL v1.0\nWurstchen v2\nComputer Vision Models\n\nDINOv2\nEfficientNet\nyolo-v3\nyolo-v8\nSegmeng-Anything(SAM)\n\n\n文件格式\n\n加载模型支持的格式如下:\n\nsafetensors\nnpz\nggml\nPyTorch files\n\n\n无服务部署\n\n小型且快速的部署\n\n使用llama.cpp量化类型的量化支持"
+  },
+  {
+    "objectID": "posts/candle_intro/index.html#基本用法介绍",
+    "href": "posts/candle_intro/index.html#基本用法介绍",
+    "title": "Rust机器学习框架-HuggingFace Candle",
+    "section": "",
+    "text": "创建张量\nTensor::new(&[[1f32, 2.], [3., 4.]], &Device::Cpu)?\nTensor::zeros((2, 2), DType::F32, &Device::Cpu)?\n张量索引\ntensor.i((.., ..4))?\n张量重塑\ntensor.reshape((2, 2))?\n张量矩阵乘法\na.matmul(&b)?\n张量数据移动到特定设备\ntensor.to_device(&Device::new_cuda(0)?)?\n更改张量数据类型\ntensor.to_dtype(&Device::F16)?\n张量算术运算\n&a + &b\n保存模型\ncandle::safetensors::save(&HashMap::from([(\"A\", A)]), \"model.safetensors\")?\n加载模型\ncandle::safetensors::load(\"model.safetensors\", &device)"
   },
   {
     "objectID": "posts/rust_sdl2/index.html",
@@ -166,6 +152,55 @@
     "title": "Rust SDL2案例",
     "section": "",
     "text": "要为纹理设置颜色，需要引入颜色模块的结构，然后使用画布设置纹理的颜色，颜色绘制完成后需要清空纹理；\n\n引入颜色结构\nuse sdl2::pixels::Color;\n使用画布设置矩形纹理的颜色\ncanvas.with_texture_canvas(&mut square_texture, |texture| {\n  texture.set_draw_color(Color::RGB(0, 255, 0));\n  texture.clear();\n})\n\n代码的简单说明:\n为了更新窗口的渲染内容，我们需要在将代码包含在main loop(and after the event loop). clear()纹理，以至于它被填充绿色\n\n将窗口填充红色\ncanvas.set_draw_color(Color::RGB(255, 0, 0));\ncanvas.clear();\n将纹理拷贝到窗口中\ncanvas.copy(&square_texture, None, Rect::new(0, 0, TEXTURE_SIZE, TEXTURE_SIZE))\n      .expect(\"Couldn't copy texture into window\");\n最后更新窗口的展示\ncanvas.present();\n\n代码如下：\nextern crate sdl2;\n\nuse sdl2::event::Event;\nuse sdl2::keyboard::Keycode;\nuse sdl2::pixels::Color;\nuse sdl2::render::{Texture, TextureCreator};\nuse sdl2::rect::Rect;\nuse std::time::Duration;\n\nfn main() {\n     // 初始化SDL2\n     let sdl_context = sdl2::init().expect(\"SDL initialization failed\");\n     let video_subsystem = sdl_context.video().expect(\"Couldn't get SDL video subsystem\");\n\n     // 创建窗口和画布\n     let window = video_subsystem\n         .window(\"Tetris\", 800, 600)\n         .position_centered()\n         .build()\n         .expect(\"Failed to create window\");\n\n     let mut canvas = window.into_canvas()\n         .target_texture()\n         .present_vsync()\n         .build()\n         .expect(\"Couldn't get window's canvas\");\n\n     let texture_creator: TextureCreator&lt;_&gt; = canvas.texture_creator();\n     const TEXTURE_SIZE: u32 = 32;\n\n     // create a texture with a 32*32 size\n     let mut square_texture: Texture = texture_creator.create_texture_target(None, TEXTURE_SIZE, TEXTURE_SIZE)\n         .expect(\"Failed to create a texture\");\n\n     // use the canvas to draw into our square texture.\n     canvas.with_texture_canvas(&mut square_texture, |texture| {\n         // set the draw color to green\n         texture.set_draw_color(Color::RGB(0, 255, 0));\n         texture.clear();\n     }).expect(\"Failed to clear a texture\");\n\n     // 创建事件处理器\n     let mut event_pump = sdl_context.event_pump().expect(\"Failed to get SDL event pump\");\n\n     // 主循环\n     'runningloop: loop {\n         for event in event_pump.poll_iter() {\n             match event {\n                 Event::Quit { .. } | Event::KeyDown { keycode: Some(Keycode::Escape), .. } =&gt; {\n                     break 'runningloop;\n                 }\n                 _ =&gt; {}\n             }\n         }\n\n         // We set fulfill our window with red\n         canvas.set_draw_color(Color::RGB(255, 0, 0));\n         // We draw it\n         canvas.clear();\n         // Copy our texture into the window\n         canvas.copy(&square_texture, None, Rect::new(0, 0, TEXTURE_SIZE, TEXTURE_SIZE))\n             .expect(\"Couldn't copy texture into window\");\n         canvas.present();\n\n         // 添加延迟以控制帧率\n         std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));\n     }\n}\n\n代码执行结果如下图所示:"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "曳影",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/program_basic/index.html",
+    "href": "posts/program_basic/index.html",
+    "title": "Programming Basic Concept",
+    "section": "",
+    "text": "只读数据段(RODATA/RDATE)\n堆(Heap)\n栈(Stack)\n\n\n只读数据段\n\n存放常量\n\nStack\n\n是程序运行的基础\n每当一个函数被调用时，一块连续的内存就会在栈顶被分配出来，这块内存被称为帧(frame).\n自顶向下增长,出去入口帧(entry frame),就是main()对应的帧,随着main()函数一层层调用,栈会一层层扩展,调用结束,栈又会一层层回溯,把内存释放\n调用过程中,一个新的帧会分配足够的空间存储寄存器的上下文\n在函数里使用到的通用寄存器在栈保存一个副本，函数调用结束,通过副本,可以恢复出原本的寄存器的上下文\n函数的局部变量也都会在帧分配的时候被预留出来\n\nHeap\n\n当我们需要动态大小的内存时，只能用堆\n动态生命周期的内存也需要分配到堆上\n堆上分配出来的每一块内存需要显式地释放，这就使内存有更加灵活的生命周期\n\n\n\n\n\n在编译时，一切无法确定大小或者可以改变的数据，都无法安全地放在栈上，最好放在堆上\n只要可能，我们应该把变量分配到栈上，这样可以达到更好的运行速度\n栈上存放的数据是静态的，固定大小，固定生命周期，在编译期可以确定\n堆上存放的数据是动态的，不固定大小，不固定生命周期，在编译期不能确定"
+  },
+  {
+    "objectID": "posts/program_basic/index.html#内存memory",
+    "href": "posts/program_basic/index.html#内存memory",
+    "title": "Programming Basic Concept",
+    "section": "",
+    "text": "只读数据段(RODATA/RDATE)\n堆(Heap)\n栈(Stack)\n\n\n只读数据段\n\n存放常量\n\nStack\n\n是程序运行的基础\n每当一个函数被调用时，一块连续的内存就会在栈顶被分配出来，这块内存被称为帧(frame).\n自顶向下增长,出去入口帧(entry frame),就是main()对应的帧,随着main()函数一层层调用,栈会一层层扩展,调用结束,栈又会一层层回溯,把内存释放\n调用过程中,一个新的帧会分配足够的空间存储寄存器的上下文\n在函数里使用到的通用寄存器在栈保存一个副本，函数调用结束,通过副本,可以恢复出原本的寄存器的上下文\n函数的局部变量也都会在帧分配的时候被预留出来\n\nHeap\n\n当我们需要动态大小的内存时，只能用堆\n动态生命周期的内存也需要分配到堆上\n堆上分配出来的每一块内存需要显式地释放，这就使内存有更加灵活的生命周期\n\n\n\n\n\n在编译时，一切无法确定大小或者可以改变的数据，都无法安全地放在栈上，最好放在堆上\n只要可能，我们应该把变量分配到栈上，这样可以达到更好的运行速度\n栈上存放的数据是静态的，固定大小，固定生命周期，在编译期可以确定\n堆上存放的数据是动态的，不固定大小，不固定生命周期，在编译期不能确定"
+  },
+  {
+    "objectID": "posts/program_basic/index.html#数据",
+    "href": "posts/program_basic/index.html#数据",
+    "title": "Programming Basic Concept",
+    "section": "数据",
+    "text": "数据\n\n值\n类型\n指针\n引用\n\n\n值\n\n\n类型是对值的区分,包含了值在内存中的长度,对齐以及值可以进行操作等信息\n一个值是符合一个特定类型的数据的某个实体\n值是无法脱离具体的类型讨论的\n\n\n类型\n\n\n原生类型(primitive type): 固定大小,可以分配在栈上\n\n字符\n整数\n浮点数\n布尔值\n数组\n元组\n枚举\n指针: 指针的使用限制少，如果没有正确的类型解引用一个指针，会引发各种内存问题，造成潜在安全漏洞\n引用: 引用的解引用访问是受限的，它只能解引用到它引用数据的类型，不能用作它用\n\n组合类型(composite type)\n\n结构体: 多个类型组合在一起共同表达一个值的复杂数据结构\n标签联合: 可以存储一组不同但固定的类型的类型中的某个类型的对象，具体是由标签决定\n\n其他类型\n\n函数\n闭包"
+  },
+  {
+    "objectID": "posts/program_basic/index.html#代码",
+    "href": "posts/program_basic/index.html#代码",
+    "title": "Programming Basic Concept",
+    "section": "代码",
+    "text": "代码\n\n函数: 对代码中重复行为的抽象\n方法: 在类中或者对象中定义的函数，只为某种类型定义的函数,和对象的指针发生关联\n闭包: 将函数或者说代码和其环境(自由变量)一起存储的一种数据结构。\n接口: 将使用方和实现方隔离开来，使两者不直接有依赖关系，大大提高了复用性和扩展性\n虚表: 存储多态接口方法的列表,辅助运行时代码执行，方便进行动态分派，是运行时多态的基础\n\n面向接口的设计师软件开发中的重要能力，当我们在运行期使用接口来引用具体类型的时候，代码就具备了运行时多态的能力。 在运行时，一旦使用了关于接口的引用，变量原本的类型被抹去，我们无法单纯从一个指针分析出这个引用具备什么样的能力。 在生成这个引用的时候，我们需要构建胖指针，除了指向数据本身，还需要指向一张涵盖这个接口所支持方法的列表。 这个列表就是我们熟知的虚表(virtual table)"
+  },
+  {
+    "objectID": "posts/program_basic/index.html#运行方式",
+    "href": "posts/program_basic/index.html#运行方式",
+    "title": "Programming Basic Concept",
+    "section": "运行方式",
+    "text": "运行方式\n\n并发: 是一种能力, 同时与多件事情打交道的能力(交替执行多件不同的事情)\n并行: 是一种手段, 在多个CPU Core上执行同样的代码\n同步: 一个任务开始后，后续的操作会阻塞，直到这个任务结束，保证了代码的因果关系，保证程序正确性\n异步: 指一个任务开始执行后，与它没有因果关系的其它任务可以正常执行，不必等待前一个任务结束\nPromise / Future / Delay / Deferred: 是一个对象，用来描述在未来某个时刻才能获得的结果的值\nasync / await: async用来定义一个可以并发执行的任务, await则触发这个任务并执行\n\n在遭遇I/O处理时，高效CPU指令和低效I/O之间的巨大鸿沟，成为了软件的性能杀手。\n和内存访问相比，I/O操作的访问速度低了两个数量级,一旦遇到I/O操作，CPU就只能闲置来等待I/O设备运行完毕。\n因此操作系统为应用程序提供了异步I/O，让应用可以在当前I/O处理完毕之前，将CPU时间用作其它任务的处理\n很多拥有高并发处理能力的编程语言，会在用户程序中嵌入一个M:N的调度器，把M个并发任务，合理地分配在N个CPU Core上并行运行， 让程序的吞吐量达到最大。比如Golang的Goroutine\nPromise一般存在三个状态: - 初始状态, Promise还未运行 - 等待(pending)状态, Promise已运行，还未结束 - 结束状态, Promise成功解析出一个值，或者执行失败"
+  },
+  {
+    "objectID": "posts/program_basic/index.html#编程范式",
+    "href": "posts/program_basic/index.html#编程范式",
+    "title": "Programming Basic Concept",
+    "section": "编程范式",
+    "text": "编程范式\n\n泛型编程\n\n数据结构的泛型: 把参数化数据结构理解成一个产生类型的函数，是一种高级抽象\n代码的泛型化: 当我们使用泛型结构编写代码时，相关的代码也需要额外的抽象\n\n通过参数化让数据结构像函数一样延迟绑定，提升通用性，类型的参数可以用接口约束，使类型满足一定的行为， 同时，在使用泛型结构时，我们的代码也需要更高的抽象度。"
   },
   {
     "objectID": "posts/poetry_githubactions/index.html",
