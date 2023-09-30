@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="曳影">
+<meta name="dcterms.date" content="2023-09-28">
+
+<title>曳影 - Rust程序设计知识点</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">曳影</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com" rel="" target=""><i class="bi bi-email" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Rust程序设计知识点</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Rust</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>曳影 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 28, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="rust程序设计笔记" class="level1">
+<h1>Rust程序设计笔记</h1>
+<section id="cargo和rustup" class="level2">
+<h2 class="anchored" data-anchor-id="cargo和rustup"><code>cargo</code>和<code>rustup</code></h2>
+</section>
+<section id="处理命令行参数" class="level2">
+<h2 class="anchored" data-anchor-id="处理命令行参数">处理命令行参数</h2>
+<section id="标准库-stdenv" class="level3">
+<h3 class="anchored" data-anchor-id="标准库-stdenv">标准库: <code>std::env</code></h3>
+</section>
+<section id="第三方库clap" class="level3">
+<h3 class="anchored" data-anchor-id="第三方库clap">第三方库:<code>clap</code></h3>
+</section>
+</section>
+<section id="基本数据类型" class="level2">
+<h2 class="anchored" data-anchor-id="基本数据类型">基本数据类型</h2>
+<ul>
+<li>很大程度上，Rust是围绕其类型设计的。</li>
+<li>Rust对高性能代码的支持，源自它能让开发者原则最适合当前场景的数据表示法，在简单性与成本之间进行合理的权衡。</li>
+<li>Rust的内存和线程安全保障也依赖于Rust类型系统的健全性。</li>
+<li>Rust的灵活性则源自于其泛型类型和特型。</li>
+</ul>
+<section id="rust有以下两个特性" class="level3">
+<h3 class="anchored" data-anchor-id="rust有以下两个特性">Rust有以下两个特性</h3>
+<ul>
+<li>基于已明确写出的类型，Rust的<strong>类型推断</strong>会帮你推断出剩下的大部分类型</li>
+<li>函数可以是泛型的：单个函数就可以处理许多不同类型的值</li>
+</ul>
+</section>
+<section id="固定宽度的数值类型" class="level3">
+<h3 class="anchored" data-anchor-id="固定宽度的数值类型">固定宽度的数值类型</h3>
+<ol type="1">
+<li>Rust类型系统的根基是一组固定宽度的数值类型，选用这些类型是为了匹配几乎所有现代处理器都已直接在硬件中实现的类型。 固定宽度的数值类型可能会溢出或丢失精度。</li>
+<li><code>char</code>既不是<code>u8</code>,也不是<code>u32</code>(尽管它确实有32位长)</li>
+<li><code>usize</code>类型和<code>isize</code>类型类似于<code>C</code>和<code>C++</code>中的<code>size_t</code>和<code>ptrdiff_t</code>。它们的精度与目标机器上地址空间的大小保持一致， 即在32位架构上是32位长，在64位架构上则是64位长。</li>
+<li>Rust要求数组索引是<code>usize</code>值。</li>
+<li>可以使用<code>as</code>运算符将一种整型转换成另一种整型。</li>
+<li>Rust几乎不会执行任何隐式的数值转换，随时可以使用<code>as</code>运算符写出显式转换。</li>
+</ol>
+</section>
+<section id="布尔类型" class="level3">
+<h3 class="anchored" data-anchor-id="布尔类型">布尔类型</h3>
+<ul>
+<li>Rust非常严格
+<ul>
+<li>像<code>if</code>和<code>while</code>这样的控制结构要求它们的条件必须是<code>bool</code>表达式</li>
+<li>短路逻辑运算符<code>&amp;&amp;</code>和<code>||</code>也是如此</li>
+</ul></li>
+</ul>
+</section>
+<section id="字符" class="level3">
+<h3 class="anchored" data-anchor-id="字符">字符</h3>
+<ol type="1">
+<li>Rust的字符类型<code>char</code>会以32位值表示单个Unicode字符</li>
+<li>Rust会对<strong>单独的字符</strong>使用<code>char</code>类型，但对<strong>字符串</strong>和<strong>文本流</strong>使用<code>UTF-8</code>编码</li>
+<li><code>u8</code>是唯一能通过<code>as</code>运算符转换为<code>char</code>的类型</li>
+</ol>
+</section>
+<section id="指针类型" class="level3">
+<h3 class="anchored" data-anchor-id="指针类型">指针类型</h3>
+<ol type="1">
+<li>Rust有多种表示内存地址的类型，这是Rust和大多数具有垃圾回收功能的语言之间一个重大差异。</li>
+<li>Rust语言旨在帮你将内存分配保持在最低限度。</li>
+</ol>
+</section>
+<section id="引用" class="level3">
+<h3 class="anchored" data-anchor-id="引用">引用</h3>
+<ol type="1">
+<li>将引用视为Rust中的基本指针类型</li>
+<li>Rust引用有两种形式
+<ul>
+<li>&amp;T: 一个不可变的共享引用</li>
+<li>&amp;mut T: 一个可变的、独占的引用</li>
+</ul></li>
+<li>Rust利用共享引用和可变引用之间的”二选一”机制来强制执行”单个写入者或多个读取者”规则</li>
+<li>你独占读写一个值，或者让任意数量的读取者共享，但二者只能选择其一</li>
+<li>这种由编译期检查强制执行的”二选一”规则是Rust安全保障的核心</li>
+</ol>
+</section>
+<section id="数组向量和切片" class="level3">
+<h3 class="anchored" data-anchor-id="数组向量和切片">数组、向量和切片</h3>
+<ol type="1">
+<li>Rust用3种类型来表示内存中的值序列
+<ul>
+<li>类型<code>[T;N]</code>表示<code>N</code>个值的数组，每个值的类型为<code>T</code>，<code>N</code>在编译期已经确定，不能追加新元素或缩小数组</li>
+<li>类型<code>Vec&lt;T&gt;</code>可称为<code>T</code>的向量，它是一个动态分配且可增长的<code>T</code>类型的值序列</li>
+<li>类型<code>&amp;[T]</code>和<code>&amp;mut [T]</code>可称为<code>T</code>的共享切片和<code>T</code>的可变切片</li>
+</ul></li>
+<li>在数组上看到的那些使用方法都是作为切片而非数组的方法提供的
+<ul>
+<li>包括：遍历、搜索、排序、填充、过滤等</li>
+<li>Rust在搜索各种方法时会隐式地将对数组的引用转换为切片，因此可以直接在数组上调用任何切片的方法</li>
+<li><code>sort</code>方法实际上是在切片上定义的</li>
+<li><code>len</code>方法也是切片的方法之一</li>
+</ul></li>
+<li>向量
+<ul>
+<li>使用<code>collect</code>时，通常要指定类型，因为它可以构建出不同种类的集合，而不仅仅是向量</li>
+<li>与数组一样，可以对向量使用切片的方法
+<ul>
+<li><code>reverse</code>方法实际上是在切片上定义的，此调用会隐式地从向量中借用一个<code>&amp;mut [&amp;str]</code>切片并在其上调用<code>reverse</code></li>
+</ul></li>
+<li><code>Vec</code>是Rust的基本数据类型，它几乎可以用在任何需要动态大小的列表的地方</li>
+<li>如果事先知道向量所需的元素数量，就可以调用<code>Vec::with_capacity</code>而不是<code>Vec::new</code>来创建一个向量，它的缓冲区足够大，可以从一开始就容纳所有元素</li>
+<li>许多库函数会寻求使用<code>Vec::with_capacity</code>而非<code>Vec::new</code>的机会</li>
+</ul></li>
+<li>切片
+<ul>
+<li><code>切片</code>是<code>数组</code>或<code>向量</code>中的一个区域</li>
+<li>对切片的引用是一个<code>胖指针</code>
+<ul>
+<li>一个双字值</li>
+<li>包括指向切片<code>第一个元素的指针</code>和<code>切片中元素的数量</code></li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="字符串类型" class="level3">
+<h3 class="anchored" data-anchor-id="字符串类型">字符串类型</h3>
+<ol type="1">
+<li>字符串字面量
+<ul>
+<li>原始字符串用小写字母<code>r</code>进行标记，原始字符串不识别任何转义序列</li>
+<li>可以再原始字符串的开头和结尾添加<code>#</code>做标记</li>
+</ul></li>
+<li>字符串
+<ul>
+<li><p>带有<code>b</code>前缀的字符串字面量都是<code>字节串</code>，这样的字节串是<code>u8</code>值(字节)的切片而不是<code>Unicode</code>文本</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">let</span> method <span class="op">=</span> <span class="st">b"POST"</span><span class="op">;</span>  <span class="co">// method类型是&amp;[u8; 4]</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="pp">assert_eq!</span>(method<span class="op">,</span> <span class="op">&amp;</span>[<span class="ch">b'P'</span><span class="op">,</span> <span class="ch">b'O'</span><span class="op">,</span> <span class="ch">b'S'</span><span class="op">,</span> <span class="ch">b'T'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>字节串不能包含任意<code>Unicode</code>字符，它们只能使用<code>ASCII</code>和<code>\xHH</code>转义序列</p></li>
+</ul></li>
+<li>内存中的字符串
+<ul>
+<li>Rust字符串是<code>Unicode字符序列</code>，但并不以<code>char数组</code>的形式存储在内存中，而是用了<code>UTF-8形式</code>(可变宽度编码)</li>
+<li><code>String</code>或<code>&amp;str</code>的<code>.len()</code>方法会返回其长度</li>
+<li><code>&amp;mut str</code>类型确实存在，但它没什么用</li>
+<li><code>&amp;mut str</code>上唯一可用的操作是<code>make_ascii_uppercase</code>和<code>make_ascii_lowercase</code>，根据定义，它们会就地修改文本并且只影响<code>单字节字符</code></li>
+</ul></li>
+<li>String
+<ul>
+<li><code>&amp;str</code>非常像<code>&amp;[T]</code>,是指向某些数据的<code>胖指针</code></li>
+<li>而<code>String</code>则类似于<code>Vec&lt;T&gt;</code></li>
+<li>String有几种方法
+<ul>
+<li><code>.to_string()</code>方法会将<code>&amp;str</code>转换为<code>String</code>，这会复制此字符串</li>
+<li><code>.to_owned()</code>方法会做同样的事情，也会以同样的方式使用</li>
+<li><code>format!()</code>宏的工作方式与<code>println!()</code>类似，但它会返回一个新的<code>String</code></li>
+<li><code>.concat()</code>和<code>.json(sep)</code>，字符串数组、切片、向量都有这两个方法，它们会从许多字符串中形成一个新的<code>String</code></li>
+</ul></li>
+</ul></li>
+<li>其它类似字符串的类型
+<ul>
+<li>对于<code>Unicode</code>文本，坚持使用<code>String</code>和<code>&amp;str</code></li>
+<li>当使用文件名，请改用<code>std::path::PathBuf</code>和<code>&amp;Path</code></li>
+<li>当处理根本不是<code>UTF-8</code>编码的二进制数据时，请使用<code>Vec&lt;u8&gt;</code>和<code>&amp;[u8]</code></li>
+<li>当使用操作系统提供的原生形式<code>环境变量名</code>和<code>命令行参数</code>时，请使用<code>OsString</code>和<code>&amp;OsStr</code></li>
+<li>当和使用<code>null</code>结尾字符串的C语言库进行互操作时，请使用<code>std::ffi::CString</code>和<code>&amp;CStr</code></li>
+</ul></li>
+</ol>
+</section>
+<section id="所有权与移动" class="level3">
+<h3 class="anchored" data-anchor-id="所有权与移动">所有权与移动</h3>
+<ol type="1">
+<li>谈及内存管理，我们希望编程语言具备两个特点
+<ul>
+<li>能在我们选定的时机及时释放，这使得我们能控制程序的内存消耗</li>
+<li>对象被释放后，绝不希望继续使用使用指向它的指针，这是未定义行为，会导致崩溃和安全漏洞</li>
+</ul></li>
+<li>几乎所有主流编程语言都只能在两个阵营”二选一”
+<ul>
+<li>安全优先：通过垃圾回收机制，在所有指向对象的可达指针都消失后，自动释放对象</li>
+<li>控制优先：让开发者自己负责释放内存，程序的内存消耗完全掌握在开发者受众。</li>
+</ul></li>
+<li>Rust通过限制程序使用指针的方式出人意料的打破了这种困局
+<ul>
+<li>在运行期，指针仅仅是内存中的地址，和在C与C++中一样</li>
+<li>而不一样的是，Rust编译器已然证明你的代码在安全地使用它们</li>
+</ul></li>
+<li>所有权
+<ul>
+<li>每个值都有唯一的拥有者</li>
+<li>拥有者及其拥有的哪些值形成了一棵<code>树</code>
+<ul>
+<li>值的拥有者是值的父节点</li>
+<li>值拥有的值是子节点</li>
+<li>每棵树的总根都是一个变量</li>
+<li>当该变量超出作用域时，整棵树都将随之消失</li>
+</ul></li>
+<li>Rust的单一拥有者规则将禁止任何可能让它们排列得比树结构更复杂的可能性</li>
+<li>Rust程序中的每一个值都是某棵树的成员，树根是某个变量</li>
+</ul></li>
+<li>为了处理某些场景，Rust从几个方面扩展了这种简单的思想
+<ul>
+<li>可以将值从一个拥有者转移给另一个拥有者，
+<ul>
+<li>允许你构建、重新排列和拆除树形结构</li>
+</ul></li>
+<li>像整型、浮点数和字符这样的非常简单的类型，不受所有权规则的约束
+<ul>
+<li>这些称为<code>Copy类型</code></li>
+</ul></li>
+<li>标准库提供了引用计数指针类型<code>Rc</code>和<code>Arc</code>，它们允许在某些限制下有多个拥有者</li>
+<li>可以对值进行”借用”(<code>borrow</code>)，以获得值的引用。
+<ul>
+<li>这种引用是非拥有型指针，有着受限的生命周期</li>
+</ul></li>
+</ul></li>
+<li>移动
+<ul>
+<li>对大多数类型来说，像为变量复制、将其传给函数或从函数返回的操作都不会<strong>复制</strong>值，而是<strong>移动</strong>值。</li>
+<li>源会把值的<strong>所有权转移</strong>给目标并变回未初始化状态，改由目标变量来控制值的<strong>生命周期</strong>
+<ul>
+<li>将参数传给函数会将所有权转移给函数的参数</li>
+<li>从函数返回一个值会将所有权转给调用者</li>
+<li>构建元组会将值转给元组</li>
+</ul></li>
+<li>值移动涉及字符串、向量和其他占用大量内存且复制成本高昂的类型</li>
+<li>移动让这些类型的所有权清晰且赋值开销极低</li>
+</ul></li>
+<li>Copy类型：关于移动的例外情况
+<ul>
+<li>对于Copy类型的值进行赋值会复制这个值，而不会移动它</li>
+<li>赋值的源仍会保持已初始化和可用状态，并且具有与之前相同的值</li>
+<li>标准的Copy类型包括：
+<ul>
+<li>整数类型、浮点类型、char类型、bool类型，以及其他类型</li>
+</ul></li>
+<li>任何在丢弃值时需要做一些特殊操作的类型都不能是Copy类型</li>
+<li>如果结构体的所有字段都是Copy类型，那么可以通过属性<code>#[derive(Copy,Clone)]</code>放置在此定义之上来创建Copy类型</li>
+<li>Rust的一个原则是：
+<ul>
+<li>各种开销对程序员来说应该是显而易见的</li>
+<li>基本操作必须保持简单，而潜在的昂贵操作应该是显式的</li>
+</ul></li>
+</ul></li>
+<li><code>Rc</code>与<code>Arc</code>：共享所有权
+<ul>
+<li><code>Rc</code>和<code>Arc</code>非常相似，唯一的区别是<code>Arc</code>可以安全地在线程之间直接共享</li>
+<li>普通<code>Rc</code>会使用更快的非线程安全代码来更新引用计数</li>
+<li>克隆一个<code>Rc&lt;T&gt;</code>值并不会复制<code>T</code>，相反，它只会创建另一个指向它的指针并通过递增引用计数</li>
+<li>通常的所有权规则适用于<code>Rc</code>指针本身，当丢弃最后一个<code>Rc</code>时，Rust也会丢弃<code>T</code>
+<ul>
+<li>资源交给<code>Rc</code>管理，<code>Rc</code>不存在后则一切都不存在了</li>
+</ul></li>
+<li>Rust的内存和线程安全保证的基石是:
+<ul>
+<li>确保不会有任何值时既<strong>共享</strong>又<strong>可变</strong>的</li>
+<li>Rust假<code>Rc</code>指针的引用目标通常都可以<strong>共享</strong>，因此就不能是<strong>可变的</strong></li>
+</ul></li>
+<li>弱引用指针<code>std::rc::Weak</code>来避免建立<code>Rc</code>指针循环。</li>
+</ul></li>
+<li>小结
+<ul>
+<li>所有权：每个值有唯一的所有者</li>
+<li>移动：涉及特殊操作的赋值会发生所有权转移</li>
+<li>Copy：简单类型的赋值操作会复制值</li>
+<li>Rc和Arc：共享值的所有权</li>
+<li>移动和引用计数指针是缓解所有权严格性问题的两种途径</li>
+<li>第三种途径是借用对值的引用</li>
+</ul></li>
+</ol>
+</section>
+<section id="引用-1" class="level3">
+<h3 class="anchored" data-anchor-id="引用-1">引用</h3>
+<ul>
+<li>迄今为止，我们所看到的所有指针类型都是<strong>拥有型指针</strong>，意味着当<strong>拥有者</strong>被丢弃时，它的引用目标也会随之消失
+<ul>
+<li>如：简单的<code>Box&lt;T&gt;</code>堆指针，<code>String</code>值，<code>Vec</code>值内部的指针</li>
+</ul></li>
+<li>Rust还有一种名为<strong>引用(reference)</strong>的<strong>非拥有型指针</strong>，这种指针对<strong>引用目标</strong>的<strong>生命周期</strong>毫无影响</li>
+<li><font color="red"><strong>引用</strong>的<strong>生命周期</strong>决不能超出其引用目标</font></li>
+<li>Rust把创建对某个值的引用的操作称为<strong>借用(borrow)</strong>那个值：<font color="red">凡是借用，终须归还</font></li>
+<li>引用本身确实没什么特别之处-说到底，它们只是地址而已
+<ul>
+<li>但用以让引用保持安全的规则，对Rust来说是一种创新</li>
+</ul></li>
+</ul>
+<ol type="1">
+<li><p>对值的引用</p>
+<ul>
+<li>引用能让在不影响其所有权的情况下访问值
+<ul>
+<li><strong>共享引用</strong>：允许你读取但不能修改其引用目标，可以同时拥有任意数量对特定值的共享引用。
+<ul>
+<li>类型写成：<code>&amp;T</code></li>
+<li>共享引用是Copy类型</li>
+</ul></li>
+<li><strong>可变引用</strong>：允许你读取和修改值，一旦一个值拥有了可变引用，就无法对该值创建其它任何引用。
+<ul>
+<li>类型写成: <code>&amp;mut T</code></li>
+<li>可变引用不是Copy类型</li>
+</ul></li>
+</ul></li>
+<li>可以将共享引用和可变引用之间的区别视为在编译期强制执行<strong>多重读取</strong>或<strong>单一写入</strong>
+<ul>
+<li>这条规则不仅适用于引用，也适用于所引用值的拥有者</li>
+<li>只要存在一个值的共享引用，即使是它的拥有者也不能修改它，该值会被锁定</li>
+</ul></li>
+<li>事实证明：<font color="red">让共享和修改保证完全分离对内存安全至关重要</font></li>
+</ul></li>
+<li><p>由于引用在Rust中随处可见，因此<strong>.运算符</strong>就会按需对其左操作数隐式解引用</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">struct</span> Anime <span class="op">{</span> name<span class="op">:</span> <span class="op">&amp;</span><span class="ot">'static</span> <span class="dt">str</span><span class="op">,</span> bechdel_pass<span class="op">:</span> <span class="dt">bool</span><span class="op">};</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">let</span> aria <span class="op">=</span> Anime <span class="op">{</span> name<span class="op">:</span> <span class="st">"Aria: The Animation"</span><span class="op">,</span> bechdel_pass<span class="op">:</span> <span class="cn">true</span><span class="op">};</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">let</span> anime_ref <span class="op">=</span> <span class="op">&amp;</span>aria<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="pp">assert_eq!</span>(anime_ref<span class="op">.</span>name<span class="op">,</span> <span class="st">"Aria: The Animation"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>在Rust中使用<code>&amp;运算符</code>和<code>*运算符</code>来创建引用(借用)和追踪引用(解引用),不过<code>.运算符</code>不需要做这种转换，它会隐式借用和解引用</li>
+</ul></li>
+<li><p>对引用进行引用</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource rust number-lines code-with-copy"><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">struct</span> Point <span class="op">{</span>x<span class="op">:</span> <span class="dt">i32</span><span class="op">,</span> y<span class="op">:</span> <span class="dt">i32</span><span class="op">};</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">let</span> point <span class="op">=</span> Point <span class="op">{</span>x<span class="op">:</span> <span class="dv">1000</span><span class="op">,</span> y<span class="op">:</span> <span class="dv">729</span><span class="op">};</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">let</span> r<span class="op">:</span> <span class="op">&amp;</span>Point <span class="op">=</span> <span class="op">&amp;</span>point<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">let</span> rr<span class="op">:</span> <span class="op">&amp;&amp;</span>Point <span class="op">=</span> <span class="op">&amp;</span>r<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">let</span> rrr<span class="op">:</span> <span class="op">&amp;&amp;&amp;</span>Point <span class="op">=</span> <span class="op">&amp;</span>rr<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>.运算符</code>会追踪尽可能多层次的引用来找到它的目标</li>
+</ul></li>
+<li><p>比较引用</p>
+<ul>
+<li>就像<code>.运算符</code>一样，Rust的比较运算符也能<strong>看穿</strong>任意数量的引用</li>
+<li>比较运算符操作数(包括引用型操作数)必须是完全相同类型
+<ul>
+<li>比如如上代码中<code>r</code>与<code>rr</code>类型不匹配</li>
+</ul></li>
+<li>两个引用是否指向同一块内存，可以使用<code>std::ptr::eq</code>，会对两者作为地址进行比较</li>
+</ul></li>
+<li><p>引用永不为空</p>
+<ul>
+<li>在Rust中，如果需要用一个值来表示对某个<strong>可能不存在</strong>事物的引用，请使用<code>Option&lt;&amp;T&gt;</code></li>
+<li>在机器级别，Rust会将<code>None</code>表示为空指针，将<code>Some(r)</code>表示为非零地址，因此<code>Option&lt;&amp;T&gt;</code>与C/C++中的可空指针一样高效，但更安全
+<ul>
+<li>它的类型要求你在使用之前必须检查它是否为<code>None</code></li>
+</ul></li>
+</ul></li>
+<li><p>对切片和特型对象的引用</p>
+<ul>
+<li>Rust还包括两种<strong>胖指针</strong>，即携带某个值地址的双字值，以及要正确使用该值所需的某些额外信息
+<ul>
+<li>对切片的引用就是一个胖指针，携带着此切片的<strong>起始地址</strong>及其<strong>长度</strong></li>
+<li>另一种胖指针是<strong>特型对象</strong>，即对实现了指定型的值的引用</li>
+</ul></li>
+</ul></li>
+<li><p>Rust的<strong>可变与共享</strong>规则</p>
+<ul>
+<li>共享访问是只读访问
+<ul>
+<li>对于共享借用，这条路径是只读的</li>
+</ul></li>
+<li>可变访问是独占访问
+<ul>
+<li>对于可变借用，这条路径是完全不可访问的</li>
+<li>通过要求可变访问必须是独占的，Rust避免了一大类日常错误</li>
+</ul></li>
+<li>在编写并发代码时，共享引用和可变引用的互斥性确实证明了其价值</li>
+</ul></li>
+</ol>
+</section>
+<section id="表达式" class="level3">
+<h3 class="anchored" data-anchor-id="表达式">表达式</h3>
+<ul>
+<li>Rust中完全面向表达式的控制流
+<ul>
+<li><code>if表达式</code>可用于初始化变量</li>
+<li><code>match表达式</code>可以作为参数传给函数或宏</li>
+<li>块是一种最通用的表达式，一个块生成一个值</li>
+<li><code>if let表达式</code>其实只有一个模式的<code>match表达式</code>的简写形式</li>
+<li><code>match表达式</code>的所有分支都必须具有<strong>相同的类型</strong></li>
+<li><code>while循环</code>或<code>for循环</code>的值总是<code>()</code></li>
+<li><code>loop表达式</code>就能生成一个值
+<ul>
+<li>loop中所有<code>break表达式</code>也必须生成具有相同类型的值，这样该类型就会成为这个loop本身的类型</li>
+</ul></li>
+<li><code>..</code>运算符会生成一个<strong>范围</strong>(range)，即具有两个字段(start和end)的简单结构体</li>
+<li><code>break表达式</code>会退出所在循环</li>
+</ul></li>
+<li>几个重要的自动转换
+<ul>
+<li><code>&amp;String</code>类型的值会自动转换为<code>&amp;str</code>类型，无须强制转换</li>
+<li><code>&amp;Vec&lt;i32&gt;</code>类型的值会自动转换为<code>&amp;[i32]</code></li>
+<li><code>&amp;Box&lt;Chessboard&gt;</code>类型的值自动转换为<code>&amp;Chessboard</code></li>
+<li>以上这些被称为隐式解引用，因为它们适用于所有实现了内置特型<code>Deref</code>的类型
+<ul>
+<li><code>Deref</code>隐式转换的目的是使智能指针类型的行为尽可能像其底层值</li>
+<li>多亏了<code>Deref</code>，<code>Box&lt;Chessboard&gt;</code>的用法基本上和普通<code>Chessboard</code>的用法一样</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="crate与模块" class="level3">
+<h3 class="anchored" data-anchor-id="crate与模块">crate与模块</h3>
+<ul>
+<li>crate
+<ul>
+<li>每个crate都是既完整又内聚的单元</li>
+<li>包含单个库或可执行程序的所有源代码</li>
+</ul></li>
+<li>crate是关于项目间代码共享的，而模块是关于项目内代码组织的
+<ul>
+<li>它们(crate与module)扮演着Rust命名空间的角色，是构成Rust程序或库的函数、类型、常量等的容器</li>
+</ul></li>
+<li>函数标记为<code>pub(crate)</code>
+<ul>
+<li>那么就意味着它可以再这个crate的任何地方使用</li>
+<li>但不会作为外部接口的一部分公开</li>
+</ul></li>
+<li>预导入(prelude)
+<ul>
+<li>它们通过收集几乎所有用户都需要的常用导入，减少了样板代码的编写</li>
+<li>把一个模块命名为<code>prelude</code>只是一种约定，旨在告诉用户应该使用<code>*</code>导入它</li>
+</ul></li>
+<li>模块
+<ul>
+<li>目录可以作为一个模块，目录名为模块名
+<ul>
+<li>目录中包含<code>mod.rs</code>,表示是一个模块，类似Python语言的<code>__init__.py</code></li>
+</ul></li>
+<li>文件可以作为一个模块，文件名为模块名</li>
+<li>自定义文件中的模块
+<ul>
+<li>使用<code>mod</code>关键字</li>
+</ul></li>
+<li><code>::</code>运算符用于访问模块中的各项特型</li>
+<li>关键字<code>super</code>和<code>crate</code>在路径中有着特殊的含义
+<ul>
+<li><code>super</code>指的是父模块</li>
+<li><code>crate</code>指的是当前模块所在的<code>crate</code></li>
+</ul></li>
+<li><code>as</code>关键字可以给导入的内容重命名</li>
+<li>绝对路径
+<ul>
+<li>以<code>::</code>开头，总会引用外部<code>crate</code></li>
+</ul></li>
+<li><code>src/lib.rs</code>中代码构成了库的<strong>根模块</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="结构体" class="level3">
+<h3 class="anchored" data-anchor-id="结构体">结构体</h3>
+<ul>
+<li>Rust有三种结构体类型
+<ul>
+<li>具名字段型结构体</li>
+<li>元组型结构体</li>
+<li>单元型结构体</li>
+</ul></li>
+<li>具名字段型结构体
+<ul>
+<li>Rust中的约定是
+<ul>
+<li>所有类型(包括结构体)的名称都将每个单词的第一个字母大写，称为<strong>大驼峰式</strong></li>
+<li>字段和方法是小写的，单词之间用下划线分隔，称为<strong>蛇形格式</strong></li>
+</ul></li>
+<li>结构体默认情况下是私有的
+<ul>
+<li>仅在声明它们的模块及其子模块中可见</li>
+<li>即使一个结构体声明为<code>pub</code>，它的字段也可以是私有的</li>
+<li>其它模块可以使用此结构体及其任何公共的关联函数，但不能按名称访问私有字段或使用<strong>结构体表达式</strong>创建新值</li>
+</ul></li>
+</ul></li>
+<li>用impl定义方法
+<ul>
+<li><code>impl块</code>只是<code>fn</code>定义的<strong>集合</strong>，每个定义都会成为<strong>块顶部命名</strong>的结构体类型上的一个方法</li>
+<li>在<code>impl块</code>中定义的函数称为<strong>关联函数</strong>，因为它们是与特定类型相关联的</li>
+<li>Rust会将调用关联函数的结构体值作为第一个参数传给方法
+<ul>
+<li>该参数必须具有特殊名称<code>self</code></li>
+<li>由于<code>self</code>的类型显然就是在<code>impl块</code>顶部命名的类型或对该类型的引用</li>
+<li>self的不同形式
+<ul>
+<li><code>self</code></li>
+<li><code>&amp;self</code></li>
+<li><code>&amp;mut self</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>以<code>Box</code>、<code>Rc</code>或<code>Arc</code>形式传入<code>self</code>
+<ul>
+<li>方法的self参数也可以是<code>Box&lt;Self&gt;</code>类型，<code>Rc&lt;Self&gt;</code>类型或<code>Arc&lt;Self&gt;</code>类型</li>
+<li>Rust会自动从<code>Box</code>、<code>Rc</code>、<code>Arc</code>等指针类型中借入引用
+<ul>
+<li>因此<code>&amp;self</code>和<code>&amp;mut self</code>几乎总是方法签名里的正确选择</li>
+</ul></li>
+</ul></li>
+<li>类型关联函数
+<ul>
+<li>impl块还可以定义根本不以self参数的函数</li>
+<li>这些函数仍然是关联函数，因为它们在impl块中</li>
+<li>但它们不是方法，因为它们不接受self参数</li>
+<li>为了将它们与方法区分开来，我们称其为<strong>类型关联函数</strong></li>
+</ul></li>
+<li>泛型结构体
+<ul>
+<li>Rust结构体可以是泛型的
+<ul>
+<li>在泛型结构体定义中，尖括号(&lt;&gt;)中的类型名称叫作<strong>类型参数</strong></li>
+<li><code>Self</code>参数定义为我们要为其添加方法的任意类型。</li>
+<li>调用关联函数时，使用<code>::&lt;&gt;</code>(比目鱼)表示法显式地提供类型参数</li>
+</ul></li>
+</ul></li>
+<li>带生命周期参数的泛型结构体
+<ul>
+<li>如果结构体类型包括引用，则必须为这些引用的生命周期命名</li>
+</ul></li>
+<li>带常量参数的泛型结构体
+<ul>
+<li>常量泛型参数可以是任意<code>整数类型</code>、<code>char</code>或<code>bool</code></li>
+<li>不允许使用浮点数、枚举和其他类型</li>
+<li>如果结构体还接受其他种类的泛型参数
+<ul>
+<li>则<strong>生命周期</strong>参数必须排在第一位，然后是<strong>类型</strong>，接下来是任何<strong>const值</strong></li>
+</ul></li>
+</ul></li>
+<li>内部可变性
+<ul>
+<li>我们需要一个不可变值中的一丁点儿可变数据，称为<strong>内部可变性</strong></li>
+<li><code>Cell&lt;T&gt;</code>是一个包含类型<code>T</code>的单个私有值的结构体</li>
+<li><code>Cell</code>唯一的特殊之处在，即使你对<code>Cell</code>本身没有<code>mut</code>访问权限，也可以获取和设置这个私有字段</li>
+<li><code>Cell</code>只是改变不变性规则的一种安全方式
+<ul>
+<li>一丝不多，一毫不少</li>
+<li><code>Cell</code><strong>不允许</strong>在共享值上调用<code>mut方法</code></li>
+<li><code>.get()</code>方法会返回<code>Cell</code>中值的副本，因此它仅在<code>T</code>实现了<strong>Copy特型</strong>时才有效</li>
+</ul></li>
+<li><code>Cell</code>很容易使用
+<ul>
+<li>虽然不得不调用<code>.get()</code>和<code>.set()</code>或<code>.borrow()</code>和<code>.borrow_mut()</code>略显尴尬</li>
+<li>但这就是我们为违反规则而付出的代价</li>
+</ul></li>
+<li><code>Cell</code>不是线程安全的</li>
+<li>与<code>Cell</code>不用，<code>RefCell</code>支持借用对其<code>T</code>值的引用</li>
+</ul></li>
+</ul>
+</section>
+<section id="枚举与模式" class="level3">
+<h3 class="anchored" data-anchor-id="枚举与模式">枚举与模式</h3>
+<ul>
+<li>Rust模式有点像针对所有数据的正则表达式</li>
+<li>枚举可以是泛型的，如<code>Option&lt;T&gt;</code>,<code>Result&lt;T&gt;</code></li>
+<li>只能用一种安全的方式来访问枚举中的数据，即使用模式</li>
+<li><code>match表达式</code>中，模式就是出现在<code>=&gt;</code>符号前面的部分</li>
+<li><strong>表达式</strong>会生成值，<strong>模式</strong>会消耗值</li>
+<li>模式匹配可以和枚举协同工作，甚至可以测试它们包含的数据，这让match成了C的switch语句的强大而灵活的替代品</li>
+<li>match也可用来匹配其他类型
+<ul>
+<li>字面量、变量、通配符等</li>
+<li>字面量也可以用作模式，包括布尔值、字符，甚至字符串</li>
+<li>不关心匹配的值，那么可以用单个下划线<code>_</code>作为模式，这就是<strong>通配符模式</strong></li>
+</ul></li>
+<li>元组型模式匹配元组</li>
+<li>结构体型模式使用花括号，就像结构体表达式一样</li>
+<li>数组型模式与切片模式
+<ul>
+<li>切片模式不仅匹配值，还匹配长度</li>
+</ul></li>
+<li>引用型模式
+<ul>
+<li><code>ref模式</code>会借用己匹配值的一部分</li>
+<li><code>&amp;模式</code>会匹配引用`</li>
+<li>匹配不可复制的值会移动该值</li>
+</ul></li>
+</ul>
+</section>
+<section id="特型与泛型" class="level3">
+<h3 class="anchored" data-anchor-id="特型与泛型">特型与泛型</h3>
+<ul>
+<li>Rust通过两个相关联的特性来支持多态
+<ul>
+<li><strong>特型</strong>和<strong>泛型</strong></li>
+</ul></li>
+<li>特型
+<ul>
+<li>是Rust体系中的<strong>接口</strong>或<strong>抽象基类</strong></li>
+<li>是一种语言特性，我们可以说某类型支持或不支持某个<strong>特型</strong></li>
+<li>大多数情况下，<strong>特型</strong>代表着一种能力，即一个类型能做什么</li>
+<li><strong>特型</strong>本身必须在作用域内
+<ul>
+<li><code>Clone</code>和<code>Iterator</code>的各个方法没有导入就能工作，因为默认它们始终在作用域中，是标准库一部分</li>
+<li>预导入主要就是一些精心挑选的<strong>特型</strong></li>
+</ul></li>
+</ul></li>
+<li>泛型
+<ul>
+<li>是Rust中多态的另一种形式</li>
+</ul></li>
+<li>界限
+<ul>
+<li>对类型<code>T</code>可能的类型范围做了<strong>限制</strong></li>
+</ul></li>
+<li>泛型和特型的紧密相关
+<ul>
+<li><strong>泛型函数</strong>会在<strong>限界</strong>中使用<strong>特型</strong>来阐明它能针对哪些类型的参数进行调用</li>
+</ul></li>
+</ul>
+<ol type="1">
+<li><p>为什么向类型添加特型不需要额外的内存，以及如何在不需要虚方法调用开销的情况下使用特型</p></li>
+<li><p>特型对象</p>
+<ul>
+<li>在Rust中使用<strong>特型</strong>编写多态代码有两种方式：
+<ul>
+<li><strong>特型对象</strong></li>
+<li><strong>泛型</strong></li>
+</ul></li>
+<li>对<strong>特型类型</strong>的<strong>引用</strong>叫作<strong>特型对象</strong></li>
+<li>Rust通常无法在编译期间知道引用目标的类型，因此特性对象要包含一些关于引用目标类型的额外信息</li>
+<li>特型对象的内存布局
+<ul>
+<li>特型对象是一个胖指针</li>
+<li>由<strong>指向值的指针</strong>和<strong>指向表示该值类型</strong>的<strong>虚表的指针</strong>组成</li>
+<li>在Rust中，<strong>虚表</strong>只会在编译期生成一次，并由<strong>同一类型的所有对象共享</strong></li>
+<li>当调用<strong>特型对象</strong>的方法时，该语言会自动使用<strong>虚表</strong>来确定调用哪个实现</li>
+<li>在C++中，<strong>虚表指针</strong>或<strong>vptr</strong>是作为<em>结构体的一部分存储</em>，而Rust是胖指针方案</li>
+<li>Rust中，<strong>结构体</strong>本身只包含自己的字段
+<ul>
+<li>这样一来，每个结构体就可以实现几十个<strong>特型</strong>而不必包含几十个<strong>vptr</strong>了</li>
+</ul></li>
+<li>Rust在需要时会自动将普通引用转换为<strong>特型对象</strong></li>
+<li>创建<strong>特型对象</strong>的唯一方法
+<ul>
+<li><code>&amp;mut dyn train_name</code></li>
+<li><code>&amp;mut dyn Write</code>和<code>Box&lt;dyn Write&gt;</code>也是一个胖指针，包含写入器本身的地址和虚表的地址</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>特型对象还是泛型代码的选择相当微妙</p>
+<ul>
+<li>由于这两个特性都基于<strong>特型</strong></li>
+<li>当需要一些混合类型值的集合时，<strong>特型对象</strong>是正确的选择</li>
+</ul></li>
+<li><p>与<strong>特型对象</strong>相比，<strong>泛型</strong>具有三个重要优势</p>
+<ul>
+<li>第一个优势是速度，没有<code>dyn</code>则不会有动态派发，没有运行期开销</li>
+<li>第二个优势在于并不是每个特性都能支持<strong>特型对象</strong></li>
+<li>第三个优势是它很容易同时指定具有多个<strong>特型</strong>和泛型参数限界，<strong>特型对象</strong>不能这样</li>
+</ul></li>
+<li><p>定义与实现特型</p>
+<ul>
+<li>定义<strong>特型</strong>很简单，给它一个名字并列出<strong>特型方法</strong>的类型签名即可</li>
+<li>要实现<strong>特型</strong>，请使用语法<code>impl TraitName for Type</code></li>
+<li><strong>特型</strong>的<code>impl</code>代码中定义一切都必须是真正属于此特型的</li>
+<li>自定义函数不能放在<strong>特型的impl</strong>代码中，只能包含在单独的<code>impl块</code>中</li>
+<li><strong>特型的impl</strong>代码中的一切都必须是真正属于此<strong>特型</strong></li>
+<li><strong>特型</strong>中有未实现的函数，也有已实现的函数</li>
+</ul></li>
+<li><p>特型中的Self</p>
+<ul>
+<li><strong>特型</strong>可以用关键字<code>Self</code>作为类型</li>
+<li>使用了<code>Self</code>类型的<strong>特型</strong>与<strong>特型对象</strong>不兼容</li>
+<li><strong>特型对象</strong>实际上是为最简单的<strong>特型类型</strong>而设计的</li>
+<li><strong>特型</strong>的高级特性很有用，但它们不能与<strong>特型对象</strong>共存
+<ul>
+<li>因为一旦有了<strong>特型对象</strong>，就会失去Rust对你的程序进行类型检查时所必须的类型信息</li>
+</ul></li>
+</ul></li>
+<li><p>impl Trait</p>
+<ul>
+<li>是一种静态派发形式</li>
+<li>Rust不允许特型方法使用<code>impl Trait</code>作为返回值</li>
+<li>只有最简单的泛型函数中才能把<code>impl Trait</code>参数用作类型，参数的类型之间不能存在关系</li>
+</ul></li>
+<li><p>类型限界的另一个优点</p>
+<ul>
+<li>当遇到编译期错误时，至少编译期可以告诉你问题出在哪里</li>
+<li>限界就这么写在代码和文档中，你可以查看Rust中泛型函数的签名</li>
+<li>并准确了解它能接受的参数类型</li>
+<li>而使用模版则做不到这些</li>
+</ul></li>
+<li><p>以特型为基础</p>
+<ul>
+<li><strong>特型</strong>和<strong>泛型</strong>在所有这些主题中都扮演着<strong>核心角色</strong></li>
+</ul></li>
+</ol>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com">
+      <i class="bi bi-email" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
