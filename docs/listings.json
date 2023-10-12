@@ -3,6 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/clip/index.html",
+      "/posts/feature_engineering/index.html",
       "/posts/rust_notes/index.html",
       "/posts/candle_intro/index.html",
       "/posts/rust-prelude/index.html",
