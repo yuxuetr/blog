@@ -98,13 +98,6 @@
     "text": "使用Poetry做Python的项目管理工具，集成到Github Actions，包含以下内容: - Check out 代码仓库 - 启动Python环境，可以限制版本，也可以使用多个版本 - 安装Poetry - 设置虚拟环境缓存 - 安装依赖 - 代码格式化(yapf) - 代码静态类型检查(pytype) - 代码测试，以及覆盖率测试报告\nGithub Action workflow 配置如下:\nname: CI\non: push\n\njobs:\n  ci:\n    strategy:\n      fail-fast: false\n      matrix:\n        python-version: [\"3.8.5\"]\n        poetry-version: [\"1.2.2\"]\n        os: [ubuntu-18.04]\n    runs-on: ${{ matrix.os }}\n    steps:\n      - name: Check out repository\n        uses: actions/checkout@v3\n      - name: Set up Python\n        uses: actions/setup-python@v4\n        with:\n          python-version: ${{ matrix.python-version }}\n      - name: Install Poetry\n        uses: snok/install-poetry@v1\n        with:\n          virtualenvs-create: true\n          virtualenvs-in-project: true\n          installer-parallel: true\n      - name: Load cached venv\n        id: cached-poetry-dependencies\n        uses: actions/cache@v3\n        with:\n          path: .venv\n          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}\n\n      - name: Install Denpendencies\n        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'\n        run: poetry install --no-interaction --no-root\n\n      - name: Code Format\n        run: poetry run yapf\n\n      - name: Type Check\n        run: poetry run pytype --config=pytype.cfg\n\n      - name: Testing and coverage\n        run: poetry run pytest --cov"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "曳影",
-    "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nSep 28, 2023\n\n\nRust程序设计知识点\n\n\n曳影 \n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/rust-prelude/index.html",
     "href": "posts/rust-prelude/index.html",
     "title": "Rust Prelude",
@@ -131,6 +124,90 @@
     "title": "Rust Prelude",
     "section": "什么时候不使用Rust Prelude",
     "text": "什么时候不使用Rust Prelude\n\n名称冲突：Prelude到处了许多常用名称，因此导入具有相同名称的另一个crates可能会导致冲突\n更专业的功能：对于更多特定领域的用例，最好使用专门的crates\n为了提高性能：一些Prelude是通用的，对于高性能需求，专门的crates可能更好"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "曳影",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 12, 2023\n\n\nCLIP\n\n\n曳影 \n\n\n\n\nSep 28, 2023\n\n\nRust程序设计知识点\n\n\n曳影 \n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/clip/index.html",
+    "href": "posts/clip/index.html",
+    "title": "CLIP",
+    "section": "",
+    "text": "由图像分类模型生成的现成特征已被用于图像检索等其他任务中。\n但是，这些特征的通用性不强，\n因为分类模型是为识别一组固定的类别而训练的。\n要在这组类别中添加任何新类别，\n都需要为这一新类别收集额外的标注图像，\n然后重新训练模型。\n这是一个耗时且昂贵的过程。\n能否利用自监督学习技术来解决这一问题？\n能否利用图像说明来生成更好的图像表征并避免标注成本？ 也就是说，能否使用自然语言作为监督来学习视觉感知？\n\n\n\n作者提出了一项预训练任务(CLIP = Contrastive Language Pre-training),\n\n即预测哪张图片配哪句标题，以便从头开始学习SOTA图像表征。\n\n为此，他们创建了一个从互联网上收集的包含4亿个(图片、文本)配对的数据集:\n\n这种预先训练好的模型可以不费吹灰之力地应用到大多数任务中\n而且不需要任何特定数据集的训练，就能与完全有监督的基线模型相媲美。\n\n\n\n\nCLIP从监督图像描述(supervised image captioning):\n\n每张图片(image)都有相应的标题(caption),\n用来训练一个模型，\n预测相应图片标题中的准确词语。\n\n这是一项艰巨的任务，因为一幅图像可以有多种不同的描述方式，但仍能表达相同的含义。\n\n\n\n对比预训练:\n\n考虑一批N个图像(images)及其相应的N个标题(captions)。\n有了这些，我们可以再批次中创建NxN可能的(图像、文本)配对。\n现在，任务是预测批次中的N个真实对\n\n为此，CLIP通过联合训练:\n\n图像编码器和文本编码器\n来学习多模态嵌入空间。\n图像编码器产生特征向量I;\n类似地，文本编码器产生一个特征向量T;\n\n\n对于N个实数对，我们希望最大化I和T之间的余弦相似度\n对于\\(N^2-N\\)不正确的配对，我们希望最小化I和T之间的余弦相似度\n\n\n\n\n|----------|      |---------------|      |----------|\n|  Image   | ---&gt; | Image Encoder | ---&gt; | I Vector | ---------------|\n|----------|      |---------------|      |----------|                V\n                                                             |---------------|\n                                                             |               |\n                                                             |               |\n                                                             |               |\n|----------|      |---------------|      |----------|        |               |\n|   Text   | ---&gt; | Text Encoder  | ---&gt; | T Vector |------&gt; |               |\n|----------|      |---------------|      |----------|        |---------------|\n\n\n\n图片来源于论文\n\n\n\n\n\n考虑图像分类任务， 预测时，对于单张图像，图像编码器将生成一个特征向量\\(I_1\\) 为了识别图像类别， 文本编码器会嵌入目标数据集的类别名称， 生成N个特征向量\\(T_1,T_2,......\\),以此类推。 N表示目标数据集中的类别数\nCreate dataset classifier from label text\n|-------|\n| plane |\n| car   |        |-----------------------|                   |--------------|\n| dog   | -----&gt; | A photo of a {object} | ----------------&gt; | Text Encoder |\n| bird  |        |-----------------------|                   |--------------|\n| cat   |                                                            |\n|-------|                                                            |\n                                                                     |\nUse for zero-shot prediction                                         V\n|-------|        |---------------|        |-----|     |-----|-----|-----|-----|-----|\n| Image | -----&gt; | Image Encoder | -----&gt; | I_1 |     | T_1 | T_2 | T_3 | ... | T_N |\n|-------|        |---------------|        |-----|     |-----|-----|-----|-----|-----|\n                                             |                                   |\n                                             |        .*                         |  \n                                             |-----------------------------------|\n                                                                 |\n                                                                 V    \n                                          |--------|--------|--------|-----|--------|\n                                          |I_1.*T_1|I_1.*T_2|I_1.*T_3| ... |I_1.*T_N|\n                                          |--------|--------|--------|-----|--------|\n                                                                 |\n                                                                 V\n                                                        |--------------------|\n                                                        | A photo of a `dog` |\n                                                        |--------------------|\n\n\n\n图片来源于论文\n\n\n\n\n\n\n对于图像编码器，作者评估了两种不同的架构： - ResNet-50 - ViT\n\n\n他们使用了改进的ResNet-D架构,\n并进行了抗锯齿矩阵-2模糊池化(anti-aliased rect-2 blur pooling)处理。\n他们还用Transformer-style attention pooling mechanism替换了global average pooling layer\n\n\n\n作者在Transformer之前\n组合patch和position embedding进行了额外的归一化处理( use an additional layer normalization to the combined patch and position embedding)，\n并使用了略有不同的初始化方案。\n\n\n\n使用本文中描述的具有:\n\n6300万个参数(12层 512-wide)\n8个注意力头的Transformer\n\n\n\n\n\n作者训练的模型包括：\n\n5个ResNet\n\nResNet-50\nResNet-101\n3个EfficientNet风格的ResNet模型\n\n3个ViT\n\nViT-B/32\nViT-B/16\nViT-L/14\n\nThe models are trained：\n\n32 epochs\nusing Adam optimizer with decoupled weight decay regularization\ndecay the learning rate using a cosine schedule\nused a very large minibatch size of 32,768\n\n\n\n\n\n图像分类数据集标注了与类名相对应的label IDs\n由于CLIP模式在文本为一个完整句子的情况下进行训练的，\n因此作者发现使用提示模版(prompt template)A photo of a {label}，\n是与图像相关联的文本的良好默认设置。\n我们可以看到在36各分类数据集中，使用提示工程的分类准确率提高了5个百分点。\n\n\n\n图片来源于论文\n\n\n\n\n\n在27个数据集中的16个数据集上:\n\nzero-shot CLIP分类器的表现优于基于ResNet-50特征的监督线性分类器。\n不过，在大多数数据集上，CLIP的性能仍低于最新水平\n\n\n\n\n图片来源于论文\n\n\n\n\n\n\nCLIP以下任务上性能不佳\n\ncounting object in an image\nfinding the distance to the nearest object object in an image\n\n在MNIST等分布外数据集上的表现非常差\n\n在数字OCR上性能很好\n但在识别MNIST手写数字方面却不好(准确率88%)\n\n使用CLIP进行few-shot learning会导致性能不佳\n\nfrom zero-shot to few-shot learning时，性能会出现反直觉的下降\n\n由于CLIP是根据互联网上查询的文本图像对进行训练的\n\n因此它将会学习许多社会偏见\n\n\n\n\n\nNotes on CLIP: Connecting Text and Images\nCLIP paper"
+  },
+  {
+    "objectID": "posts/clip/index.html#监督学习的局限性",
+    "href": "posts/clip/index.html#监督学习的局限性",
+    "title": "CLIP",
+    "section": "",
+    "text": "由图像分类模型生成的现成特征已被用于图像检索等其他任务中。\n但是，这些特征的通用性不强，\n因为分类模型是为识别一组固定的类别而训练的。\n要在这组类别中添加任何新类别，\n都需要为这一新类别收集额外的标注图像，\n然后重新训练模型。\n这是一个耗时且昂贵的过程。\n能否利用自监督学习技术来解决这一问题？\n能否利用图像说明来生成更好的图像表征并避免标注成本？ 也就是说，能否使用自然语言作为监督来学习视觉感知？"
+  },
+  {
+    "objectID": "posts/clip/index.html#主要贡献",
+    "href": "posts/clip/index.html#主要贡献",
+    "title": "CLIP",
+    "section": "",
+    "text": "作者提出了一项预训练任务(CLIP = Contrastive Language Pre-training),\n\n即预测哪张图片配哪句标题，以便从头开始学习SOTA图像表征。\n\n为此，他们创建了一个从互联网上收集的包含4亿个(图片、文本)配对的数据集:\n\n这种预先训练好的模型可以不费吹灰之力地应用到大多数任务中\n而且不需要任何特定数据集的训练，就能与完全有监督的基线模型相媲美。"
+  },
+  {
+    "objectID": "posts/clip/index.html#背景",
+    "href": "posts/clip/index.html#背景",
+    "title": "CLIP",
+    "section": "",
+    "text": "CLIP从监督图像描述(supervised image captioning):\n\n每张图片(image)都有相应的标题(caption),\n用来训练一个模型，\n预测相应图片标题中的准确词语。\n\n这是一项艰巨的任务，因为一幅图像可以有多种不同的描述方式，但仍能表达相同的含义。"
+  },
+  {
+    "objectID": "posts/clip/index.html#contrastive-pre-training对比预训练",
+    "href": "posts/clip/index.html#contrastive-pre-training对比预训练",
+    "title": "CLIP",
+    "section": "",
+    "text": "对比预训练:\n\n考虑一批N个图像(images)及其相应的N个标题(captions)。\n有了这些，我们可以再批次中创建NxN可能的(图像、文本)配对。\n现在，任务是预测批次中的N个真实对\n\n为此，CLIP通过联合训练:\n\n图像编码器和文本编码器\n来学习多模态嵌入空间。\n图像编码器产生特征向量I;\n类似地，文本编码器产生一个特征向量T;\n\n\n对于N个实数对，我们希望最大化I和T之间的余弦相似度\n对于\\(N^2-N\\)不正确的配对，我们希望最小化I和T之间的余弦相似度\n\n\n\n\n|----------|      |---------------|      |----------|\n|  Image   | ---&gt; | Image Encoder | ---&gt; | I Vector | ---------------|\n|----------|      |---------------|      |----------|                V\n                                                             |---------------|\n                                                             |               |\n                                                             |               |\n                                                             |               |\n|----------|      |---------------|      |----------|        |               |\n|   Text   | ---&gt; | Text Encoder  | ---&gt; | T Vector |------&gt; |               |\n|----------|      |---------------|      |----------|        |---------------|\n\n\n\n图片来源于论文\n\n\n\n\n\n考虑图像分类任务， 预测时，对于单张图像，图像编码器将生成一个特征向量\\(I_1\\) 为了识别图像类别， 文本编码器会嵌入目标数据集的类别名称， 生成N个特征向量\\(T_1,T_2,......\\),以此类推。 N表示目标数据集中的类别数\nCreate dataset classifier from label text\n|-------|\n| plane |\n| car   |        |-----------------------|                   |--------------|\n| dog   | -----&gt; | A photo of a {object} | ----------------&gt; | Text Encoder |\n| bird  |        |-----------------------|                   |--------------|\n| cat   |                                                            |\n|-------|                                                            |\n                                                                     |\nUse for zero-shot prediction                                         V\n|-------|        |---------------|        |-----|     |-----|-----|-----|-----|-----|\n| Image | -----&gt; | Image Encoder | -----&gt; | I_1 |     | T_1 | T_2 | T_3 | ... | T_N |\n|-------|        |---------------|        |-----|     |-----|-----|-----|-----|-----|\n                                             |                                   |\n                                             |        .*                         |  \n                                             |-----------------------------------|\n                                                                 |\n                                                                 V    \n                                          |--------|--------|--------|-----|--------|\n                                          |I_1.*T_1|I_1.*T_2|I_1.*T_3| ... |I_1.*T_N|\n                                          |--------|--------|--------|-----|--------|\n                                                                 |\n                                                                 V\n                                                        |--------------------|\n                                                        | A photo of a `dog` |\n                                                        |--------------------|\n\n\n\n图片来源于论文"
+  },
+  {
+    "objectID": "posts/clip/index.html#模型细节",
+    "href": "posts/clip/index.html#模型细节",
+    "title": "CLIP",
+    "section": "",
+    "text": "对于图像编码器，作者评估了两种不同的架构： - ResNet-50 - ViT\n\n\n他们使用了改进的ResNet-D架构,\n并进行了抗锯齿矩阵-2模糊池化(anti-aliased rect-2 blur pooling)处理。\n他们还用Transformer-style attention pooling mechanism替换了global average pooling layer\n\n\n\n作者在Transformer之前\n组合patch和position embedding进行了额外的归一化处理( use an additional layer normalization to the combined patch and position embedding)，\n并使用了略有不同的初始化方案。\n\n\n\n使用本文中描述的具有:\n\n6300万个参数(12层 512-wide)\n8个注意力头的Transformer"
+  },
+  {
+    "objectID": "posts/clip/index.html#训练",
+    "href": "posts/clip/index.html#训练",
+    "title": "CLIP",
+    "section": "",
+    "text": "作者训练的模型包括：\n\n5个ResNet\n\nResNet-50\nResNet-101\n3个EfficientNet风格的ResNet模型\n\n3个ViT\n\nViT-B/32\nViT-B/16\nViT-L/14\n\nThe models are trained：\n\n32 epochs\nusing Adam optimizer with decoupled weight decay regularization\ndecay the learning rate using a cosine schedule\nused a very large minibatch size of 32,768"
+  },
+  {
+    "objectID": "posts/clip/index.html#提示工程的效果effect-of-prompt-engineering",
+    "href": "posts/clip/index.html#提示工程的效果effect-of-prompt-engineering",
+    "title": "CLIP",
+    "section": "",
+    "text": "图像分类数据集标注了与类名相对应的label IDs\n由于CLIP模式在文本为一个完整句子的情况下进行训练的，\n因此作者发现使用提示模版(prompt template)A photo of a {label}，\n是与图像相关联的文本的良好默认设置。\n我们可以看到在36各分类数据集中，使用提示工程的分类准确率提高了5个百分点。\n\n\n\n图片来源于论文"
+  },
+  {
+    "objectID": "posts/clip/index.html#zero-shot-clip-vs.-linear-probe",
+    "href": "posts/clip/index.html#zero-shot-clip-vs.-linear-probe",
+    "title": "CLIP",
+    "section": "",
+    "text": "在27个数据集中的16个数据集上:\n\nzero-shot CLIP分类器的表现优于基于ResNet-50特征的监督线性分类器。\n不过，在大多数数据集上，CLIP的性能仍低于最新水平\n\n\n\n\n图片来源于论文"
+  },
+  {
+    "objectID": "posts/clip/index.html#limitations局限性",
+    "href": "posts/clip/index.html#limitations局限性",
+    "title": "CLIP",
+    "section": "",
+    "text": "CLIP以下任务上性能不佳\n\ncounting object in an image\nfinding the distance to the nearest object object in an image\n\n在MNIST等分布外数据集上的表现非常差\n\n在数字OCR上性能很好\n但在识别MNIST手写数字方面却不好(准确率88%)\n\n使用CLIP进行few-shot learning会导致性能不佳\n\nfrom zero-shot to few-shot learning时，性能会出现反直觉的下降\n\n由于CLIP是根据互联网上查询的文本图像对进行训练的\n\n因此它将会学习许多社会偏见"
+  },
+  {
+    "objectID": "posts/clip/index.html#references",
+    "href": "posts/clip/index.html#references",
+    "title": "CLIP",
+    "section": "",
+    "text": "Notes on CLIP: Connecting Text and Images\nCLIP paper"
   },
   {
     "objectID": "posts/wasm_intro/index.html",

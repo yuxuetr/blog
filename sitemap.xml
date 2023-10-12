@@ -2,62 +2,66 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://github.com/54yeying/blog/about.html</loc>
-    <lastmod>2023-09-30T12:41:07.451Z</lastmod>
+    <lastmod>2023-10-12T09:05:16.335Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/started/index.html</loc>
-    <lastmod>2023-09-30T12:41:06.035Z</lastmod>
+    <lastmod>2023-10-12T09:05:14.571Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/emacs_time_func/index.html</loc>
-    <lastmod>2023-09-30T12:41:05.103Z</lastmod>
+    <lastmod>2023-10-12T09:05:13.375Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust_notes/index.html</loc>
-    <lastmod>2023-09-30T12:41:04.083Z</lastmod>
+    <lastmod>2023-10-12T09:05:12.147Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/program_basic/index.html</loc>
-    <lastmod>2023-09-30T12:41:02.803Z</lastmod>
+    <lastmod>2023-10-12T09:05:10.587Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust_toolchain/index.html</loc>
-    <lastmod>2023-09-30T12:41:02.127Z</lastmod>
+    <lastmod>2023-10-12T09:05:09.695Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/poetry_githubactions/index.html</loc>
-    <lastmod>2023-09-30T12:41:01.419Z</lastmod>
-  </url>
-  <url>
-    <loc>https://github.com/54yeying/blog/index.html</loc>
-    <lastmod>2023-09-30T12:41:00.327Z</lastmod>
+    <lastmod>2023-10-12T09:05:08.939Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust-prelude/index.html</loc>
-    <lastmod>2023-09-30T12:41:01.031Z</lastmod>
+    <lastmod>2023-10-12T09:05:07.755Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/54yeying/blog/index.html</loc>
+    <lastmod>2023-10-12T09:05:06.987Z</lastmod>
+  </url>
+  <url>
+    <loc>https://github.com/54yeying/blog/posts/clip/index.html</loc>
+    <lastmod>2023-10-12T09:05:08.543Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/wasm_intro/index.html</loc>
-    <lastmod>2023-09-30T12:41:01.775Z</lastmod>
+    <lastmod>2023-10-12T09:05:09.291Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/poetry_pyright_doom_emacs/index.html</loc>
-    <lastmod>2023-09-30T12:41:02.427Z</lastmod>
+    <lastmod>2023-10-12T09:05:10.119Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/candle_intro/index.html</loc>
-    <lastmod>2023-09-30T12:41:03.167Z</lastmod>
+    <lastmod>2023-10-12T09:05:11.047Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/rust_sdl2/index.html</loc>
-    <lastmod>2023-09-30T12:41:04.803Z</lastmod>
+    <lastmod>2023-10-12T09:05:13.007Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/convert_latex_to_pptx/index.html</loc>
-    <lastmod>2023-09-30T12:41:05.531Z</lastmod>
+    <lastmod>2023-10-12T09:05:13.951Z</lastmod>
   </url>
   <url>
     <loc>https://github.com/54yeying/blog/posts/kubernetes_the_hard_way/index.html</loc>
-    <lastmod>2023-09-30T12:41:07.163Z</lastmod>
+    <lastmod>2023-10-12T09:05:15.967Z</lastmod>
   </url>
 </urlset>
