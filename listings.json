@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/candle_mnist_linear/index.html",
       "/posts/clip/index.html",
       "/posts/feature_engineering/index.html",
       "/posts/rust_notes/index.html",
