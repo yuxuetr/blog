@@ -431,6 +431,118 @@
     "href": "index.html",
     "title": "曳影",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 16, 2023\n\n\nHuggingFace Candle MNIST Linear Model Training\n\n\n曳影 \n\n\n\n\nOct 12, 2023\n\n\nCLIP\n\n\n曳影 \n\n\n\n\nOct 12, 2023\n\n\n特征工程\n\n\n曳影 \n\n\n\n\nSep 28, 2023\n\n\nRust程序设计知识点\n\n\n曳影 \n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 20, 2023\n\n\nTerminal ls命令显示多姿多彩的颜色\n\n\n曳影 \n\n\n\n\nOct 19, 2023\n\n\nVue3核心概念与Option API\n\n\n曳影 \n\n\n\n\nOct 16, 2023\n\n\nHuggingFace Candle MNIST Linear Model Training\n\n\n曳影 \n\n\n\n\nOct 12, 2023\n\n\nCLIP\n\n\n曳影 \n\n\n\n\nOct 12, 2023\n\n\n特征工程\n\n\n曳影 \n\n\n\n\nSep 28, 2023\n\n\nRust程序设计知识点\n\n\n曳影 \n\n\n\n\nSep 25, 2023\n\n\nRust机器学习框架-HuggingFace Candle\n\n\n曳影 \n\n\n\n\nSep 23, 2023\n\n\nRust Prelude\n\n\n曳影 \n\n\n\n\nSep 18, 2023\n\n\nWebAssembly简单介绍\n\n\n曳影 \n\n\n\n\nSep 17, 2023\n\n\nRust SDL2案例\n\n\n曳影 \n\n\n\n\nFeb 24, 2023\n\n\n从LaTex到PowerPoint\n\n\n曳影 \n\n\n\n\nDec 30, 2022\n\n\nPoetry & Github Action\n\n\n曳影 \n\n\n\n\nDec 9, 2022\n\n\nRust Toolchain常用功能介绍\n\n\n曳影 \n\n\n\n\nDec 2, 2022\n\n\nProgramming Basic Concept\n\n\n曳影 \n\n\n\n\nNov 28, 2022\n\n\nEmacs获取当前系统时间生成文件名\n\n\n曳影 \n\n\n\n\nNov 23, 2022\n\n\nDoom Emacs & Poetry & Pyright管理Python开发环境\n\n\n曳影 \n\n\n\n\nNov 19, 2022\n\n\nKubernetes the hard way\n\n\n曳影 \n\n\n\n\nNov 15, 2022\n\n\n你好, Quarto\n\n\n曳影 \n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html",
+    "href": "posts/ls_colors_terminal/index.html",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "Linux的ls使用不同颜色区分各文件类型，Mac Terminal总是黑白显示，不能方便区分文件类型。\n本文就是要给Mac Terminal中ls命令列出来的文件按照不同类型显示不同颜色。\n\n\n\n使用Homebrew安装Coreutils\nbrew install xz coreutils \n\n\n\ngdircolors --print-database &gt; ~/.dir_colors\n\n\n\n关于颜色编码\n不同类型文件的配色\n\n我们可以用Vim打开.dir_colors文件,就可以看到其中字符的颜色，比如DIR 01:34表示目录呈现34这个颜色 可以对照结尾展示效果中的目录颜色和可执行文件颜色\n\n\n\n颜色编码\n\n\n\n\n\n不同类型文件配色\n\n\n\n\n\n压缩包配色\n\n\n\n\n\n\n如果是Bash则添加在~/.bashrc或~/.bash_profile\n如果是Zsh则添加在~/.zshrc中\n添加内容如下,添加在文件末尾，防止被覆盖:\nif brew list | grep coreutils &gt; /dev/null ; then\n  PATH=\"$(brew --prefix coreutils)/libexec/gnubin:$PATH\"\n  alias ls='ls -F --show-control-chars --color=auto'\n  eval `gdircolors -b $HOME/.dir_colors`\nfi\n\n\n\n\n\n\n最终展示效果"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html#简介",
+    "href": "posts/ls_colors_terminal/index.html#简介",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "Linux的ls使用不同颜色区分各文件类型，Mac Terminal总是黑白显示，不能方便区分文件类型。\n本文就是要给Mac Terminal中ls命令列出来的文件按照不同类型显示不同颜色。"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html#安装工具",
+    "href": "posts/ls_colors_terminal/index.html#安装工具",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "使用Homebrew安装Coreutils\nbrew install xz coreutils"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html#生成颜色定义文件",
+    "href": "posts/ls_colors_terminal/index.html#生成颜色定义文件",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "gdircolors --print-database &gt; ~/.dir_colors\n\n\n\n关于颜色编码\n不同类型文件的配色\n\n我们可以用Vim打开.dir_colors文件,就可以看到其中字符的颜色，比如DIR 01:34表示目录呈现34这个颜色 可以对照结尾展示效果中的目录颜色和可执行文件颜色\n\n\n\n颜色编码\n\n\n\n\n\n不同类型文件配色\n\n\n\n\n\n压缩包配色"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html#添加配置到shell配置文件中",
+    "href": "posts/ls_colors_terminal/index.html#添加配置到shell配置文件中",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "如果是Bash则添加在~/.bashrc或~/.bash_profile\n如果是Zsh则添加在~/.zshrc中\n添加内容如下,添加在文件末尾，防止被覆盖:\nif brew list | grep coreutils &gt; /dev/null ; then\n  PATH=\"$(brew --prefix coreutils)/libexec/gnubin:$PATH\"\n  alias ls='ls -F --show-control-chars --color=auto'\n  eval `gdircolors -b $HOME/.dir_colors`\nfi"
+  },
+  {
+    "objectID": "posts/ls_colors_terminal/index.html#最终显示结果",
+    "href": "posts/ls_colors_terminal/index.html#最终显示结果",
+    "title": "Terminal ls命令显示多姿多彩的颜色",
+    "section": "",
+    "text": "最终展示效果"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html",
+    "href": "posts/vue3_core_and_optionAPI/index.html",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "随着Ajax技术流行，前后端分离越来越流行，前端需要处理越来越复杂的视图和数据，前端也迫切需要一种设计 模式进行分层处理。MVC设计模式进入前端，诞生了backbone.js，但是由于Controller成很薄，做了一些改良。 Angular.js带来MVVM设计模式。\nMVVM的组成:\n\nM: Model(数据层)\nV: View(视图层)\nVM: viewModel层\n\n核心思想:\n\n不让Model和View直接层，而是通过VM层连接起来。\nviewModel能够观察到数据的变化，并对视图对应的内容进行自动更新\nviewModel能够监听到视图的变化，并能够通知数据发生变化\n\nVue：\n\n不完全遵循MVVM模式\n也可以直接操作原生DOM，也可以直接去操作V层\nVue.createApp挂载HTML标签，产生vm\n\n                        ViewModel\n                  |---------------------|\n                  |                     |\n|------|          |  |---------------|  |          |---------|\n|      |----------|--| DOM Listeners |--|---------&gt;|         |\n|      |          |  |---------------|  |          |         |\n| View |          |                     |          |  Model  |\n|      |          |  |---------------|  |          |         |\n|      |&lt;---------|--| Data Bindings |--|----------|         |\n|------|          |  |---------------|  |          |---------|\n  DOM             |                     |    \"Plain JavaScript Objects\"\n                  |---------------------|\n                            Vue\n\n\n\nlet vm = createApp({\n  data: {},     // 数据\n  methods: {},  // 方法\n  computed: {}, // 计算属性\n  watch: {},    // 侦听器\n  mounted() {}  // 钩子函数\n})\n优势：\n\n只有一个参数，接受一个对象，包含各类属性，比如data,methods等\n非常清晰，语法化特别强\n非常适合默认值\nthis表示vm，操作比较方便\n\n\n\n\n\n声明式编程\n\n不需要编写具体实现，直接调用声明就可以实现功能\n\nVue中的声明式编程\n\n数据通过{{ }}模版语法来完成\n模版语法支持JS表达式\n\n支持各类表达式\n不支持if判断\n\n\n响应式数据实现原理\n\n通过Proxy对象实现\n使用Proxy监控数据\n\n更改值时触发set方法\n获取值时触发get方法\n\n\n&lt;div id='app'&gt;&lt;/div&gt;\n&lt;script&gt;\n  let data = new Proxy(\n    {\n      msg: \"Hello world\",\n    },\n    {\n      get(target) {\n        console.log(\"get func call\")\n        return target.msg\n      },\n      set(target, key, value) {\n        console.log(\"set func call\")\n        app.innerHTML = value\n      }\n    }\n  )\n\n  app.innerHTML = data.msg\n  setTimeout(() =&gt; {\n    data.msg = \"Hello Vue\"\n  }, 2000)\n&lt;/script&gt;\n\n\n\n\n\n指令系统\n\n通过自定义属性实现的一套功能，也是声明式编程的体现\n在Vue中，通常是添加以v-*字样\n\n常用指令\n\nv-bind:：操作标签属性，可通过:简写\nv-on:：操作事件，可通过@简写\n\n修改例子代码\n\n操作title属性\n点击事件\n\n&lt;div id=\"app\"&gt;\n  &lt;p :title=\"message\"&gt;这是一个段落&lt;/p&gt;\n  &lt;button @click=\"message = 'hi' \"&gt;点击&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\n  let vm = Vue.createApp(\n    data(){\n      return {\n        message: 'hello'\n      }\n    }\n  ).mount('#app')\n&lt;/script&gt;\n添加事件方法例子代码\n\n获取事件使用$event参数\n传参在事件函数调用处传参\n\n&lt;div id=\"app\"&gt;\n  &lt;button @click=\"toClick($event, 123)\"&gt;点击&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\n  let vm = Vue.createApp(\n    methods: {\n      toClick(ev, num) {\n      }\n    }\n  ).mount('#app')\n&lt;/script&gt;\n\n\n\n\n\n\n由于模版内适用简单的运算逻辑，模版中太多逻辑会导致难以维护。\n所以，复杂的逻辑可以移植到计算属性中进行处理。\n计算属性与方法很像，但又有不同：\n\n定义在computed中\n计算属性具备缓存的能力，方法不具备缓存(可能类似Python生成器的功能)\n\n\n\n\n虽然计算属性适应于大多情况。但在某些情况下侦听器更适合\n侦听器的目的:\n\n观察和响应Vue实例上的数据变动\n有一些数据需要随着其它数据变化而变化\n\n\n\n\n\n计算属性\n\n适合多个值影响一个值的应用，有return，不适合异步\n\n侦听器\n\n适合一个值影响多个值的应用，无return，适合异步逻辑\n\n\n\n\n\n\n\nv-if指令用于条件性地渲染一块内容\n\n可以控制DOM是否添加或删除\n和v-else之间不能添加非v-if类似普通标签\n\nv-for指令\n\n产生value,key,index,并按照这个顺序进行取值\n\n条件渲染与列表渲染注意点\n\nv-if和v-for尽量不要一起使用\n列表渲染需要添加key属性(不能使用索引，需要自己产生唯一标识)，用来跟踪列表的身份\ntemplate标签形成一个整体容器的隐形标签\n\n\n\n\n\nv-bind用于class和style时可以使用的三种形态\n\n字符串\n数组\n对象\n\n\n\n\n表单用于收集表单数据，发送给后端，或将后端数据在前端显示。\n\n通过v-model指令来操作表单，可以非常灵活的实现响应式数据的处理\n\n\n\n\n生命周期钩子函数就是回调函数，在Vue的某个时机去调用对应的回调函数。\n生命周期可分为三个部分：\n\n初始阶段：\n\nbeforeCreate\ncreated: 大部分时候用于发送请求，因为请求需要时间响应数据\nbeforeMount\nmounted\n\n更新阶段\n\nbeforeUpdate\nupdated\n\n销毁阶段\n\nbeforeUnmout\nunmounted"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#从mvc到mvvm",
+    "href": "posts/vue3_core_and_optionAPI/index.html#从mvc到mvvm",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "随着Ajax技术流行，前后端分离越来越流行，前端需要处理越来越复杂的视图和数据，前端也迫切需要一种设计 模式进行分层处理。MVC设计模式进入前端，诞生了backbone.js，但是由于Controller成很薄，做了一些改良。 Angular.js带来MVVM设计模式。\nMVVM的组成:\n\nM: Model(数据层)\nV: View(视图层)\nVM: viewModel层\n\n核心思想:\n\n不让Model和View直接层，而是通过VM层连接起来。\nviewModel能够观察到数据的变化，并对视图对应的内容进行自动更新\nviewModel能够监听到视图的变化，并能够通知数据发生变化\n\nVue：\n\n不完全遵循MVVM模式\n也可以直接操作原生DOM，也可以直接去操作V层\nVue.createApp挂载HTML标签，产生vm\n\n                        ViewModel\n                  |---------------------|\n                  |                     |\n|------|          |  |---------------|  |          |---------|\n|      |----------|--| DOM Listeners |--|---------&gt;|         |\n|      |          |  |---------------|  |          |         |\n| View |          |                     |          |  Model  |\n|      |          |  |---------------|  |          |         |\n|      |&lt;---------|--| Data Bindings |--|----------|         |\n|------|          |  |---------------|  |          |---------|\n  DOM             |                     |    \"Plain JavaScript Objects\"\n                  |---------------------|\n                            Vue"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#option-api编程风格与优势",
+    "href": "posts/vue3_core_and_optionAPI/index.html#option-api编程风格与优势",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "let vm = createApp({\n  data: {},     // 数据\n  methods: {},  // 方法\n  computed: {}, // 计算属性\n  watch: {},    // 侦听器\n  mounted() {}  // 钩子函数\n})\n优势：\n\n只有一个参数，接受一个对象，包含各类属性，比如data,methods等\n非常清晰，语法化特别强\n非常适合默认值\nthis表示vm，操作比较方便"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#声明式渲染及响应式实现原理",
+    "href": "posts/vue3_core_and_optionAPI/index.html#声明式渲染及响应式实现原理",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "声明式编程\n\n不需要编写具体实现，直接调用声明就可以实现功能\n\nVue中的声明式编程\n\n数据通过{{ }}模版语法来完成\n模版语法支持JS表达式\n\n支持各类表达式\n不支持if判断\n\n\n响应式数据实现原理\n\n通过Proxy对象实现\n使用Proxy监控数据\n\n更改值时触发set方法\n获取值时触发get方法\n\n\n&lt;div id='app'&gt;&lt;/div&gt;\n&lt;script&gt;\n  let data = new Proxy(\n    {\n      msg: \"Hello world\",\n    },\n    {\n      get(target) {\n        console.log(\"get func call\")\n        return target.msg\n      },\n      set(target, key, value) {\n        console.log(\"set func call\")\n        app.innerHTML = value\n      }\n    }\n  )\n\n  app.innerHTML = data.msg\n  setTimeout(() =&gt; {\n    data.msg = \"Hello Vue\"\n  }, 2000)\n&lt;/script&gt;"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#指令系统与事件方法及传参处理",
+    "href": "posts/vue3_core_and_optionAPI/index.html#指令系统与事件方法及传参处理",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "指令系统\n\n通过自定义属性实现的一套功能，也是声明式编程的体现\n在Vue中，通常是添加以v-*字样\n\n常用指令\n\nv-bind:：操作标签属性，可通过:简写\nv-on:：操作事件，可通过@简写\n\n修改例子代码\n\n操作title属性\n点击事件\n\n&lt;div id=\"app\"&gt;\n  &lt;p :title=\"message\"&gt;这是一个段落&lt;/p&gt;\n  &lt;button @click=\"message = 'hi' \"&gt;点击&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\n  let vm = Vue.createApp(\n    data(){\n      return {\n        message: 'hello'\n      }\n    }\n  ).mount('#app')\n&lt;/script&gt;\n添加事件方法例子代码\n\n获取事件使用$event参数\n传参在事件函数调用处传参\n\n&lt;div id=\"app\"&gt;\n  &lt;button @click=\"toClick($event, 123)\"&gt;点击&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\n  let vm = Vue.createApp(\n    methods: {\n      toClick(ev, num) {\n      }\n    }\n  ).mount('#app')\n&lt;/script&gt;"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#计算属性与侦听器区别",
+    "href": "posts/vue3_core_and_optionAPI/index.html#计算属性与侦听器区别",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "由于模版内适用简单的运算逻辑，模版中太多逻辑会导致难以维护。\n所以，复杂的逻辑可以移植到计算属性中进行处理。\n计算属性与方法很像，但又有不同：\n\n定义在computed中\n计算属性具备缓存的能力，方法不具备缓存(可能类似Python生成器的功能)\n\n\n\n\n虽然计算属性适应于大多情况。但在某些情况下侦听器更适合\n侦听器的目的:\n\n观察和响应Vue实例上的数据变动\n有一些数据需要随着其它数据变化而变化\n\n\n\n\n\n计算属性\n\n适合多个值影响一个值的应用，有return，不适合异步\n\n侦听器\n\n适合一个值影响多个值的应用，无return，适合异步逻辑"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#条件渲染与列表渲染",
+    "href": "posts/vue3_core_and_optionAPI/index.html#条件渲染与列表渲染",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "v-if指令用于条件性地渲染一块内容\n\n可以控制DOM是否添加或删除\n和v-else之间不能添加非v-if类似普通标签\n\nv-for指令\n\n产生value,key,index,并按照这个顺序进行取值\n\n条件渲染与列表渲染注意点\n\nv-if和v-for尽量不要一起使用\n列表渲染需要添加key属性(不能使用索引，需要自己产生唯一标识)，用来跟踪列表的身份\ntemplate标签形成一个整体容器的隐形标签"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#class样式与style样式",
+    "href": "posts/vue3_core_and_optionAPI/index.html#class样式与style样式",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "v-bind用于class和style时可以使用的三种形态\n\n字符串\n数组\n对象"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#表单处理与双向数据绑定",
+    "href": "posts/vue3_core_and_optionAPI/index.html#表单处理与双向数据绑定",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "表单用于收集表单数据，发送给后端，或将后端数据在前端显示。\n\n通过v-model指令来操作表单，可以非常灵活的实现响应式数据的处理"
+  },
+  {
+    "objectID": "posts/vue3_core_and_optionAPI/index.html#生命周期钩子函数",
+    "href": "posts/vue3_core_and_optionAPI/index.html#生命周期钩子函数",
+    "title": "Vue3核心概念与Option API",
+    "section": "",
+    "text": "生命周期钩子函数就是回调函数，在Vue的某个时机去调用对应的回调函数。\n生命周期可分为三个部分：\n\n初始阶段：\n\nbeforeCreate\ncreated: 大部分时候用于发送请求，因为请求需要时间响应数据\nbeforeMount\nmounted\n\n更新阶段\n\nbeforeUpdate\nupdated\n\n销毁阶段\n\nbeforeUnmout\nunmounted"
   }
 ]
