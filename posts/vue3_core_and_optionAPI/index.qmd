@@ -1,0 +1,235 @@
+---
+title: "Vue3核心概念与Option API"
+author: "曳影"
+date: "2023-10-19"
+categories: [Vue]
+---
+
+# Vue3核心概念与Option API
+
+## 从MVC到MVVM
+
+随着`Ajax`技术流行，前后端分离越来越流行，前端需要处理越来越复杂的**视图**和**数据**，前端也迫切需要一种设计
+模式进行**分层**处理。MVC设计模式进入前端，诞生了`backbone.js`，但是由于`Controller`成很薄，做了一些改良。
+`Angular.js`带来`MVVM`设计模式。
+
+MVVM的组成:
+
+- M: Model(数据层)
+- V: View(视图层)
+- VM: viewModel层
+
+核心思想:
+
+- 不让`Model`和`View`直接层，而是通过`VM`层连接起来。
+- viewModel能够观察到**数据的变化**，并对**视图**对应的内容进行自动更新
+- viewModel能够监听到**视图的变化**，并能够通知**数据**发生变化
+
+Vue：
+
+- 不完全遵循`MVVM`模式
+- 也可以直接操作原生DOM，也可以直接去操作V层
+- `Vue.createApp`挂载HTML标签，产生`vm`
+
+```shell
+                        ViewModel
+                  |---------------------|
+                  |                     |
+|------|          |  |---------------|  |          |---------|
+|      |----------|--| DOM Listeners |--|--------->|         |
+|      |          |  |---------------|  |          |         |
+| View |          |                     |          |  Model  |
+|      |          |  |---------------|  |          |         |
+|      |<---------|--| Data Bindings |--|----------|         |
+|------|          |  |---------------|  |          |---------|
+  DOM             |                     |    "Plain JavaScript Objects"
+                  |---------------------|
+                            Vue
+```
+
+## Option API编程风格与优势
+
+```js
+let vm = createApp({
+  data: {},     // 数据
+  methods: {},  // 方法
+  computed: {}, // 计算属性
+  watch: {},    // 侦听器
+  mounted() {}  // 钩子函数
+})
+```
+
+优势：
+
+- 只有一个参数，接受一个对象，包含各类属性，比如`data`,`methods`等
+- 非常清晰，语法化特别强
+- 非常适合默认值
+- `this`表示`vm`，操作比较方便
+
+## 声明式渲染及响应式实现原理
+
++ 声明式编程
+  - 不需要编写具体实现，直接调用声明就可以实现功能
+
++ Vue中的声明式编程
+  - 数据通过`{{ }}`模版语法来完成
+  - 模版语法支持`JS`表达式
+    - 支持各类表达式
+    - 不支持`if`判断
+
++ 响应式数据实现原理
+  - 通过`Proxy`对象实现
+  - 使用Proxy监控数据
+    - 更改值时触发`set`方法
+    - 获取值时触发`get`方法
+
+  ```js
+  <div id='app'></div>
+  <script>
+    let data = new Proxy(
+      {
+        msg: "Hello world",
+      },
+      {
+        get(target) {
+          console.log("get func call")
+          return target.msg
+        },
+        set(target, key, value) {
+          console.log("set func call")
+          app.innerHTML = value
+        }
+      }
+    )
+
+    app.innerHTML = data.msg
+    setTimeout(() => {
+      data.msg = "Hello Vue"
+    }, 2000)
+  </script>
+  ```
+
+## 指令系统与事件方法及传参处理
+
++ 指令系统
+  - 通过自定义属性实现的一套功能，也是声明式编程的体现
+  - 在Vue中，通常是添加以`v-*`字样
+
++ 常用指令
+  - `v-bind:`：操作标签属性，可通过`:`简写
+  - `v-on:`：操作事件，可通过`@`简写
+
++ 修改例子代码
+  - 操作`title`属性
+  - 点击事件
+  
+  ```js
+  <div id="app">
+    <p :title="message">这是一个段落</p>
+    <button @click="message = 'hi' ">点击</button>
+  </div>
+
+  <script>
+    let vm = Vue.createApp(
+      data(){
+        return {
+          message: 'hello'
+        }
+      }
+    ).mount('#app')
+  </script>
+  ```
++ 添加事件方法例子代码
+  - 获取事件使用`$event`参数
+  - 传参在事件函数调用处传参
+  
+  ```js
+  <div id="app">
+    <button @click="toClick($event, 123)">点击</button>
+  </div>
+
+  <script>
+    let vm = Vue.createApp(
+      methods: {
+        toClick(ev, num) {
+        }
+      }
+    ).mount('#app')
+  </script>
+
+  ```
+
+## 计算属性与侦听器区别
+
+### 计算属性
+
+由于模版内适用简单的运算逻辑，模版中太多逻辑会导致难以维护。
+
+所以，复杂的逻辑可以移植到**计算属性**中进行处理。
+
+计算属性与方法很像，但又有不同：
+
+- 定义在`computed`中
+- **计算属性**具备缓存的能力，**方法**不具备缓存(可能类似Python生成器的功能)
+
+### 侦听器
+
+虽然**计算属性**适应于大多情况。但在某些情况下**侦听器**更适合
+
+侦听器的目的:
+
+- **观察**和**响应**Vue实例上的数据变动
+- 有一些数据需要随着其它数据变化而变化
+
+### 计算属性和侦听器的区别
+
+- **计算属性**
+  - 适合多个值影响一个值的应用，有return，不适合异步
+- **侦听器**
+  - 适合一个值影响多个值的应用，无return，适合异步逻辑
+
+## 条件渲染与列表渲染
+
++ `v-if`指令用于条件性地渲染一块内容
+  - 可以控制DOM是否添加或删除
+  - 和`v-else`之间不能添加非`v-if`类似普通标签
+
++ `v-for`指令
+  - 产生`value`,`key`,`index`,并按照这个顺序进行取值
+
++ 条件渲染与列表渲染注意点
+  - `v-if`和`v-for`尽量不要一起使用
+  - 列表渲染需要添加key属性(不能使用索引，需要自己产生唯一标识)，用来跟踪列表的身份
+  - `template`标签形成一个整体容器的隐形标签
+
+## class样式与style样式
+
+`v-bind`用于`class`和`style`时可以使用的三种形态
+
+- 字符串
+- 数组
+- 对象
+
+## 表单处理与双向数据绑定
+
+**表单**用于收集表单数据，发送给后端，或将后端数据在前端显示。
+
+- 通过`v-model`指令来操作表单，可以非常灵活的实现响应式数据的处理
+
+## 生命周期钩子函数
+
+生命周期钩子函数就是回调函数，在Vue的某个时机去调用对应的回调函数。
+
+生命周期可分为三个部分：
+
+- 初始阶段：
+  - beforeCreate
+  - created: 大部分时候用于发送请求，因为请求需要时间响应数据
+  - beforeMount
+  - mounted
+- 更新阶段
+  - beforeUpdate
+  - updated
+- 销毁阶段
+  - beforeUnmout
+  - unmounted
