@@ -1,0 +1,61 @@
+---
+title: "Terminal ls命令显示多姿多彩的颜色"
+author: "曳影"
+date: "2023-10-20"
+categories: ["Terminal", "MacOS", "Linux"]
+---
+
+# 让Termainal中不同类型文件显示不同颜色
+
+## 简介
+Linux的`ls`使用不同颜色区分各文件类型，Mac Terminal总是黑白显示，不能方便区分文件类型。
+
+本文就是要给**Mac Terminal**中`ls`命令列出来的文件按照不同类型显示不同颜色。
+
+## 安装工具
+
+使用`Homebrew`安装`Coreutils`
+
+```shell
+brew install xz coreutils 
+```
+
+## 生成颜色定义文件
+
+```shell
+gdircolors --print-database > ~/.dir_colors
+```
+
+### `.dir_colors`配置文件
+- 关于颜色编码
+- 不同类型文件的配色
+
+我们可以用Vim打开`.dir_colors`文件,就可以看到其中字符的颜色，比如`DIR 01:34`表示目录呈现`34`这个颜色
+可以对照结尾展示效果中的**目录颜色**和**可执行文件颜色**
+
+![颜色编码](./color_code.jpg)
+
+![不同类型文件配色](./ls_file_type_color.jpg)
+
+![压缩包配色](./ls_archives_colors.jpg)
+
+
+## 添加配置到Shell配置文件中
+
+如果是**Bash**则添加在`~/.bashrc`或`~/.bash_profile`
+
+如果是**Zsh**则添加在`~/.zshrc`中
+
+添加内容如下,添加在文件末尾，防止被覆盖:
+
+```shell
+if brew list | grep coreutils > /dev/null ; then
+  PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+  alias ls='ls -F --show-control-chars --color=auto'
+  eval `gdircolors -b $HOME/.dir_colors`
+fi
+```
+
+## 最终显示结果
+
+![最终展示效果](./result.jpg)
