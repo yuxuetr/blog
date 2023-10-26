@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="曳影">
+<meta name="dcterms.date" content="2023-10-26">
+
+<title>曳影 - 英语学习-NestJS概览(01)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">曳影</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com" rel="" target=""><i class="bi bi-email" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">英语学习-NestJS概览(01)</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">NestJS</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>曳影 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 26, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="nest.js-overview" class="level1">
+<h1>Nest.js Overview</h1>
+<p>We’ll take an overview of Nest.js</p>
+<p>and</p>
+<p>look at</p>
+<p><strong>the core concepts</strong></p>
+<ul>
+<li>that you’ll need to build a Nest.js application.</li>
+</ul>
+<section id="知识点" class="level3">
+<h3 class="anchored" data-anchor-id="知识点">知识点</h3>
+<ul>
+<li>take an overview
+<ul>
+<li>在这个语境下，<code>take</code>本身没有<strong>拿取</strong>的意思，而是与后面的名词组合来形成一个特定的意思</li>
+<li>意思是：对某事或某物进行一个总体的、概括性的查看或审视
+<ul>
+<li>近似于
+<ul>
+<li>have a general look</li>
+<li>get a broad perspective</li>
+</ul></li>
+</ul></li>
+<li><code>take</code>可与多种<strong>名词</strong>搭配，形成各种意思
+<ul>
+<li>take a look: 看一下</li>
+<li>take a break: 休息一下</li>
+<li>take a shower: 洗个脸</li>
+<li>take a chance: 冒个险</li>
+</ul></li>
+</ul></li>
+<li>build a Nest.js application
+<ul>
+<li>构建一个…应用</li>
+</ul></li>
+</ul>
+</section>
+<section id="controllers" class="level2">
+<h2 class="anchored" data-anchor-id="controllers">Controllers</h2>
+<ul>
+<li>Controllers in Nest
+<ul>
+<li><font color="red">are responsible for</font><br>
+</li>
+<li>handling
+<ul>
+<li><code>incoming requests</code><br>
+</li>
+<li>and <code>returning responses</code> to the client.</li>
+</ul></li>
+</ul></li>
+<li>Nest will <font color="red">route</font>
+<ul>
+<li><code>incoming requests</code> to <code>handler functions</code></li>
+<li>in controller classes.</li>
+</ul></li>
+<li>We use the <code>@Controller decorator</code>
+<ul>
+<li>to <font color="red">create</font> <strong>a controller class</strong>.</li>
+</ul></li>
+</ul>
+<section id="翻译" class="level3">
+<h3 class="anchored" data-anchor-id="翻译">翻译</h3>
+<p>Nest中的<code>Controller</code>负责(resposible for)处理<strong>传入请求(incoming requests)</strong>并向客户端<strong>返回响应(returning responses)</strong></p>
+<p>Nest会将<strong>传入请求(incoming request)</strong>路由(route)到控制器类(Controller)中的处理函数(handler function)</p>
+<p>我们使用<code>@Controller()</code>装饰器(decorotor)来创建一个<strong>控制器类</strong></p>
+</section>
+<section id="示例" class="level3">
+<h3 class="anchored" data-anchor-id="示例">示例</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> { Controller<span class="op">,</span> Get } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>@Controller</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">export</span> <span class="kw">class</span> EnteryController {</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    @Get</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    <span class="fu">index</span>()<span class="op">:</span> <span class="bu">Entry</span>[] {</span>
+<span id="cb1-7"><a href="#cb1-7"></a>        <span class="kw">const</span> <span class="dt">entries</span><span class="op">:</span> <span class="bu">Entry</span>[] <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">entriesService</span><span class="op">.</span><span class="fu">findAll</span>()</span>
+<span id="cb1-8"><a href="#cb1-8"></a>        <span class="cf">return</span> entries</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    }</span>
+<span id="cb1-10"><a href="#cb1-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="知识点-1" class="level3">
+<h3 class="anchored" data-anchor-id="知识点-1">知识点</h3>
+<ul>
+<li>Controllers in Nest
+<ul>
+<li>在…的…</li>
+</ul></li>
+<li>responsible for
+<ul>
+<li>phrasal verb</li>
+<li>描述某事或某物的职责或功能</li>
+</ul></li>
+<li>handling incoming request and returning response
+<ul>
+<li>处理传入请求和返回响应</li>
+</ul></li>
+<li>route incoming requests
+<ul>
+<li>路由传入的请求</li>
+<li>描述如何处理(route)请求</li>
+</ul></li>
+<li>handler function
+<ul>
+<li>处理函数</li>
+</ul></li>
+<li>controller classes
+<ul>
+<li>控制器类</li>
+</ul></li>
+<li><span class="citation" data-cites="Controller">@Controller</span> decorator
+<ul>
+<li>控制器装饰器</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="provider" class="level2">
+<h2 class="anchored" data-anchor-id="provider">Provider</h2>
+<p>Providers in Nest <font color="red">are used to create</font></p>
+<ul>
+<li>services</li>
+<li>factories</li>
+<li>helper</li>
+<li>and more
+<ul>
+<li>that can be <strong>injected into</strong> controllers</li>
+</ul></li>
+<li>and other providers
+<ul>
+<li>using Nest’s built-in <strong>dependency injection</strong></li>
+</ul></li>
+</ul>
+<p>The <code>@Injectable() decorator</code> <font color="red">is used to create</font> <strong>a provider class</strong>.</p>
+<section id="翻译-1" class="level3">
+<h3 class="anchored" data-anchor-id="翻译-1">翻译</h3>
+<p>Nest中的<code>provider</code>用于创建<code>services</code>、<code>factories</code>、<code>helpers</code></p>
+<p>这些<code>services</code>、<code>factories</code>、<code>helpers</code>可以使用Nest内置的<strong>依赖注入</strong>到<strong>控制器</strong>和其他<code>provider</code>中。</p>
+<p><code>@Injectable()</code>装饰器用于创建<code>a provider class</code></p>
+</section>
+<section id="示例-1" class="level3">
+<h3 class="anchored" data-anchor-id="示例-1">示例</h3>
+<p>我们博客应用中的<code>AuthenticationService</code>事一个注入并使用<code>UsersService</code>组件的提供程序</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a>@Injectable</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">export</span> <span class="kw">class</span> AuthenticationService {</span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="fu">constructor</span>(<span class="kw">private</span> readonly <span class="dt">userService</span><span class="op">:</span> UserService) {}</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="kw">async</span> <span class="fu">validateUser</span>(<span class="dt">payload</span><span class="op">:</span> { <span class="dt">email</span><span class="op">:</span> string<span class="op">;</span> <span class="dt">password</span><span class="op">:</span> string<span class="op">;</span>})<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>boolean<span class="op">&gt;</span> {</span>
+<span id="cb2-6"><a href="#cb2-6"></a>        <span class="kw">const</span> user <span class="op">=</span> <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">userService</span><span class="op">.</span><span class="fu">findOne</span>({<span class="dt">where</span><span class="op">:</span> {<span class="dt">email</span><span class="op">:</span> payload<span class="op">.</span><span class="at">email</span> }})</span>
+<span id="cb2-7"><a href="#cb2-7"></a>        <span class="cf">return</span> <span class="op">!!</span>user</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    }</span>
+<span id="cb2-9"><a href="#cb2-9"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="知识点-2" class="level3">
+<h3 class="anchored" data-anchor-id="知识点-2">知识点</h3>
+<ul>
+<li>are(be) used to
+<ul>
+<li>被用于…</li>
+</ul></li>
+<li>Providers in Nest
+<ul>
+<li>在…的…</li>
+</ul></li>
+<li>used to create
+<ul>
+<li>表示用于创建或制造某物</li>
+<li>used to create a provider class</li>
+</ul></li>
+<li>service, factories, helpers, <strong>and more</strong>
+<ul>
+<li>列举…</li>
+</ul></li>
+<li>can be injected into
+<ul>
+<li>表示某物可以被注入到其他物体中</li>
+</ul></li>
+<li>Nest’s built-in dependency injection
+<ul>
+<li>built-in: …内置…</li>
+<li>dependency injection: 依赖注入</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="modules" class="level2">
+<h2 class="anchored" data-anchor-id="modules">Modules</h2>
+<p>A Nest.js application <font color="red">is organized into</font> <code>modules</code>.</p>
+<p>Every Nest.js application will have a <strong>root module</strong></p>
+<ul>
+<li>In a small application
+<ul>
+<li>this may be the only module.</li>
+</ul></li>
+<li>In a larger application
+<ul>
+<li>it makes sense to organize your application into multiple modules
+<ul>
+<li>that <font color="red">split up</font> your code into features and related capabilities</li>
+</ul></li>
+</ul></li>
+<li>A module in Nest.js
+<ul>
+<li><strong>is a class</strong>
+<ul>
+<li>with a <span class="citation" data-cites="Module">@Module</span>() decorator.</li>
+</ul></li>
+</ul></li>
+<li>The <span class="citation" data-cites="Module">@Module</span>() decorator
+<ul>
+<li>takes a single object
+<ul>
+<li>that describes module using the following properties.
+<ul>
+<li>components</li>
+<li>controllers</li>
+<li>imports</li>
+<li>exports</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>components
+<ul>
+<li>The components to <strong>be instantiated</strong>
+<ul>
+<li>that may <strong>be shared across this module</strong></li>
+<li>and exported to be available <strong>to other modules</strong></li>
+</ul></li>
+</ul></li>
+<li>controllers
+<ul>
+<li>The controllers that are created <strong>by this module</strong></li>
+</ul></li>
+<li>imports
+<ul>
+<li>The list of modules to import that export components
+<ul>
+<li>that are requires <strong>in this module</strong></li>
+</ul></li>
+</ul></li>
+<li>exports
+<ul>
+<li>The list of components <strong>from this module</strong>
+<ul>
+<li>to be made available <strong>to other modules</strong></li>
+</ul></li>
+</ul></li>
+<li>The AppModule imports the modules
+<ul>
+<li>that are needed for the application.</li>
+</ul></li>
+<li><strong>The root module</strong> in our application
+<ul>
+<li>doesn’t need to have any <code>exports</code>
+<ul>
+<li>since no other modulers import it</li>
+</ul></li>
+</ul></li>
+<li><strong>The root module</strong> also doesn’t need to have any <code>exports</code>
+<ul>
+<li>since no other modules import it</li>
+</ul></li>
+<li><strong>The root module</strong> doesn’t have any <code>conponents</code> or <code>controllers</code>
+<ul>
+<li>as these are all organized within the sub-modules they are related to</li>
+</ul></li>
+<li>Modules in Nest.js <font color="red">are</font> singletons by default.
+<ul>
+<li>This means that you <strong>can share the same instance</strong> of <strong>an exported component</strong></li>
+</ul></li>
+</ul>
+<section id="翻译-2" class="level3">
+<h3 class="anchored" data-anchor-id="翻译-2">翻译</h3>
+<p>每个Nest.js应用被组织成模块。</p>
+<p>每个Nest.js都有一个<strong>根模块</strong></p>
+<p>在小型应用中，根模块可能是唯一的模块</p>
+<p>在大型应用程序中，应用程序被组织成多个模块，这些模块将代码分割成不同的<strong>功能</strong>和<strong>相关能力</strong></p>
+<p>Nest.js中的模块是带有<code>@Module()</code>装饰器的类。</p>
+<ul>
+<li><code>@Module()</code>装饰器采用一个使用以下属性描述模块的对象
+<ul>
+<li>components:
+<ul>
+<li>要实例化的组件可以<strong>跨该模块共享</strong>并<strong>导出</strong>以供其他模块使用</li>
+</ul></li>
+<li>controllers：
+<ul>
+<li>该模块创建的控制器(controllers)</li>
+</ul></li>
+<li>imports:
+<ul>
+<li>要导入的模块列表，该模块中所需的组件</li>
+</ul></li>
+<li>exports:
+<ul>
+<li>该模块<strong>可供其他模块使用</strong>的组件列表</li>
+</ul></li>
+</ul></li>
+<li>The AppModule(the root module)
+<ul>
+<li>导入应用程序所需的模块(modules)</li>
+<li>根模块不需要任何导出，因为没有其它模块导入它</li>
+<li>也没有任何组件(components)或(controllers),因为它们都组织在与其相关的子模块(sub-modules)中</li>
+</ul></li>
+</ul>
+</section>
+<section id="示例-2" class="level3">
+<h3 class="anchored" data-anchor-id="示例-2">示例</h3>
+<p>在根模块<code>AppModule</code>中包含多个模块处理认证、评论、数据库访问、博客条目和用户</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1"></a>@<span class="fu">Module</span>({</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="dt">components</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">controllders</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">imports</span><span class="op">:</span> [</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    DatabaseModule<span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>    AuthenticationModule<span class="op">.</span><span class="fu">forRoot</span>(<span class="st">'jwt'</span>)<span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>    UserModule<span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>    EntryModule<span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>    CommentModule<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>    UserGatewayModule<span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    CommentGatewayModule</span>
+<span id="cb3-12"><a href="#cb3-12"></a>  ]<span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="dt">exports</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>})</span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="im">export</span> <span class="kw">class</span> AppModule <span class="kw">implements</span> NestModule {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>EntryModule</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a>@<span class="fu">Module</span>({</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">components</span><span class="op">:</span> [entryProvider<span class="op">,</span> EntryService]<span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">controllers</span><span class="op">:</span> [EnteryController]<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="dt">imports</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="dt">exports</span><span class="op">:</span> [EntryService]</span>
+<span id="cb4-6"><a href="#cb4-6"></a>})</span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="im">export</span> <span class="kw">class</span> EntryModule <span class="kw">implements</span> NestModule {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="知识点-3" class="level3">
+<h3 class="anchored" data-anchor-id="知识点-3">知识点</h3>
+<ul>
+<li><p>is organized into</p>
+<ul>
+<li>被动语态的动词短语</li>
+<li>某物或某事被安排活组织成某种形式或结构</li>
+<li><strong>整体</strong> be organized into <strong>部分</strong></li>
+</ul></li>
+<li><p>to organize … into …</p>
+<ul>
+<li>to organize <strong>整体</strong> into <strong>部分</strong></li>
+</ul></li>
+<li><p>split up</p>
+<ul>
+<li>phrasal verb</li>
+<li>分割或分离成若干部分
+<ul>
+<li>将一群人、物品、任务分成几个小组或部分</li>
+</ul></li>
+<li>to split up <strong>整体</strong> into <strong>部分</strong></li>
+<li>The teacher decided to split up the students into small groups for the project</li>
+</ul></li>
+<li><p>features and related capabilities</p>
+<ul>
+<li>应用程序的功能和相关能力</li>
+</ul></li>
+<li><p>module in Nest.js</p>
+<ul>
+<li>在…的…</li>
+</ul></li>
+<li><p><span class="citation" data-cites="Module">@Module</span> decorator</p></li>
+<li><p>take a single object</p>
+<ul>
+<li>描述接受一个对象的<strong>动作</strong></li>
+</ul></li>
+<li><p>components to be instantiated</p>
+<ul>
+<li>需要实例化的组件</li>
+</ul></li>
+<li><p>available to other modulers</p>
+<ul>
+<li>对其他模块可用</li>
+</ul></li>
+<li><p>controller that are created by this module</p>
+<ul>
+<li>控制器被模块创建</li>
+</ul></li>
+<li><p>list of modules to import</p>
+<ul>
+<li>需要导入的模块列表</li>
+</ul></li>
+<li><p>list of components from this module</p>
+<ul>
+<li>来自模块的组件列表</li>
+</ul></li>
+<li><p>components that are required in this module</p>
+<ul>
+<li>在此模块中所需的组件</li>
+</ul></li>
+<li><p>since …</p>
+<ul>
+<li>因为</li>
+</ul></li>
+<li><p>as …</p>
+<ul>
+<li>因为</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="bootstrapping自举" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrapping自举">Bootstrapping(自举)</h2>
+<ul>
+<li>Every Nest.js application**</li>
+<li>needs to be bootstrapped.</li>
+<li>This is done by by<strong>using the NestFactory</strong>
+<ul>
+<li><strong>to create the root module</strong> and <strong>calling the listen() method</strong>.</li>
+</ul></li>
+</ul>
+<section id="翻译-3" class="level3">
+<h3 class="anchored" data-anchor-id="翻译-3">翻译</h3>
+<p>每个Nest.js应用都需要引导(bootstrapped)，这是通过使用<code>NestFactory</code>创建<strong>根模块</strong>并调用<code>listen()</code>method.</p>
+</section>
+<section id="示例代码" class="level3">
+<h3 class="anchored" data-anchor-id="示例代码">示例代码</h3>
+<p>应用程序的入口是<code>main.ts</code>，使用<code>async/await</code>模式来创建<code>AppModule</code>并调用<code>listen()</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> { NestFactory } <span class="im">from</span> <span class="st">'@nestjs/core'</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">import</span> { AppModule } <span class="im">from</span> <span class="st">'./app.module'</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">bootstrap</span>() {</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="kw">const</span> app <span class="op">=</span> <span class="cf">await</span> NestFactory<span class="op">.</span><span class="fu">create</span>(AppModule)</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="cf">await</span> app<span class="op">.</span><span class="fu">listen</span>(<span class="dv">3000</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="middleware" class="level2">
+<h2 class="anchored" data-anchor-id="middleware">Middleware</h2>
+<ul>
+<li><strong>Nest.js middleware</strong> <font color="red">is</font>
+<ul>
+<li><font color="red">either</font> <strong>a function</strong> <font color="red"></font></li><font color="red">
+</font><li><font color="red">or</font> <strong>a class decorated</strong>
+<ul>
+<li>with the <code>@Injectable decorator</code>
+<ul>
+<li>that implements <code>the NestMiddleware interface</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Middleware
+<ul>
+<li>is called  befor route handlers**</li>
+<li>These functions have access to <strong>the request and response object</strong></li>
+<li>and they can make changes to <strong>the request and response object</strong></li>
+</ul></li>
+<li>One or more middleware function
+<ul>
+<li>can be configured for <strong>a route</strong></li>
+<li>and <strong>a middleware function</strong>
+<ul>
+<li>can choose to pass the execution
+<ul>
+<li><strong>to the next middleware function</strong></li>
+<li>on the stack or to end <strong>the request-response cycle</strong></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>If <strong>a middleware function</strong> does not end <strong>the request-response cycle</strong>
+<ul>
+<li>it <font color="red">must</font> call <code>next()</code>
+<ul>
+<li>to pass control to <strong>the next middleware function</strong>
+<ul>
+<li>or to <strong>the request handler</strong>
+<ul>
+<li>if it is <strong>the last function</strong> on the stack.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Failing to do so will leave <strong>the request hanging</strong></li>
+</ul></li>
+<li>Middleware is configured
+<ul>
+<li><strong>on routes</strong></li>
+<li>in the <code>configure()</code> function of a Nest.js module.</li>
+</ul></li>
+</ul>
+<section id="翻译-4" class="level3">
+<h3 class="anchored" data-anchor-id="翻译-4">翻译</h3>
+<p>Nest.js中间件是一个函数或一个使用<code>@Injectable</code>装饰的类，它实现了<code>NestMiddleware</code>接口。</p>
+<p>中间件在<strong>路由处理程序之前</strong>被调用。</p>
+<p>这些函数可以访问<strong>请求和响应对象</strong>，并对<strong>请求和响应</strong>对象进行更改</p>
+<p>可以为<strong>路由</strong>配置一个或多个中间件函数，</p>
+<p>并且中间件函数可以选择将执行传递给栈上的<strong>下一个中间件函数</strong>或结束<strong>请求-响应周期</strong></p>
+<p>如果<strong>中间件函数</strong>没有结束<strong>请求-响应周期</strong></p>
+<p>则它必须调用<code>next()</code>将控制权传递给<strong>下一个中间件函数</strong>或<strong>请求处理程序</strong>(栈上最后一个中间件函数)</p>
+<p>如果不是按照上面的方式执行，<strong>请求</strong>会被挂起。</p>
+<p>中间件是在<code>Nest.js</code>模块的<code>configure()</code>函数中的路由上配置的。</p>
+</section>
+<section id="示例-3" class="level3">
+<h3 class="anchored" data-anchor-id="示例-3">示例</h3>
+<p>博客应用程序中的<code>AuthenticationMiddleware</code>负责对访问博客的用户进行身份验证。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> { MiddlewareFunction } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">import</span> { HttpState } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="im">import</span> { Injectable } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="im">import</span> { NestMiddleware } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="im">import</span> <span class="op">*</span> <span class="im">as</span> passport <span class="im">from</span> <span class="st">'passport'</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="im">import</span> { UserService } <span class="im">from</span> <span class="st">'../../modules/user/user.service'</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>@Injectable</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="im">export</span> <span class="kw">class</span> AuthenticationMiddleware <span class="kw">implements</span> NestMiddleware {</span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">constructor</span>(<span class="kw">private</span> <span class="dt">userService</span><span class="op">:</span> UserService) {}</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>  <span class="kw">async</span> <span class="fu">resolve</span>(<span class="dt">strategy</span><span class="op">:</span> string)<span class="op">:</span> <span class="bu">Promise</span><span class="op">&lt;</span>MiddlewareFunction<span class="op">&gt;</span> {</span>
+<span id="cb6-13"><a href="#cb6-13"></a>    <span class="cf">return</span> <span class="kw">async</span> (req<span class="op">,</span> res<span class="op">,</span> next) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-14"><a href="#cb6-14"></a>      <span class="cf">return</span> passport<span class="op">.</span><span class="fu">authenticate</span>(strategy<span class="op">,</span> <span class="kw">async</span> (<span class="op">...</span><span class="dt">args</span><span class="op">:</span> any[]) <span class="kw">=&gt;</span> {</span>
+<span id="cb6-15"><a href="#cb6-15"></a>        <span class="kw">const</span> [<span class="op">,</span> payploy<span class="op">,</span> err] <span class="op">=</span> args</span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="cf">if</span> (err) {</span>
+<span id="cb6-17"><a href="#cb6-17"></a>          <span class="cf">return</span> res</span>
+<span id="cb6-18"><a href="#cb6-18"></a>             <span class="op">.</span><span class="fu">status</span>(HttpState<span class="op">.</span><span class="at">BAD_REQUEST</span>)</span>
+<span id="cb6-19"><a href="#cb6-19"></a>             <span class="op">.</span><span class="fu">send</span>(<span class="st">'Unable to authenticate the user.'</span>)</span>
+<span id="cb6-20"><a href="#cb6-20"></a>        }</span>
+<span id="cb6-21"><a href="#cb6-21"></a></span>
+<span id="cb6-22"><a href="#cb6-22"></a>        <span class="kw">const</span> user <span class="op">=</span> <span class="cf">await</span> <span class="kw">this</span><span class="op">.</span><span class="at">userService</span><span class="op">.</span><span class="fu">findOne</span>({</span>
+<span id="cb6-23"><a href="#cb6-23"></a>          <span class="dt">where</span><span class="op">:</span> { <span class="dt">email</span><span class="op">:</span> payload<span class="op">.</span><span class="at">email</span> }</span>
+<span id="cb6-24"><a href="#cb6-24"></a>        })</span>
+<span id="cb6-25"><a href="#cb6-25"></a>        req<span class="op">.</span><span class="at">user</span> <span class="op">=</span> user</span>
+<span id="cb6-26"><a href="#cb6-26"></a>        <span class="cf">return</span> <span class="fu">next</span>()</span>
+<span id="cb6-27"><a href="#cb6-27"></a>      })(req<span class="op">,</span> res<span class="op">,</span> next)</span>
+<span id="cb6-28"><a href="#cb6-28"></a>    }</span>
+<span id="cb6-29"><a href="#cb6-29"></a>  }</span>
+<span id="cb6-30"><a href="#cb6-30"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>如果身份验证失败
+<ul>
+<li>则会将400响应发送回客户端。</li>
+</ul></li>
+<li>如果身份验证成功
+<ul>
+<li>则调用<code>next()</code>,请求将继续沿着<strong>中间件栈</strong><font color="red">向下传输</font>，直到到达<strong>请求处理程序</strong></li>
+</ul></li>
+</ul>
+<p><code>AuthenticationMiddle</code>在<code>AppModule</code>中配置，如下：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1"></a>@<span class="fu">Module</span>({</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">imports</span><span class="op">:</span> [</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    DatabaseModule<span class="op">,</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    AuthenticationMiddle<span class="op">.</span><span class="fu">forRoot</span>(<span class="st">'jwt'</span>)<span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    UserModule<span class="op">,</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    EntryModule<span class="op">,</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>    CommentModule<span class="op">,</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    UserGatewayModule<span class="op">,</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    CommentGatewayModule<span class="op">,</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    KeywordModule<span class="op">,</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>  ]<span class="op">,</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>  <span class="dt">controllders</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>  <span class="dt">providers</span><span class="op">:</span> []</span>
+<span id="cb7-14"><a href="#cb7-14"></a>})</span>
+<span id="cb7-15"><a href="#cb7-15"></a></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="im">export</span> <span class="kw">class</span> AppModule <span class="kw">implements</span> NestModule{</span>
+<span id="cb7-17"><a href="#cb7-17"></a>  <span class="kw">public</span> <span class="fu">configure</span>(<span class="dt">consumer</span><span class="op">:</span> MiddlewareConsumer) {</span>
+<span id="cb7-18"><a href="#cb7-18"></a>    <span class="co">// </span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>    <span class="kw">const</span> userControllerAuthenticateRoutes <span class="op">=</span> [</span>
+<span id="cb7-20"><a href="#cb7-20"></a>      { <span class="dt">path</span><span class="op">:</span> <span class="st">'/user'</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> RequestMethod<span class="op">.</span><span class="at">GET</span> }<span class="op">,</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>      { <span class="dt">path</span><span class="op">:</span> <span class="st">'/user/:id'</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> RequestMethod<span class="op">.</span><span class="at">GET</span> }<span class="op">,</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>      { <span class="dt">path</span><span class="op">:</span> <span class="st">'/user/:id'</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> RequestMethod<span class="op">.</span><span class="at">PUT</span> }<span class="op">,</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>      { <span class="dt">path</span><span class="op">:</span> <span class="st">'/user/:id'</span><span class="op">,</span> <span class="dt">method</span><span class="op">:</span> RequestMethod<span class="op">.</span><span class="at">DELETE</span> }<span class="op">,</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>    ]</span>
+<span id="cb7-25"><a href="#cb7-25"></a>    <span class="co">// </span></span>
+<span id="cb7-26"><a href="#cb7-26"></a>    consumer</span>
+<span id="cb7-27"><a href="#cb7-27"></a>      <span class="op">.</span><span class="fu">apply</span>(AuthenticationMiddle)</span>
+<span id="cb7-28"><a href="#cb7-28"></a>      <span class="op">.</span><span class="fu">with</span>(strategy)</span>
+<span id="cb7-29"><a href="#cb7-29"></a>      <span class="op">.</span><span class="fu">forRoutes</span>(</span>
+<span id="cb7-30"><a href="#cb7-30"></a>        <span class="op">...</span>userControllerAuthenticateRoutes<span class="op">,</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a>        EnteryController<span class="op">,</span>  <span class="co">//</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a>        CommentModule      <span class="co">//</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a>      )</span>
+<span id="cb7-34"><a href="#cb7-34"></a>  }</span>
+<span id="cb7-35"><a href="#cb7-35"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>可以将中间件应用于控制器上的所有路由
+<ul>
+<li>就像对<code>EntryController</code>和<code>CommentController</code>所做的那样。</li>
+</ul></li>
+<li>还可以按路径将中间件应用于<strong>特定路由</strong>
+<ul>
+<li>就像对<code>UserController</code>中的路由子集所做的那样</li>
+</ul></li>
+</ul>
+</section>
+<section id="知识点-4" class="level3">
+<h3 class="anchored" data-anchor-id="知识点-4">知识点</h3>
+<ul>
+<li>Nest.js middleware
+<ul>
+<li>Nest中间件</li>
+</ul></li>
+<li>decorated with
+<ul>
+<li>phasal verb</li>
+<li>使用装饰器装饰或标记某物</li>
+</ul></li>
+<li>implements
+<ul>
+<li>实现某个接口</li>
+</ul></li>
+<li><strong>called befor</strong>
+<ul>
+<li>phasal verb</li>
+<li>在…之前被调用</li>
+</ul></li>
+<li>route handlers
+<ul>
+<li>处理路由的函数</li>
+</ul></li>
+<li><strong>have access to</strong>
+<ul>
+<li>phasal verb</li>
+<li>能够访问或使用某物</li>
+</ul></li>
+<li>request and response object
+<ul>
+<li>请求和响应对象</li>
+</ul></li>
+<li><strong>make change to</strong>
+<ul>
+<li>phasal verb</li>
+<li>对…做出更改</li>
+</ul></li>
+<li><strong>configured for</strong> a route
+<ul>
+<li>phasal verb</li>
+<li>配置路由</li>
+</ul></li>
+<li>**pass the execution to`
+<ul>
+<li>将执行权传递给…</li>
+</ul></li>
+<li>request-response cycle
+<ul>
+<li>请求和响应的过程或周期</li>
+</ul></li>
+<li>call next()
+<ul>
+<li>调用next()函数</li>
+</ul></li>
+<li><strong>leave the request hanging</strong>
+<ul>
+<li>使请求悬挂或未完成</li>
+</ul></li>
+<li><strong>responsible for</strong> authenticating
+<ul>
+<li>负责验证</li>
+</ul></li>
+<li>accessing the blog
+<ul>
+<li>访问博客</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="guards" class="level2">
+<h2 class="anchored" data-anchor-id="guards">Guards</h2>
+<ul>
+<li>Guards
+<ul>
+<li>are classes
+<ul>
+<li>that are <strong>decorated with</strong> the <code>@Injectable()</code> decorator</li>
+<li>and implements the <code>CanActivate interface</code></li>
+</ul></li>
+</ul></li>
+<li>A guard
+<ul>
+<li>is <strong>responsible for</strong> determining
+<ul>
+<li>if a request should <strong>be handled by</strong> a route handler or route.</li>
+</ul></li>
+</ul></li>
+<li>Guards
+<ul>
+<li>are executed
+<ul>
+<li><font color="red">after every middleware</font></li>
+<li>but <font color="red">before pipes</font></li>
+</ul></li>
+</ul></li>
+<li>Unlike middleware
+<ul>
+<li>guards <strong>have access to</strong> the <code>ExecutionContext</code> object</li>
+<li>so they know exectly <strong>what is going to evaluated</strong></li>
+</ul></li>
+<li>The <code>@UseGuards</code> decorator
+<ul>
+<li>is used to <strong>apply a guard to a route</strong></li>
+<li>This decorator can <strong>be used on a controller class</strong>
+<ul>
+<li><strong>to apply the guard to all routes</strong> in that controller</li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="翻译-5" class="level3">
+<h3 class="anchored" data-anchor-id="翻译-5">翻译</h3>
+<p>Guard(守护程序)<strong>是</strong>使用<code>@Injectable()</code>装饰器装饰<strong>并</strong>实现<code>CanActivate</code>接口的类。</p>
+<p>Guards<strong>负责确定</strong>请求应有<strong>程序处理器</strong>还是<strong>路由</strong>来处理。</p>
+<p>Guards在每个中间件之后，但在管道之前执行。</p>
+<ul>
+<li>与中间件不同的是
+<ul>
+<li>Guards可以访问<code>ExecutionContext</code>对象</li>
+<li>因此它们能准确知道将要求值的内容</li>
+</ul></li>
+<li><code>@UseGuards</code>装饰器
+<ul>
+<li>被用于对路由(route)应用保护(guard)</li>
+<li>以便将防护措施应用与该控制器中的所有路由</li>
+<li>可以再控制器中的单个路由处理程序，如<code>UserController</code>所示</li>
+</ul></li>
+</ul>
+</section>
+<section id="示例-4" class="level3">
+<h3 class="anchored" data-anchor-id="示例-4">示例</h3>
+<p>在博客程序中，我们在<code>UserController</code>中使用<code>CheckLoggedInUserGuard</code>来只允许某个用户访问和访问自己的用户信息。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> { Injectable<span class="op">,</span> CanActivate<span class="op">,</span> ExecutionContext } <span class="im">from</span> <span class="st">'@nestjs/common'</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="im">import</span> { Observable } <span class="im">from</span> <span class="st">'rxjs'</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a>@<span class="fu">Injectable</span>()</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="im">export</span> <span class="kw">class</span> CheckLoggedInUserGuard <span class="kw">implements</span> CanActivate {</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">canActivate</span>(</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    <span class="dt">context</span><span class="op">:</span> ExecutionContext</span>
+<span id="cb8-8"><a href="#cb8-8"></a>  )<span class="op">:</span> boolean <span class="op">|</span> <span class="bu">Promise</span><span class="op">&lt;</span>boolean<span class="op">&gt;</span> <span class="op">|</span> Observable<span class="op">&lt;</span>boolean<span class="op">&gt;</span> {</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    <span class="kw">const</span> req <span class="op">=</span> context<span class="op">.</span><span class="fu">switchToHttp</span>()<span class="op">.</span><span class="fu">getRequest</span>()</span>
+<span id="cb8-10"><a href="#cb8-10"></a>    <span class="cf">return</span> <span class="bu">Number</span>(req<span class="op">.</span><span class="at">params</span><span class="op">.</span><span class="at">userId</span>) <span class="op">===</span> req<span class="op">.</span><span class="at">user</span><span class="op">.</span><span class="at">id</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>  }</span>
+<span id="cb8-12"><a href="#cb8-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a>@<span class="fu">Controller</span>(<span class="st">'users'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">export</span> <span class="kw">class</span> UserController {</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">constructor</span>(<span class="kw">private</span> readonly <span class="dt">userService</span><span class="op">:</span> UserSevice) {}</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  @<span class="fu">Get</span>(<span class="st">':userId'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  @<span class="fu">UseGuards</span>(CheckLoggedInUserGuard)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">show</span>(@<span class="fu">Param</span>(<span class="st">'userId'</span>) <span class="dt">userId</span><span class="op">:</span> number) {</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="kw">const</span> <span class="dt">user</span><span class="op">:</span> User <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">userService</span><span class="op">.</span><span class="fu">findById</span>(userId)</span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="cf">return</span> user</span>
+<span id="cb9-10"><a href="#cb9-10"></a>  }</span>
+<span id="cb9-11"><a href="#cb9-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="知识点-5" class="level3">
+<h3 class="anchored" data-anchor-id="知识点-5">知识点</h3>
+<ul>
+<li>decorated with
+<ul>
+<li>使用某种装饰器来装饰或标记</li>
+</ul></li>
+<li><strong>implement</strong> the CanActivate interface
+<ul>
+<li>实现…接口</li>
+</ul></li>
+<li>responsible for determing
+<ul>
+<li>负责确定某事</li>
+</ul></li>
+<li><strong>handled by</strong> a route handler or route
+<ul>
+<li>由…处理</li>
+</ul></li>
+<li><strong>executed after</strong> every middleware
+<ul>
+<li>在…后执行</li>
+</ul></li>
+<li>but before pipes
+<ul>
+<li>但在…之前</li>
+</ul></li>
+<li><strong>Unlike</strong> middleware
+<ul>
+<li>与…不同</li>
+</ul></li>
+<li>have access to
+<ul>
+<li>可以访问或使用</li>
+</ul></li>
+<li>know exactly what
+<ul>
+<li>确切地知道某事</li>
+</ul></li>
+<li><strong>is going to</strong> evaluated
+<ul>
+<li>即将被评估或执行</li>
+</ul></li>
+<li>used to apply
+<ul>
+<li>用于应用或实施某物</li>
+</ul></li>
+<li>a guard <strong>to</strong> a route
+<ul>
+<li>用于到路由的守卫</li>
+</ul></li>
+<li><strong>used on</strong> a controller class
+<ul>
+<li>用于…</li>
+</ul></li>
+<li><strong>apply</strong> the guard
+<ul>
+<li>应用或使用守卫</li>
+</ul></li>
+<li>all routes <strong>in</strong> that controller
+<ul>
+<li>一个控制器中的所有路由</li>
+</ul></li>
+<li><strong>individual</strong> route handlers
+<ul>
+<li>单个路由处理函数</li>
+</ul></li>
+<li><strong>in a</strong> controller
+<ul>
+<li>在一个…内部</li>
+</ul></li>
+<li><strong>as seen in</strong> the UserController
+<ul>
+<li>…中看到的方式或示例</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="总结" class="level2">
+<h2 class="anchored" data-anchor-id="总结">总结</h2>
+<ul>
+<li>Nest.js application
+<ul>
+<li>one or more modules</li>
+</ul></li>
+<li>Modules
+<ul>
+<li>is organized into modules</li>
+<li>have a root module</li>
+<li>split up your code into feature and related capabilities</li>
+<li><font color="blue">is a class</font>
+<ul>
+<li>decorated with <code>Module</code> decorator</li>
+</ul></li>
+<li>describes module using properties
+<ul>
+<li>components</li>
+<li>controllers</li>
+<li>imports</li>
+<li>exports</li>
+</ul></li>
+</ul></li>
+<li>Controllers
+<ul>
+<li><font color="blue">are responsible for</font>
+<ul>
+<li>handing <strong>incoming requests</strong></li>
+<li>and <strong>returning responses</strong> to client</li>
+</ul></li>
+<li><font color="blue">route</font>
+<ul>
+<li>incoming request to <strong>handler functions</strong></li>
+</ul></li>
+</ul></li>
+<li>Providers
+<ul>
+<li><font color="blue">are used to create</font>
+<ul>
+<li>services</li>
+<li>factories</li>
+<li>helpers</li>
+<li>can be injected into controllers</li>
+<li>other providers
+<ul>
+<li>using DI</li>
+</ul></li>
+</ul></li>
+<li><font color="blue">to create a provider class</font>
+<ul>
+<li>using <code>@Injectable()</code> decorator</li>
+</ul></li>
+</ul></li>
+<li>Middleware
+<ul>
+<li><font color="blue"><strong>is</strong></font>
+<ul>
+<li><strong>either</strong> <font color="blue">a function</font></li>
+<li><strong>or</strong> <font color="blue">a class</font>
+<ul>
+<li>decorated with <code>Injectable()</code></li>
+<li>implements the <code>NestMiddleware</code> interface</li>
+</ul></li>
+</ul></li>
+<li><font color="blue"><strong>have access to</strong></font>
+<ul>
+<li>request object</li>
+<li>and response object</li>
+</ul></li>
+<li><font color="blue"><strong>makes changes to</strong></font>
+<ul>
+<li>request object</li>
+<li>and response object</li>
+</ul></li>
+<li><font color="blue">can be configured for a route</font>
+<ul>
+<li>in the <code>configure()</code> function</li>
+</ul></li>
+<li><font color="blue">a middleware function</font>
+<ul>
+<li>choose to pass the execution
+<ul>
+<li>to the next middleware function on stack
+<ul>
+<li>call <code>next()</code> to pass control</li>
+</ul></li>
+<li>or to end the request-response cycle</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Guards
+<ul>
+<li><font color="blue"><strong>are</strong> classes</font> that
+<ul>
+<li><strong>are decorated with</strong> the <code>@Injectable</code> decorator</li>
+<li><strong>and implements</strong> the <code>CanActivate</code> interface</li>
+</ul></li>
+<li><font color="blue"><strong>responsible for</strong></font> determining handled by
+<ul>
+<li>a route handler</li>
+<li>or route</li>
+</ul></li>
+<li><font color="blue"><strong>ere executed</strong></font>
+<ul>
+<li><strong>after</strong> every middleware</li>
+<li>but <strong>before</strong> pips</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>                                           </span>
+<span id="cb10-2"><a href="#cb10-2"></a>|----------------|     |------------|     |-------|     |-------|      |---------------|</span>
+<span id="cb10-3"><a href="#cb10-3"></a>|                |     |            |     |       |     |       |      |               |</span>
+<span id="cb10-4"><a href="#cb10-4"></a>| Client Request |---&gt; | Middleware |---&gt; | Guard |---&gt; | Pipes | ---&gt; | Route Handler |</span>
+<span id="cb10-5"><a href="#cb10-5"></a>|                |     |            |     |       |     |       |      |               |</span>
+<span id="cb10-6"><a href="#cb10-6"></a>|----------------|     |------------|     |-------|     |-------|      |---------------|</span>
+<span id="cb10-7"><a href="#cb10-7"></a>                                              |                              ^</span>
+<span id="cb10-8"><a href="#cb10-8"></a>                                              |                              |</span>
+<span id="cb10-9"><a href="#cb10-9"></a>                                              |------------------------------|</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com">
+      <i class="bi bi-email" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
