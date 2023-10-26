@@ -1,0 +1,750 @@
+---
+title: "英语学习-NestJS概览(01)"
+author: "曳影"
+date: "2023-10-26"
+categories: [NestJS]
+---
+
+# Nest.js Overview
+
+We'll take an overview of Nest.js
+
+and
+
+look at 
+
+**the core concepts**
+
+- that you'll need to build a Nest.js application.
+
+### 知识点
++ take an overview
+  - 在这个语境下，`take`本身没有**拿取**的意思，而是与后面的名词组合来形成一个特定的意思
+  - 意思是：对某事或某物进行一个总体的、概括性的查看或审视
+    - 近似于
+      - have a general look
+      - get a broad perspective
+  - `take`可与多种**名词**搭配，形成各种意思
+    - take a look: 看一下
+    - take a break: 休息一下
+    - take a shower: 洗个脸
+    - take a chance: 冒个险
++ build a Nest.js application
+  - 构建一个...应用
+
+## Controllers
+
++ Controllers in Nest 
+  - <font color='red'>are responsible for</font>     
+  - handling 
+    - `incoming requests`   
+    - and `returning responses` to the client. 
+
+
++ Nest will <font color='red'>route</font> 
+  - `incoming requests` to `handler functions`
+  - in controller classes. 
+
++ We use the `@Controller decorator` 
+  - to <font color='red'>create</font> **a controller class**.
+
+### 翻译
+
+Nest中的`Controller`负责(resposible for)处理**传入请求(incoming requests)**并向客户端**返回响应(returning responses)**
+
+Nest会将**传入请求(incoming request)**路由(route)到控制器类(Controller)中的处理函数(handler function)
+
+我们使用`@Controller()`装饰器(decorotor)来创建一个**控制器类**
+
+### 示例
+
+```js
+import { Controller, Get } from '@nestjs/common'
+
+@Controller
+export class EnteryController {
+	@Get
+	index(): Entry[] {
+		const entries: Entry[] = this.entriesService.findAll()
+		return entries
+	}
+}
+```
+
+### 知识点
+
++ Controllers in Nest
+  - 在...的...
++ responsible for
+  - phrasal verb
+  - 描述某事或某物的职责或功能
++ handling incoming request and returning response
+  - 处理传入请求和返回响应
++ route incoming requests
+  - 路由传入的请求
+  - 描述如何处理(route)请求
++ handler function
+  - 处理函数
++ controller classes
+  - 控制器类
++ @Controller decorator
+  - 控制器装饰器
+
+## Provider
+
+Providers in Nest 
+<font color='red'>are used to 
+create</font> 
+
+- services
+- factories
+- helper
+- and more 
+  - that can be **injected into** controllers
+- and other providers
+  - using Nest's built-in **dependency injection**
+
+The `@Injectable() decorator` <font color='red'>is used to create</font> **a provider class**.
+
+### 翻译
+
+Nest中的`provider`用于创建`services`、`factories`、`helpers`
+
+这些`services`、`factories`、`helpers`可以使用Nest内置的**依赖注入**到**控制器**和其他`provider`中。
+
+`@Injectable()`装饰器用于创建`a provider class`
+
+### 示例
+
+我们博客应用中的`AuthenticationService`事一个注入并使用`UsersService`组件的提供程序
+
+```js
+@Injectable
+export class AuthenticationService {
+	constructor(private readonly userService: UserService) {}
+
+	async validateUser(payload: { email: string; password: string;}): Promise<boolean> {
+		const user = await this.userService.findOne({where: {email: payload.email }})
+		return !!user
+	}
+}
+```
+
+### 知识点
+
++ are(be) used to
+  - 被用于...
++ Providers in Nest
+  - 在...的...
++ used to create
+  - 表示用于创建或制造某物
+  - used to create a provider class
++ service, factories, helpers, **and more**
+  - 列举...
++ can be injected into
+  - 表示某物可以被注入到其他物体中
++ Nest's built-in dependency injection
+  - built-in: ...内置...
+  - dependency injection: 依赖注入
+
+## Modules
+
+A Nest.js application <font color='red'>is organized into</font> `modules`.
+
+Every Nest.js application will have a **root module**
+
++ In a small application
+  - this may be the only module.
+
++ In a larger application
+  - it makes sense to organize your application into multiple modules 
+    - that <font color='red'>split up</font> your code into features and related capabilities
+
++ A module in Nest.js 
+  - **is a class** 
+    - with a @Module() decorator. 
+  
++ The @Module() decorator 
+  - takes a single object 
+    - that describes module using the following properties.
+      - components
+      - controllers
+      - imports
+      - exports
+
++ components
+  - The components to **be instantiated**
+    - that may **be shared across this module** 
+    - and exported to be available **to other modules**
+
++ controllers
+  - The controllers that are created **by this module**
+
++ imports
+  - The list of modules to import that export components 
+    - that are requires **in this module**
+
++ exports
+  - The list of components **from this module** 
+    - to be made available **to other modules**
+
++ The AppModule imports the modules
+  - that are needed for the application.
+
++ **The root module** in our application
+  - doesn't need to have any `exports`
+    - since no other modulers import it
+
++ **The root module** also doesn't need to have any `exports`
+  - since no other modules import it
+
++ **The root module** doesn't have any `conponents` or `controllers`
+  - as these are all organized within the sub-modules they are related to
+
++ Modules in Nest.js <font color='red'>are</font> singletons by default. 
+  - This means that you **can share the same instance** of **an exported component**
+
+### 翻译
+
+每个Nest.js应用被组织成模块。
+
+每个Nest.js都有一个**根模块**
+
+在小型应用中，根模块可能是唯一的模块
+
+在大型应用程序中，应用程序被组织成多个模块，这些模块将代码分割成不同的**功能**和**相关能力**
+
+Nest.js中的模块是带有`@Module()`装饰器的类。
+
++ `@Module()`装饰器采用一个使用以下属性描述模块的对象
+  - components: 
+    - 要实例化的组件可以**跨该模块共享**并**导出**以供其他模块使用
+  - controllers：
+    - 该模块创建的控制器(controllers)
+  - imports:
+    - 要导入的模块列表，该模块中所需的组件
+  - exports:
+    - 该模块**可供其他模块使用**的组件列表
+
++ The AppModule(the root module)
+  - 导入应用程序所需的模块(modules)
+  - 根模块不需要任何导出，因为没有其它模块导入它
+  - 也没有任何组件(components)或(controllers),因为它们都组织在与其相关的子模块(sub-modules)中
+
+### 示例
+
+在根模块`AppModule`中包含多个模块处理认证、评论、数据库访问、博客条目和用户
+
+```js
+@Module({
+  components: [],
+  controllders: [],
+  imports: [
+    DatabaseModule,
+    AuthenticationModule.forRoot('jwt'),
+    UserModule,
+    EntryModule,
+    CommentModule,
+    UserGatewayModule,
+    CommentGatewayModule
+  ],
+  exports: [],
+})
+export class AppModule implements NestModule {}
+```
+
+The `EntryModule`
+
+```js
+@Module({
+  components: [entryProvider, EntryService],
+  controllers: [EnteryController],
+  imports: [],
+  exports: [EntryService]
+})
+export class EntryModule implements NestModule {}
+```
+
+
+### 知识点
+
++ is organized into
+  - 被动语态的动词短语
+  - 某物或某事被安排活组织成某种形式或结构
+  - **整体** be organized into **部分**
++ to organize ... into ...
+  - to organize **整体** into **部分**
+
++ split up
+  - phrasal verb
+  - 分割或分离成若干部分
+    - 将一群人、物品、任务分成几个小组或部分
+  - to split up **整体** into **部分**
+  - The teacher decided to split up the students into small groups for the project
+
++ features and related capabilities
+  - 应用程序的功能和相关能力
+
++ module in Nest.js
+  - 在...的...
+
++ @Module decorator
+
++ take a single object
+  - 描述接受一个对象的**动作**
+
++ components to be instantiated
+  - 需要实例化的组件
+
++ available to other modulers
+  - 对其他模块可用
+
++ controller that are created by this module
+  - 控制器被模块创建
+
++ list of modules to import
+  - 需要导入的模块列表
+
++ list of components from this module
+  - 来自模块的组件列表
+
++ components that are required in this module
+  - 在此模块中所需的组件
+
++ since ...
+  - 因为
+
++ as ...
+  - 因为
+
+## Bootstrapping(自举)
+
++ Every Nest.js application** 
+ - needs to be bootstrapped. 
+ - This is done by by**using the NestFactory** 
+   - **to create the root module** and **calling the listen() method**.
+
+### 翻译
+
+每个Nest.js应用都需要引导(bootstrapped)，这是通过使用`NestFactory`创建**根模块**并调用`listen()`method.
+
+### 示例代码
+
+应用程序的入口是`main.ts`，使用`async/await`模式来创建`AppModule`并调用`listen()`
+
+```js
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule)
+  await app.listen(3000)
+}
+```
+
+## Middleware
+
++ **Nest.js middleware** <font color='red'>is</font>
+  - <font color='red'>either</font> **a function** <font color='red'>
+  - or</font> **a class decorated**
+    - with the `@Injectable decorator`
+      - that implements `the NestMiddleware interface`
+
++ Middleware 
+  - is called </font color='red'> befor route handlers**
+  - These functions have access to **the request and response object**
+  - and they can make changes to **the request and response object**
+
++ One or more middleware function
+  - can be configured for **a route**
+  - and **a middleware function** 
+    - can choose to pass the execution
+      - **to the next middleware function**
+      - on the stack or to end **the request-response cycle**
+
++ If **a middleware function** does not end **the request-response cycle**
+  - it <font color='red'>must</font> call `next()` 
+    - to pass control to **the next middleware function** 
+      - or to **the request handler**
+        - if it is **the last function** on the stack.
+  - Failing to do so will leave **the request hanging**
+
++ Middleware is configured
+  - **on routes**
+  - in the `configure()` function of a Nest.js module.
+
+
+### 翻译
+
+Nest.js中间件是一个函数或一个使用`@Injectable`装饰的类，它实现了`NestMiddleware`接口。
+
+中间件在**路由处理程序之前**被调用。
+
+这些函数可以访问**请求和响应对象**，并对**请求和响应**对象进行更改
+
+可以为**路由**配置一个或多个中间件函数，
+
+并且中间件函数可以选择将执行传递给栈上的**下一个中间件函数**或结束**请求-响应周期**
+
+如果**中间件函数**没有结束**请求-响应周期**
+
+则它必须调用`next()`将控制权传递给**下一个中间件函数**或**请求处理程序**(栈上最后一个中间件函数)
+
+如果不是按照上面的方式执行，**请求**会被挂起。
+
+中间件是在`Nest.js`模块的`configure()`函数中的路由上配置的。
+
+### 示例
+
+博客应用程序中的`AuthenticationMiddleware`负责对访问博客的用户进行身份验证。
+
+```js
+import { MiddlewareFunction } from '@nestjs/common'
+import { HttpState } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
+import { NestMiddleware } from '@nestjs/common'
+import * as passport from 'passport'
+import { UserService } from '../../modules/user/user.service'
+
+@Injectable
+export class AuthenticationMiddleware implements NestMiddleware {
+  constructor(private userService: UserService) {}
+
+  async resolve(strategy: string): Promise<MiddlewareFunction> {
+    return async (req, res, next) => {
+      return passport.authenticate(strategy, async (...args: any[]) => {
+        const [, payploy, err] = args
+        if (err) {
+          return res
+             .status(HttpState.BAD_REQUEST)
+             .send('Unable to authenticate the user.')
+        }
+
+        const user = await this.userService.findOne({
+          where: { email: payload.email }
+        })
+        req.user = user
+        return next()
+      })(req, res, next)
+    }
+  }
+}
+```
+
++ 如果身份验证失败
+  - 则会将400响应发送回客户端。
+
++ 如果身份验证成功
+  - 则调用`next()`,请求将继续沿着**中间件栈**<font color='red'>向下传输</font>，直到到达**请求处理程序**
+
+`AuthenticationMiddle`在`AppModule`中配置，如下：
+
+```js
+@Module({
+  imports: [
+    DatabaseModule,
+    AuthenticationMiddle.forRoot('jwt'),
+    UserModule,
+    EntryModule,
+    CommentModule,
+    UserGatewayModule,
+    CommentGatewayModule,
+    KeywordModule,
+  ],
+  controllders: [],
+  providers: []
+})
+
+export class AppModule implements NestModule{
+  public configure(consumer: MiddlewareConsumer) {
+    // 
+    const userControllerAuthenticateRoutes = [
+      { path: '/user', method: RequestMethod.GET },
+      { path: '/user/:id', method: RequestMethod.GET },
+      { path: '/user/:id', method: RequestMethod.PUT },
+      { path: '/user/:id', method: RequestMethod.DELETE },
+    ]
+    // 
+    consumer
+      .apply(AuthenticationMiddle)
+      .with(strategy)
+      .forRoutes(
+        ...userControllerAuthenticateRoutes,
+        EnteryController,  //
+        CommentModule      //
+      )
+  }
+}
+```
+
++ 可以将中间件应用于控制器上的所有路由
+  - 就像对`EntryController`和`CommentController`所做的那样。
++ 还可以按路径将中间件应用于**特定路由**
+  - 就像对`UserController`中的路由子集所做的那样
+
+### 知识点
+
++ Nest.js middleware
+  - Nest中间件
+
++ decorated with
+  - phasal verb
+  - 使用装饰器装饰或标记某物
+
++ implements
+  - 实现某个接口
+
++ **called befor**
+  - phasal verb
+  - 在...之前被调用
+
++ route handlers
+  - 处理路由的函数
+
++ **have access to**
+  - phasal verb
+  - 能够访问或使用某物
+
++ request and response object
+  - 请求和响应对象
+
++ **make change to**
+  - phasal verb
+  - 对...做出更改
+
++ **configured for** a route
+  - phasal verb
+  - 配置路由
+
++ **pass the execution to`
+  - 将执行权传递给...
+
++ request-response cycle
+  - 请求和响应的过程或周期
+
++ call next()
+  - 调用next()函数
+
++ **leave the request hanging**
+  - 使请求悬挂或未完成
+
++ **responsible for** authenticating
+  - 负责验证
+
++ accessing the blog
+  - 访问博客
+
+## Guards
+
++ Guards 
+  - are classes
+    - that are **decorated with** the `@Injectable()` decorator
+    - and implements the `CanActivate interface`
+
++ A guard
+  - is **responsible for** determining
+    - if a request should **be handled by** a route handler or route.
+
++ Guards
+  - are executed 
+    - <font color='red'>after every middleware</font> 
+    - but <font color='red'>before pipes</font>
+
++ Unlike middleware
+  - guards **have access to** the `ExecutionContext` object
+  - so they know exectly **what is going to evaluated**
+
++ The `@UseGuards` decorator 
+  - is used to **apply a guard to a route**
+  - This decorator can **be used on a controller class**
+    - **to apply the guard to all routes** in that controller
+
+### 翻译
+
+Guard(守护程序)**是**使用`@Injectable()`装饰器装饰**并**实现`CanActivate`接口的类。
+
+Guards**负责确定**请求应有**程序处理器**还是**路由**来处理。
+
+Guards在每个中间件之后，但在管道之前执行。
+
++ 与中间件不同的是
+  - Guards可以访问`ExecutionContext`对象
+  - 因此它们能准确知道将要求值的内容
+
++ `@UseGuards`装饰器
+  - 被用于对路由(route)应用保护(guard)
+  - 以便将防护措施应用与该控制器中的所有路由
+  - 可以再控制器中的单个路由处理程序，如`UserController`所示
+
+### 示例
+
+在博客程序中，我们在`UserController`中使用`CheckLoggedInUserGuard`来只允许某个用户访问和访问自己的用户信息。
+
+```js
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
+import { Observable } from 'rxjs'
+
+@Injectable()
+export class CheckLoggedInUserGuard implements CanActivate {
+  canActivate(
+    context: ExecutionContext
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    const req = context.switchToHttp().getRequest()
+    return Number(req.params.userId) === req.user.id
+  }
+}
+```
+
+
+```js
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserSevice) {}
+
+  @Get(':userId')
+  @UseGuards(CheckLoggedInUserGuard)
+  show(@Param('userId') userId: number) {
+    const user: User = this.userService.findById(userId)
+    return user
+  }
+}
+```
+
+### 知识点
+
++ decorated with
+  - 使用某种装饰器来装饰或标记
+
++ **implement** the CanActivate interface
+  - 实现...接口
+
++ responsible for determing
+  - 负责确定某事
+
++ **handled by** a route handler or route
+  - 由...处理
+
++ **executed after** every middleware
+  - 在...后执行
+
++ but before pipes
+  - 但在...之前
+
++ **Unlike** middleware
+  - 与...不同
+
++ have access to
+  - 可以访问或使用
+
++ know exactly what
+  - 确切地知道某事
+
++ **is going to** evaluated
+  - 即将被评估或执行
+
++ used to apply
+  - 用于应用或实施某物
+
++ a guard **to** a route
+  - 用于到路由的守卫
+
++ **used on** a controller class
+  - 用于...
+
++ **apply** the guard
+  - 应用或使用守卫
+
++ all routes **in** that controller
+  - 一个控制器中的所有路由
+
++ **individual** route handlers
+  - 单个路由处理函数
+
++ **in a** controller
+  - 在一个...内部
+
++ **as seen in** the UserController
+  - ...中看到的方式或示例 
+
+
+## 总结
+
++ Nest.js application
+  - one or more modules
+
++ Modules
+  - is organized into modules
+  - have a root module
+  - split up your code into feature and related capabilities
+  - <font color='blue'>is a class</font>
+    - decorated with `Module` decorator
+  - describes module using properties
+    - components
+    - controllers
+    - imports
+    - exports
+
++ Controllers
+  - <font color='blue'>are responsible for</font>
+    - handing **incoming requests**
+    - and **returning responses** to client
+  - <font color='blue'>route</font>
+    - incoming request to **handler functions**
+
++ Providers
+  - <font color='blue'>are used to create</font>
+    - services
+    - factories
+    - helpers
+    - can be injected into controllers
+    - other providers
+      - using DI
+  - <font color='blue'>to create a provider class</font>
+    - using `@Injectable()` decorator
+
++ Middleware
+  - <font color='blue'>**is**</font>
+    - **either** <font color='blue'>a function</font>
+    - **or** <font color='blue'>a class</font> 
+      - decorated with `Injectable()`
+      - implements the `NestMiddleware` interface
+  - <font color='blue'>**have access to**</font>
+    - request object
+    - and response object
+  - <font color='blue'>**makes changes to**</font>
+    - request object
+    - and response object
+  - <font color='blue'>can be configured for a route</font>
+    - in the `configure()` function
+  - <font color='blue'>a middleware function</font>
+    - choose to pass the execution
+      - to the next middleware function on stack
+        - call `next()` to pass control
+      - or to end the request-response cycle
+
++ Guards
+  - <font color='blue'>**are** classes</font> that 
+    - **are decorated with** the `@Injectable` decorator
+    - **and implements** the `CanActivate` interface
+  - <font color='blue'>**responsible for**</font> determining handled by 
+    - a route handler
+    - or route
+  - <font color='blue'>**ere executed**</font>
+    - **after** every middleware
+    - but **before** pips
+
+```shell
+                                           
+|----------------|     |------------|     |-------|     |-------|      |---------------|
+|                |     |            |     |       |     |       |      |               |
+| Client Request |---> | Middleware |---> | Guard |---> | Pipes | ---> | Route Handler |
+|                |     |            |     |       |     |       |      |               |
+|----------------|     |------------|     |-------|     |-------|      |---------------|
+                                              |                              ^
+                                              |                              |
+                                              |------------------------------|
+```
+  
+
+
+
