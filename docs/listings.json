@@ -2,7 +2,10 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ts_decorator/index.html",
+      "/posts/ts_notes/index.html",
       "/posts/nestjs/index.html",
+      "/posts/nestjs_dependency_injection/index.html",
       "/posts/vue_component/index.html",
       "/posts/ls_colors_terminal/index.html",
       "/posts/vue3_core_and_optionAPI/index.html",

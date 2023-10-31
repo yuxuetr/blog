@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="曳影">
+<meta name="dcterms.date" content="2023-10-30">
+
+<title>曳影 - Typescript的装饰器</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">曳影</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com" rel="" target=""><i class="bi bi-email" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Typescript的装饰器</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Typescript</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>曳影 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 30, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="typescript的装饰器" class="level1">
+<h1>Typescript的装饰器</h1>
+<section id="装饰器的定义" class="level2">
+<h2 class="anchored" data-anchor-id="装饰器的定义">装饰器的定义</h2>
+<ul>
+<li>装饰器
+<ul>
+<li>就是一个<strong>函数</strong></li>
+<li>可以<strong>注入</strong>到：<strong>类</strong>、<strong>方法</strong>、<strong>属性</strong>、<strong>参数</strong>、<strong>对象</strong></li>
+<li><strong>扩展</strong>其功能</li>
+</ul></li>
+<li>装饰器要解决的问题
+<ul>
+<li>装饰器就是解决在不修改<strong>类、属性、方法、参数</strong>的时候为其添加额外的功能。</li>
+</ul></li>
+<li>高阶组件本质上也采用了装饰器的思想
+<ul>
+<li>在<code>Nets.js</code>中<strong>装饰器</strong>可以解决<strong>依赖注入</strong>的问题</li>
+<li>有了依赖注入，能大大降低项目的耦合度，大大提升项目的扩展性</li>
+</ul></li>
+<li><strong>依赖注入</strong>核心思想
+<ul>
+<li>使用和创建分离</li>
+</ul></li>
+</ul>
+</section>
+<section id="装饰器的分类" class="level2">
+<h2 class="anchored" data-anchor-id="装饰器的分类">装饰器的分类</h2>
+<ul>
+<li>类装饰器</li>
+<li>属性装饰器</li>
+<li>方法装饰器</li>
+<li>参数装饰器</li>
+<li>元数据的装饰器</li>
+</ul>
+</section>
+<section id="装饰器的两种写法" class="level2">
+<h2 class="anchored" data-anchor-id="装饰器的两种写法">装饰器的两种写法</h2>
+<ul>
+<li>使用时不传参</li>
+<li>装饰器工厂：使用时可以传参</li>
+</ul>
+</section>
+<section id="环境搭建" class="level2">
+<h2 class="anchored" data-anchor-id="环境搭建">环境搭建</h2>
+<ol start="0" type="1">
+<li><p>安装<code>ts-node</code> - 可以使用<code>ts-node</code>命令直接运行<code>*.ts</code>文件，不需要先编译成<code>*.js</code>再使用<code>node</code>执行</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>npm install -g ts-node</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>安装<code>concurrently</code>，支持合并执行，同时运行多个<code>script</code>命令</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>npm i concurrently -s</span>
+<span id="cb2-2"><a href="#cb2-2"></a>npm i nodemon -s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>新建目录，初始化TS配置，生成<code>tsconfig.json</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>tsc --init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>生成Node包管理文件<code>pakcage.json</code> <code>shell       npm init</code></p></li>
+<li><p>配置文件修改配置支持，修改<code>tsconfig.json</code> - 解开装饰器配置</p>
+<ul>
+<li>支持普通装饰器</li>
+<li>支持元数据装饰器
+<ul>
+<li>设置源码目录和编译生成JS代码目录</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1"></a><span class="er">"experimentalDecorators":</span> <span class="er">true,</span> <span class="er">//</span> <span class="er">支持普通装饰器</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="er">"emitDecoratorMetadata":</span> <span class="er">true,</span>  <span class="er">//</span> <span class="er">支持元数据装饰器</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="er">"rootDir":</span> <span class="er">"./src",</span>             <span class="er">//</span> <span class="er">源代码根目录</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="er">"outDir":</span> <span class="er">"./dist",</span>             <span class="er">//</span> <span class="er">生成JS代码的根目录</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p>配置<code>package.json</code> - 监控<code>dist/teaching</code>目录中的<code>js</code>文件，变化时执行<code>node</code>命令 - 合并启动 - 命令解决<code>typescript</code>编译装饰器类时出现的bug</p>
+<ul>
+<li><code>tsconfig.json</code>中配置装饰器配置这是避免代码报错</li>
+<li>编译执行需要在指定支持装饰器选项
+<ul>
+<li><code>ts-node</code>命令配置</li>
+<li><font color="red">这个配置需要根据文件名进行修改，后面会有提示</font></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1"></a><span class="er">"dev:build":</span> <span class="er">"tsc</span> <span class="er">-w",</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="er">"dev:start":</span> <span class="er">"nodemon</span> <span class="er">--watch</span> <span class="er">dist/decorators</span> <span class="er">js</span> <span class="er">--exec</span> <span class="er">node</span> <span class="er">./dist/decorators/1ClassDecorator.js",</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="er">"start":</span> <span class="er">"concurrently</span> <span class="er">npm:dev:*",</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="er">"tsc":</span> <span class="er">"tsc</span> <span class="er">src/decorators/1ClassDecorator.ts</span> <span class="er">--</span> <span class="er">target</span> <span class="er">ES5</span> <span class="er">-w</span> <span class="er">--experimentaDecorators",</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="er">"ctrl":</span> <span class="er">"ts-node</span> <span class="er">src/controller/HomeController.ts",</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="er">"beginapp":</span> <span class="er">"nodemon</span> <span class="er">--watch</span> <span class="er">src/</span> <span class="er">-e</span> <span class="er">ts</span> <span class="er">--exec</span> <span class="er">ts-node</span> <span class="er">./src/expressapp.ts"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p>创建<code>src/decorators</code></p></li>
+</ol>
+</section>
+<section id="类装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="类装饰器">类装饰器</h2>
+<ul>
+<li>不带参数的类装饰器
+<ul>
+<li><p>代码</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">function</span> <span class="fu">FirstClassDecorator</span>(targetClass<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">let</span> targetClassObj <span class="op">=</span> <span class="kw">new</span> <span class="fu">targetClass</span>()</span>
+<span id="cb6-3"><a href="#cb6-3"></a>targetClassObj<span class="op">.</span><span class="fu">buy</span>()                                <span class="co">// 下单购买</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClass.name: "</span><span class="op">,</span> targetClass<span class="op">.</span><span class="at">name</span>) <span class="co">// targetClass.name:  CustomerService</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>}</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a>@FirstClassDecorator</span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">class</span> CustomerService {</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  name<span class="op">:</span> <span class="dt">string</span> <span class="op">=</span> <span class="st">"下单"</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="kw">constructor</span>() {}</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>  <span class="fu">buy</span>() {</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"购买"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15"></a>  }</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a>  <span class="fu">placeOrder</span>() {</span>
+<span id="cb6-18"><a href="#cb6-18"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"下单购买"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19"></a>  }</span>
+<span id="cb6-20"><a href="#cb6-20"></a>}</span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="im">export</span> {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><code>package.json</code>配置</p>
+<ul>
+<li>当前代码的文件名<code>1ClassDecorator.ts</code></li>
+<li>修改<code>1ClassDecorator.js</code>为<code>1ClassDecorator.js</code></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"ts-examples"</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="dt">"version"</span><span class="fu">:</span> <span class="st">"1.0.0"</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="dt">"scripts"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>      <span class="dt">"dev:build"</span><span class="fu">:</span> <span class="st">"tsc -w"</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>      <span class="dt">"dev:start"</span><span class="fu">:</span> <span class="st">"nodemon --watch dist/decorators js --exec node ./dist/decorators/1ClassDecorator.js"</span><span class="fu">,</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>      <span class="dt">"start"</span><span class="fu">:</span> <span class="st">"concurrently npm:dev:*"</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>      <span class="dt">"tsc"</span><span class="fu">:</span> <span class="st">"tsc src/decorators/1ClassDecorator.ts -- target ES5 -w --experimentaDecorators"</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>      <span class="dt">"ctrl"</span><span class="fu">:</span> <span class="st">"ts-node src/controller/HomeController.ts"</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>      <span class="dt">"beginapp"</span><span class="fu">:</span> <span class="st">"nodemon --watch src/ -e ts --exec ts-node ./src/expressapp.ts"</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>    <span class="fu">},</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>    <span class="dt">"author"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>    <span class="dt">"license"</span><span class="fu">:</span> <span class="st">"ISC"</span><span class="fu">,</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>    <span class="dt">"dependencies"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>      <span class="dt">"concurrently"</span><span class="fu">:</span> <span class="st">"^8.2.2"</span><span class="fu">,</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>      <span class="dt">"nodemon"</span><span class="fu">:</span> <span class="st">"^3.0.1"</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>    <span class="fu">}</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>  <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>运行代码</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a>npm run start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>JS源码</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a><span class="st">"use strict"</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">// 1. 底层JS **组合装饰器和目标类** __decorate函数</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">var</span> __decorate <span class="op">=</span> (<span class="kw">this</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">__decorate</span>) <span class="op">||</span> <span class="kw">function</span> (decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc) {</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="co">// argsnum 参数个数</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="kw">var</span> argsnum <span class="op">=</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="co">// targetinfo 被装饰器修饰的目标【本案例为类】</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="co">// argsnum=2 装饰器修饰的是类或者构造器参数，targetinfo=target[类名]</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="co">// argsnum=4 装饰器修饰的是方法【第四个参数desc等于null] targetinfo=该方法的数据属性【desc = Object.getOwnPropertyDescriptor(target, key) 】</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="co">// argsnum=3 装饰器修饰的是方法参数或者属性,targetinfo=undefined</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>  <span class="kw">var</span> targetinfo <span class="op">=</span> argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> target <span class="op">:</span> </span>
+<span id="cb9-11"><a href="#cb9-11"></a>  desc <span class="op">===</span> <span class="kw">null</span> <span class="op">?</span> desc <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">getOwnPropertyDescriptor</span>(target<span class="op">,</span> key) <span class="op">:</span> desc<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"target: "</span><span class="op">,</span> target)         <span class="co">// target    :  [Function: CustomerService]</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetinfo: "</span><span class="op">,</span> targetinfo) <span class="co">// targetinfo:  [Function: CustomerService]</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>  <span class="co">// 由于无参数，argsnum &lt; 3, 其实是torgetinfo = target</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a></span>
+<span id="cb9-16"><a href="#cb9-16"></a>  <span class="co">// decorators: 保存``装饰器数组``元素</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a>  <span class="co">// decorators = [FirstClassDecorator]</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a>  <span class="kw">var</span> decorator<span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>  <span class="co">// 元数据信息,支持reflect-metadata元数据</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a>  <span class="cf">if</span> (<span class="kw">typeof</span> <span class="bu">Reflect</span> <span class="op">===</span> <span class="st">"object"</span> <span class="op">&amp;&amp;</span> <span class="kw">typeof</span> <span class="bu">Reflect</span><span class="op">.</span><span class="at">decorate</span> <span class="op">===</span> <span class="st">"function"</span>) {</span>
+<span id="cb9-21"><a href="#cb9-21"></a>    targetinfo <span class="op">=</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">decorate</span>(decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc)<span class="op">;</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a>  } <span class="cf">else</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a>    <span class="co">//  装饰器循环,倒着循环,说明同一个目标上有多个装饰器，执行顺序是倒着执行</span></span>
+<span id="cb9-24"><a href="#cb9-24"></a>    <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> decorators<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb9-25"><a href="#cb9-25"></a>      <span class="cf">if</span> (decorator <span class="op">=</span> decorators[i]) {</span>
+<span id="cb9-26"><a href="#cb9-26"></a>        <span class="co">// 如果参数小于3【decorator为类装饰器或者构造器参数装饰器】执行decorator(targetinfo)直接执行decorator装饰器，并传递目标targetinfo，这里是类</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a>        <span class="co">// 如果参数大于3【decorator为方法装饰器】 直接执行 decorator(target, key, targetinfo) </span></span>
+<span id="cb9-28"><a href="#cb9-28"></a>        <span class="co">// 如果参数等于3 【decorator为方法参数装饰器或者属性装饰器】 直接执行decorator(target, key)</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a>        <span class="co">// targetinfo最终为各个装饰器执行后的返回值,但如果没有返回值,直接返回第S100行的targetinfo</span></span>
+<span id="cb9-30"><a href="#cb9-30"></a></span>
+<span id="cb9-31"><a href="#cb9-31"></a>        <span class="co">// 这里返回一个新的targetinfo</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a>        <span class="co">// 是把原来的targetinfo 传入到每一个装饰器函数中</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a>        <span class="co">// 将CustomerService 传入到装饰器函数中，将执行逻辑交给装饰器内部执行</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a>        <span class="co">// 如果函数有返回值</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a>        <span class="co">// - 那么targetinfo就为装饰器的返回值</span></span>
+<span id="cb9-36"><a href="#cb9-36"></a>        <span class="co">// - 如果装饰器函数无返回值，则执行`|| targetinfo`</span></span>
+<span id="cb9-37"><a href="#cb9-37"></a>        targetinfo <span class="op">=</span> (argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> <span class="fu">decorator</span>(targetinfo) <span class="op">:</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">?</span></span>
+<span id="cb9-38"><a href="#cb9-38"></a>          <span class="fu">decorator</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo) <span class="op">:</span> <span class="fu">decorator</span>(target<span class="op">,</span> key)) <span class="op">||</span> targetinfo<span class="op">;</span></span>
+<span id="cb9-39"><a href="#cb9-39"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetinforesult:"</span><span class="op">,</span> targetinfo)</span>
+<span id="cb9-40"><a href="#cb9-40"></a>      }</span>
+<span id="cb9-41"><a href="#cb9-41"></a>    }</span>
+<span id="cb9-42"><a href="#cb9-42"></a>  <span class="co">// 参数数目小于三个argsnum &lt; 3, 直接返回targetinfo</span></span>
+<span id="cb9-43"><a href="#cb9-43"></a>  <span class="cf">return</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> targetinfo <span class="op">&amp;&amp;</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo)<span class="op">,</span> targetinfo<span class="op">;</span></span>
+<span id="cb9-44"><a href="#cb9-44"></a>}</span>
+<span id="cb9-45"><a href="#cb9-45"></a><span class="co">// 底层JS 组合装饰器和目标类 __decorate函数结束</span></span>
+<span id="cb9-46"><a href="#cb9-46"></a></span>
+<span id="cb9-47"><a href="#cb9-47"></a><span class="co">// 不带参数的装饰器</span></span>
+<span id="cb9-48"><a href="#cb9-48"></a><span class="kw">function</span> <span class="fu">FirstClassDecorator</span>(targetClass) {</span>
+<span id="cb9-49"><a href="#cb9-49"></a>    <span class="kw">var</span> targetClassObj <span class="op">=</span> <span class="kw">new</span> <span class="fu">targetClass</span>()<span class="op">;</span></span>
+<span id="cb9-50"><a href="#cb9-50"></a>    targetClassObj<span class="op">.</span><span class="fu">buy</span>()<span class="op">;</span> <span class="co">// 下单购买</span></span>
+<span id="cb9-51"><a href="#cb9-51"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClass.name: "</span><span class="op">,</span> targetClass<span class="op">.</span><span class="at">name</span>)<span class="op">;</span> <span class="co">// targetClass.name:  CustomerService</span></span>
+<span id="cb9-52"><a href="#cb9-52"></a>}</span>
+<span id="cb9-53"><a href="#cb9-53"></a></span>
+<span id="cb9-54"><a href="#cb9-54"></a><span class="co">// 被装饰的类</span></span>
+<span id="cb9-55"><a href="#cb9-55"></a><span class="kw">var</span> CustomerService <span class="op">=</span> <span class="co">/** </span><span class="an">@class</span><span class="co"> */</span> (<span class="kw">function</span> () {</span>
+<span id="cb9-56"><a href="#cb9-56"></a>    <span class="kw">function</span> <span class="fu">CustomerService</span>() {</span>
+<span id="cb9-57"><a href="#cb9-57"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> <span class="st">"下单"</span><span class="op">;</span></span>
+<span id="cb9-58"><a href="#cb9-58"></a>    }</span>
+<span id="cb9-59"><a href="#cb9-59"></a>    CustomerService<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">buy</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb9-60"><a href="#cb9-60"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"购买"</span>)<span class="op">;</span></span>
+<span id="cb9-61"><a href="#cb9-61"></a>    }<span class="op">;</span></span>
+<span id="cb9-62"><a href="#cb9-62"></a>    CustomerService<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">placeOrder</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb9-63"><a href="#cb9-63"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"下单购买"</span>)<span class="op">;</span></span>
+<span id="cb9-64"><a href="#cb9-64"></a>    }<span class="op">;</span></span>
+<span id="cb9-65"><a href="#cb9-65"></a>    <span class="co">// 调用`__decorate`函数</span></span>
+<span id="cb9-66"><a href="#cb9-66"></a>    <span class="co">// - 参数</span></span>
+<span id="cb9-67"><a href="#cb9-67"></a>    <span class="co">//   - 装饰器列表</span></span>
+<span id="cb9-68"><a href="#cb9-68"></a>    <span class="co">//   - 类构造函数名称 CustomerService</span></span>
+<span id="cb9-69"><a href="#cb9-69"></a>    CustomerService <span class="op">=</span> <span class="fu">__decorate</span>([</span>
+<span id="cb9-70"><a href="#cb9-70"></a>        FirstClassDecorator<span class="op">,</span></span>
+<span id="cb9-71"><a href="#cb9-71"></a>        <span class="fu">__metadata</span>(<span class="st">"design:paramtypes"</span><span class="op">,</span> [])</span>
+<span id="cb9-72"><a href="#cb9-72"></a>    ]<span class="op">,</span> CustomerService)<span class="op">;</span></span>
+<span id="cb9-73"><a href="#cb9-73"></a>    <span class="cf">return</span> CustomerService<span class="op">;</span></span>
+<span id="cb9-74"><a href="#cb9-74"></a>}())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li>带参数的类装饰器
+<ul>
+<li><p>代码</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">function</span> <span class="fu">FirstClassDecorator</span>(params<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"params out: "</span><span class="op">,</span> params)</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="cf">return</span> <span class="kw">function</span>(targetClass<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="kw">let</span> targetClassObj <span class="op">=</span> <span class="kw">new</span> <span class="fu">targetClass</span>()</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    targetClassObj<span class="op">.</span><span class="fu">buy</span>()</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClass.name: "</span><span class="op">,</span> targetClass<span class="op">.</span><span class="at">name</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"params in: "</span><span class="op">,</span> params)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9"></a>}</span>
+<span id="cb10-10"><a href="#cb10-10"></a></span>
+<span id="cb10-11"><a href="#cb10-11"></a>@<span class="fu">FirstClassDecorator</span>(<span class="st">"我是用来修饰CustomService类的装饰器参数"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="kw">class</span> CustomerService {</span>
+<span id="cb10-13"><a href="#cb10-13"></a>  name<span class="op">:</span> <span class="dt">string</span> <span class="op">=</span> <span class="st">"下单"</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a></span>
+<span id="cb10-15"><a href="#cb10-15"></a>  <span class="kw">constructor</span>() {}</span>
+<span id="cb10-16"><a href="#cb10-16"></a></span>
+<span id="cb10-17"><a href="#cb10-17"></a>  <span class="fu">buy</span>() {</span>
+<span id="cb10-18"><a href="#cb10-18"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"购买"</span>)</span>
+<span id="cb10-19"><a href="#cb10-19"></a>  }</span>
+<span id="cb10-20"><a href="#cb10-20"></a></span>
+<span id="cb10-21"><a href="#cb10-21"></a>  <span class="fu">placeOrder</span>() {</span>
+<span id="cb10-22"><a href="#cb10-22"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"下单购买"</span>)</span>
+<span id="cb10-23"><a href="#cb10-23"></a>  }</span>
+<span id="cb10-24"><a href="#cb10-24"></a>}</span>
+<span id="cb10-25"><a href="#cb10-25"></a></span>
+<span id="cb10-26"><a href="#cb10-26"></a><span class="im">export</span> {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><code>package.json</code>配置</p>
+<ul>
+<li>当前代码的文件名<code>2ClassDecorator.ts</code></li>
+<li>修改<code>1ClassDecorator.js</code>为<code>2ClassDecorator.js</code></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"ts-examples"</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="dt">"version"</span><span class="fu">:</span> <span class="st">"1.0.0"</span><span class="fu">,</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="dt">"scripts"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>      <span class="dt">"dev:build"</span><span class="fu">:</span> <span class="st">"tsc -w"</span><span class="fu">,</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>      <span class="dt">"dev:start"</span><span class="fu">:</span> <span class="st">"nodemon --watch dist/decorators js --exec node ./dist/decorators/2ClassDecorator.js"</span><span class="fu">,</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>      <span class="dt">"start"</span><span class="fu">:</span> <span class="st">"concurrently npm:dev:*"</span><span class="fu">,</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>      <span class="dt">"tsc"</span><span class="fu">:</span> <span class="st">"tsc src/decorators/1ClassDecorator.ts -- target ES5 -w --experimentaDecorators"</span><span class="fu">,</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>      <span class="dt">"ctrl"</span><span class="fu">:</span> <span class="st">"ts-node src/controller/HomeController.ts"</span><span class="fu">,</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>      <span class="dt">"beginapp"</span><span class="fu">:</span> <span class="st">"nodemon --watch src/ -e ts --exec ts-node ./src/expressapp.ts"</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="fu">},</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="dt">"author"</span><span class="fu">:</span> <span class="st">""</span><span class="fu">,</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>    <span class="dt">"license"</span><span class="fu">:</span> <span class="st">"ISC"</span><span class="fu">,</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>    <span class="dt">"dependencies"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a>      <span class="dt">"concurrently"</span><span class="fu">:</span> <span class="st">"^8.2.2"</span><span class="fu">,</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a>      <span class="dt">"nodemon"</span><span class="fu">:</span> <span class="st">"^3.0.1"</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a>    <span class="fu">}</span></span>
+<span id="cb11-19"><a href="#cb11-19"></a>  <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>运行代码</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href="#cb12-1"></a>npm run start</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>JS源码</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1"></a><span class="st">"use strict"</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">// 1. 底层JS **组合装饰器和目标类** __decorate函数</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">var</span> __decorate <span class="op">=</span> (<span class="kw">this</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">__decorate</span>) <span class="op">||</span> <span class="kw">function</span> (decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc) {</span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="co">// argsnum 参数个数</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="kw">var</span> argsnum <span class="op">=</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="co">// targetinfo 被装饰器修饰的目标【本案例为类】</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  <span class="co">// argsnum=2 装饰器修饰的是类或者构造器参数，targetinfo=target[类名]</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="co">// argsnum=4 装饰器修饰的是方法【第四个参数desc等于null] targetinfo=该方法的数据属性【desc = Object.getOwnPropertyDescriptor(target, key) 】</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="co">// argsnum=3 装饰器修饰的是方法参数或者属性,targetinfo=undefined</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="kw">var</span> targetinfo <span class="op">=</span> argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> target <span class="op">:</span> </span>
+<span id="cb13-11"><a href="#cb13-11"></a>  desc <span class="op">===</span> <span class="kw">null</span> <span class="op">?</span> desc <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">getOwnPropertyDescriptor</span>(target<span class="op">,</span> key) <span class="op">:</span> desc<span class="op">;</span><span class="co">//S100</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"target    : "</span><span class="op">,</span> target)      <span class="co">// [Function: CustomerService]</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetinfo: "</span><span class="op">,</span> targetinfo)  <span class="co">// [Function: CustomerService] // argsnum &lt; 3 targetinfo = target</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  <span class="co">// decorators: 保存``装饰器的数组``元素</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a>  <span class="co">// decorators = [FirstClassDecorator]</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a>  <span class="kw">var</span> decorator<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>  <span class="co">// 元数据信息,支持reflect-metadata元数据</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a>  <span class="cf">if</span> (<span class="kw">typeof</span> <span class="bu">Reflect</span> <span class="op">===</span> <span class="st">"object"</span> <span class="op">&amp;&amp;</span> <span class="kw">typeof</span> <span class="bu">Reflect</span><span class="op">.</span><span class="at">decorate</span> <span class="op">===</span> <span class="st">"function"</span>) {</span>
+<span id="cb13-20"><a href="#cb13-20"></a>    targetinfo <span class="op">=</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">decorate</span>(decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc)<span class="op">;</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>  } <span class="cf">else</span></span>
+<span id="cb13-22"><a href="#cb13-22"></a>    <span class="co">//  装饰器循环,倒着循环,说明同一个目标上有多个装饰器，执行顺序是倒着执行</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a>    <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> decorators<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb13-24"><a href="#cb13-24"></a>      <span class="cf">if</span> (decorator <span class="op">=</span> decorators[i]) {</span>
+<span id="cb13-25"><a href="#cb13-25"></a>        <span class="co">// 如果参数小于3【decorator为类装饰器或者构造器参数装饰器】执行decorator(targetinfo)直接执行decorator装饰器，并传递目标targetinfo，这里是类</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a>        <span class="co">// 如果参数大于3【decorator为方法装饰器】 直接执行 decorator(target, key, targetinfo) </span></span>
+<span id="cb13-27"><a href="#cb13-27"></a>        <span class="co">// 如果参数等于3 【decorator为方法参数装饰器或者属性装饰器】 直接执行decorator(target, key)</span></span>
+<span id="cb13-28"><a href="#cb13-28"></a>        <span class="co">// targetinfo最终为各个装饰器执行后的返回值,但如果没有返回值,直接返回第S100行的targetinfo</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a>        targetinfo <span class="op">=</span> (argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> <span class="fu">decorator</span>(targetinfo) <span class="op">:</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">?</span></span>
+<span id="cb13-30"><a href="#cb13-30"></a>          <span class="fu">decorator</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo) <span class="op">:</span> <span class="fu">decorator</span>(target<span class="op">,</span> key)) <span class="op">||</span> targetinfo<span class="op">;</span></span>
+<span id="cb13-31"><a href="#cb13-31"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Final targetinfo result:"</span><span class="op">,</span> targetinfo)</span>
+<span id="cb13-32"><a href="#cb13-32"></a>      }</span>
+<span id="cb13-33"><a href="#cb13-33"></a>    }</span>
+<span id="cb13-34"><a href="#cb13-34"></a>  <span class="cf">return</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> targetinfo <span class="op">&amp;&amp;</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo)<span class="op">,</span> targetinfo<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35"></a>}</span>
+<span id="cb13-36"><a href="#cb13-36"></a></span>
+<span id="cb13-37"><a href="#cb13-37"></a><span class="co">// 带参数的装饰器</span></span>
+<span id="cb13-38"><a href="#cb13-38"></a><span class="kw">function</span> <span class="fu">FirstClassDecorator</span>(params<span class="op">:</span> any) {</span>
+<span id="cb13-39"><a href="#cb13-39"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"params out: "</span><span class="op">,</span> params)</span>
+<span id="cb13-40"><a href="#cb13-40"></a>  <span class="cf">return</span> <span class="kw">function</span>(<span class="dt">targetClass</span><span class="op">:</span> any) {</span>
+<span id="cb13-41"><a href="#cb13-41"></a>    <span class="kw">let</span> targetClassObj <span class="op">=</span> <span class="kw">new</span> <span class="fu">targetClass</span>()</span>
+<span id="cb13-42"><a href="#cb13-42"></a>    targetClassObj<span class="op">.</span><span class="fu">buy</span>()</span>
+<span id="cb13-43"><a href="#cb13-43"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClass.name: "</span><span class="op">,</span> targetClass<span class="op">.</span><span class="at">name</span>)</span>
+<span id="cb13-44"><a href="#cb13-44"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"params in: "</span><span class="op">,</span> params)</span>
+<span id="cb13-45"><a href="#cb13-45"></a>  }</span>
+<span id="cb13-46"><a href="#cb13-46"></a>}</span>
+<span id="cb13-47"><a href="#cb13-47"></a></span>
+<span id="cb13-48"><a href="#cb13-48"></a><span class="co">// 被装饰的类</span></span>
+<span id="cb13-49"><a href="#cb13-49"></a><span class="kw">var</span> CustomerService <span class="op">=</span> <span class="co">/** </span><span class="an">@class</span><span class="co"> */</span> (<span class="kw">function</span> () {</span>
+<span id="cb13-50"><a href="#cb13-50"></a>    <span class="kw">function</span> <span class="fu">CustomerService</span>() {</span>
+<span id="cb13-51"><a href="#cb13-51"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> <span class="st">"下单"</span><span class="op">;</span></span>
+<span id="cb13-52"><a href="#cb13-52"></a>    }</span>
+<span id="cb13-53"><a href="#cb13-53"></a>    CustomerService<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">buy</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb13-54"><a href="#cb13-54"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"购买"</span>)<span class="op">;</span></span>
+<span id="cb13-55"><a href="#cb13-55"></a>    }<span class="op">;</span></span>
+<span id="cb13-56"><a href="#cb13-56"></a>    CustomerService<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">placeOrder</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb13-57"><a href="#cb13-57"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">"下单购买"</span>)<span class="op">;</span></span>
+<span id="cb13-58"><a href="#cb13-58"></a>    }<span class="op">;</span></span>
+<span id="cb13-59"><a href="#cb13-59"></a>    <span class="co">// 调用</span></span>
+<span id="cb13-60"><a href="#cb13-60"></a>    <span class="co">// - 参数</span></span>
+<span id="cb13-61"><a href="#cb13-61"></a>    <span class="co">//   - 装饰器列表</span></span>
+<span id="cb13-62"><a href="#cb13-62"></a>    <span class="co">//   - 类构造函数名称 CustomerService</span></span>
+<span id="cb13-63"><a href="#cb13-63"></a></span>
+<span id="cb13-64"><a href="#cb13-64"></a>    <span class="co">// 和不带参数的区别就是</span></span>
+<span id="cb13-65"><a href="#cb13-65"></a>    <span class="co">// - 会把带参数装饰器先执行一遍</span></span>
+<span id="cb13-66"><a href="#cb13-66"></a>    <span class="co">// - 带参数的装饰器，返回的是一个函数作为装饰器函数</span></span>
+<span id="cb13-67"><a href="#cb13-67"></a>    <span class="co">// - 然后传入被装饰的类</span></span>
+<span id="cb13-68"><a href="#cb13-68"></a>    CustomerService <span class="op">=</span> <span class="fu">__decorate</span>([</span>
+<span id="cb13-69"><a href="#cb13-69"></a>      <span class="fu">FirstClassDecorator</span>(<span class="st">"我是用来修饰CustomService类的装饰器参数"</span>)<span class="op">,</span></span>
+<span id="cb13-70"><a href="#cb13-70"></a>    ]<span class="op">,</span> CustomerService)<span class="op">;</span></span>
+<span id="cb13-71"><a href="#cb13-71"></a>    <span class="cf">return</span> CustomerService<span class="op">;</span></span>
+<span id="cb13-72"><a href="#cb13-72"></a>}())<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul>
+</section>
+<section id="泛型工厂继承装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="泛型工厂继承装饰器">泛型工厂继承装饰器</h2>
+<ul>
+<li>毫无相干的两个类可以相互赋值
+<ul>
+<li>条件是：属性相同</li>
+<li>必须拥有我的所有属性(可以多，不能少)，才能赋值给我</li>
+<li>等号右边完全包含左边属性</li>
+<li>父类类名，可以接受子类的类名(多态)</li>
+</ul></li>
+<li>泛型工厂继承装饰器
+<ul>
+<li><p>装饰器类作为子类，继承父类的属性和方法</p></li>
+<li><p>返回装饰器子类的类名</p></li>
+<li><p>完成类的功能扩展和替换</p></li>
+<li><p>代码</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">// 1. 完成日志信息的装饰器</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">function</span> <span class="fu">LoggerInfoDecorator</span><span class="op">&lt;</span>T <span class="kw">extends</span> { <span class="kw">new</span>(<span class="op">...</span>args<span class="op">:</span> <span class="dt">any</span>)<span class="op">:</span> <span class="dt">any</span>}<span class="op">&gt;</span>(targetClass<span class="op">:</span> T) {</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">class</span> LoggerInfoDecorator <span class="kw">extends</span> targetClass {</span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="kw">constructor</span>(<span class="op">...</span>args<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb14-5"><a href="#cb14-5"></a>      <span class="kw">super</span>(<span class="op">...</span>args)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Logging INFO targetClass: "</span><span class="op">,</span> (targetClass <span class="im">as</span> <span class="dt">any</span>)<span class="op">.</span><span class="at">name</span>)</span>
+<span id="cb14-7"><a href="#cb14-7"></a>    }</span>
+<span id="cb14-8"><a href="#cb14-8"></a>  }</span>
+<span id="cb14-9"><a href="#cb14-9"></a>  <span class="cf">return</span> LoggerInfoDecorator</span>
+<span id="cb14-10"><a href="#cb14-10"></a>}</span>
+<span id="cb14-11"><a href="#cb14-11"></a></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">// 2. 目标类</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a>@LoggerInfoDecorator</span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="kw">class</span> Test {</span>
+<span id="cb14-15"><a href="#cb14-15"></a>  name<span class="op">!:</span> <span class="dt">string</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>  age<span class="op">!:</span> <span class="dt">number</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a></span>
+<span id="cb14-18"><a href="#cb14-18"></a>  <span class="co">// 1. 先执行原来的构造函数</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a>  <span class="kw">constructor</span>(name<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb14-20"><a href="#cb14-20"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name</span>
+<span id="cb14-21"><a href="#cb14-21"></a>  }</span>
+<span id="cb14-22"><a href="#cb14-22"></a></span>
+<span id="cb14-23"><a href="#cb14-23"></a>  <span class="fu">eat</span>() {</span>
+<span id="cb14-24"><a href="#cb14-24"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">"Eating Food"</span>)</span>
+<span id="cb14-25"><a href="#cb14-25"></a>  }</span>
+<span id="cb14-26"><a href="#cb14-26"></a>}</span>
+<span id="cb14-27"><a href="#cb14-27"></a></span>
+<span id="cb14-28"><a href="#cb14-28"></a><span class="kw">let</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span>(<span class="st">"Zhangsan"</span>)</span>
+<span id="cb14-29"><a href="#cb14-29"></a>test<span class="op">.</span><span class="fu">eat</span>()</span>
+<span id="cb14-30"><a href="#cb14-30"></a></span>
+<span id="cb14-31"><a href="#cb14-31"></a><span class="im">export</span> {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>JS源码</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">//  1.  继承源码代码</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">let</span> __extends <span class="op">=</span> (<span class="kw">function</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="kw">function</span> <span class="fu">getStaticExtendsWithForIn</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-5"><a href="#cb15-5"></a>    <span class="cf">for</span> (<span class="kw">let</span> key <span class="kw">in</span> Parent) {</span>
+<span id="cb15-6"><a href="#cb15-6"></a>      <span class="cf">if</span> (<span class="bu">Object</span><span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">hasOwnProperty</span><span class="op">.</span><span class="fu">call</span>(Parent<span class="op">,</span> key)) {</span>
+<span id="cb15-7"><a href="#cb15-7"></a>        Son[key] <span class="op">=</span> Parent[key]</span>
+<span id="cb15-8"><a href="#cb15-8"></a>      }</span>
+<span id="cb15-9"><a href="#cb15-9"></a>    }</span>
+<span id="cb15-10"><a href="#cb15-10"></a>  }</span>
+<span id="cb15-11"><a href="#cb15-11"></a></span>
+<span id="cb15-12"><a href="#cb15-12"></a>  <span class="kw">function</span> <span class="fu">getStaticExtendsWithObjectkeys</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-13"><a href="#cb15-13"></a>    <span class="bu">Object</span><span class="op">.</span><span class="fu">keys</span>(Parent)<span class="op">.</span><span class="fu">forEach</span>((key) <span class="kw">=&gt;</span> {</span>
+<span id="cb15-14"><a href="#cb15-14"></a>      Son[key] <span class="op">=</span> Parent[key]</span>
+<span id="cb15-15"><a href="#cb15-15"></a>    })</span>
+<span id="cb15-16"><a href="#cb15-16"></a>  }</span>
+<span id="cb15-17"><a href="#cb15-17"></a></span>
+<span id="cb15-18"><a href="#cb15-18"></a>  <span class="kw">function</span> <span class="fu">getStaticExtendsWithProto</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-19"><a href="#cb15-19"></a>    Son<span class="op">.</span><span class="at">__proto__</span> <span class="op">=</span> Parent<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>  }</span>
+<span id="cb15-21"><a href="#cb15-21"></a></span>
+<span id="cb15-22"><a href="#cb15-22"></a>  <span class="kw">let</span> MyextendStatics <span class="op">=</span> <span class="kw">function</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-23"><a href="#cb15-23"></a>    <span class="kw">let</span> MyextendStatics <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="at">setPrototypeOf</span> <span class="op">||</span> getStaticExtendsWithForIn <span class="op">||</span></span>
+<span id="cb15-24"><a href="#cb15-24"></a>      getStaticExtendsWithObjectkeys <span class="op">||</span> getStaticExtendsWithProto</span>
+<span id="cb15-25"><a href="#cb15-25"></a>    <span class="cf">return</span> <span class="fu">MyextendStatics</span>(Son<span class="op">,</span> Parent)</span>
+<span id="cb15-26"><a href="#cb15-26"></a>  }</span>
+<span id="cb15-27"><a href="#cb15-27"></a></span>
+<span id="cb15-28"><a href="#cb15-28"></a>  <span class="cf">return</span> <span class="kw">function</span> (Son<span class="op">,</span> Parent) {</span>
+<span id="cb15-29"><a href="#cb15-29"></a>    <span class="fu">MyextendStatics</span>(Son<span class="op">,</span> Parent)</span>
+<span id="cb15-30"><a href="#cb15-30"></a>    <span class="kw">function</span> <span class="fu">Middle</span> () {</span>
+<span id="cb15-31"><a href="#cb15-31"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">constructor</span> <span class="op">=</span> Son<span class="op">;</span></span>
+<span id="cb15-32"><a href="#cb15-32"></a>    }</span>
+<span id="cb15-33"><a href="#cb15-33"></a>    <span class="cf">if</span> (Parent) {<span class="co">//如果不为空 如果父类存在</span></span>
+<span id="cb15-34"><a href="#cb15-34"></a>      Middle<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> Parent<span class="op">.</span><span class="at">prototype</span><span class="op">;</span></span>
+<span id="cb15-35"><a href="#cb15-35"></a>      Son<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Middle</span>()</span>
+<span id="cb15-36"><a href="#cb15-36"></a>    } <span class="cf">else</span> {<span class="co">// 如果父类不存在</span></span>
+<span id="cb15-37"><a href="#cb15-37"></a>      Son<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">create</span>(<span class="kw">null</span>)</span>
+<span id="cb15-38"><a href="#cb15-38"></a>    }</span>
+<span id="cb15-39"><a href="#cb15-39"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Object.create(null):"</span><span class="op">,</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">create</span>(<span class="kw">null</span>))<span class="op">;</span></span>
+<span id="cb15-40"><a href="#cb15-40"></a>  }</span>
+<span id="cb15-41"><a href="#cb15-41"></a>}())</span>
+<span id="cb15-42"><a href="#cb15-42"></a></span>
+<span id="cb15-43"><a href="#cb15-43"></a><span class="co">// 2. 底层JS 组合装饰器和目标类 __decorate 函数</span></span>
+<span id="cb15-44"><a href="#cb15-44"></a><span class="kw">var</span> __decorate <span class="op">=</span> (<span class="kw">this</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">__decorate</span>) <span class="op">||</span> <span class="kw">function</span> (decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc) {</span>
+<span id="cb15-45"><a href="#cb15-45"></a>  <span class="co">// argsnum 参数个数</span></span>
+<span id="cb15-46"><a href="#cb15-46"></a>  <span class="kw">var</span> argsnum <span class="op">=</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb15-47"><a href="#cb15-47"></a>  <span class="co">// targetinfo 被装饰器修饰的目标【类或属性或方法或方法参数，本案例为类】</span></span>
+<span id="cb15-48"><a href="#cb15-48"></a>  <span class="co">// argsnum=2 装饰器修饰的是类或者构造器参数，targetinfo=target[类名]</span></span>
+<span id="cb15-49"><a href="#cb15-49"></a>  <span class="co">// argsnum=4 装饰器修饰的是方法【第四个参数desc等于null] targetinfo=该方法的数据属性【desc = Object.getOwnPropertyDescriptor(target, key) 】</span></span>
+<span id="cb15-50"><a href="#cb15-50"></a>  <span class="co">// argsnum=3 装饰器修饰的是方法参数或者属性,targetinfo=undefined</span></span>
+<span id="cb15-51"><a href="#cb15-51"></a>  <span class="kw">var</span> targetinfo <span class="op">=</span> argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> target <span class="op">:</span> desc <span class="op">===</span> <span class="kw">null</span> <span class="op">?</span> desc <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">getOwnPropertyDescriptor</span>(target<span class="op">,</span> key) <span class="op">:</span> desc<span class="op">;</span><span class="co">//S100</span></span>
+<span id="cb15-52"><a href="#cb15-52"></a>  <span class="co">// decorator保存装饰器数组元素</span></span>
+<span id="cb15-53"><a href="#cb15-53"></a>  <span class="kw">var</span> decorator<span class="op">;</span></span>
+<span id="cb15-54"><a href="#cb15-54"></a>  <span class="co">// 元数据信息,支持reflect-metadata元数据</span></span>
+<span id="cb15-55"><a href="#cb15-55"></a>  <span class="cf">if</span> (<span class="kw">typeof</span> <span class="bu">Reflect</span> <span class="op">===</span> <span class="st">"object"</span> <span class="op">&amp;&amp;</span> <span class="kw">typeof</span> <span class="bu">Reflect</span><span class="op">.</span><span class="at">decorate</span> <span class="op">===</span> <span class="st">"function"</span>) {</span>
+<span id="cb15-56"><a href="#cb15-56"></a>    targetinfo <span class="op">=</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">decorate</span>(decorators<span class="op">,</span> target<span class="op">,</span> key<span class="op">,</span> desc)<span class="op">;</span></span>
+<span id="cb15-57"><a href="#cb15-57"></a>  } <span class="cf">else</span></span>
+<span id="cb15-58"><a href="#cb15-58"></a>    <span class="co">//  装饰器循环,倒着循环,说明同一个目标上有多个装饰器，执行顺序是倒着执行</span></span>
+<span id="cb15-59"><a href="#cb15-59"></a>    <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> decorators<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb15-60"><a href="#cb15-60"></a>      <span class="cf">if</span> (decorator <span class="op">=</span> decorators[i]) {</span>
+<span id="cb15-61"><a href="#cb15-61"></a>        <span class="co">// 如果参数小于3【decorator为类装饰器或者构造器参数装饰器】执行decorator(targetinfo)直接执行decorator装饰器，并传递目标targetinfo，这里是类</span></span>
+<span id="cb15-62"><a href="#cb15-62"></a>        <span class="co">// 如果参数大于3【decorator为方法装饰器】 直接执行 decorator(target, key, targetinfo) </span></span>
+<span id="cb15-63"><a href="#cb15-63"></a>        <span class="co">// 如果参数等于3 【decorator为方法参数装饰器或者属性装饰器】 直接执行decorator(target, key)</span></span>
+<span id="cb15-64"><a href="#cb15-64"></a>        <span class="co">// targetinfo最终为各个装饰器执行后的返回值,但如果没有返回值,直接返回第S100行的targetinfo</span></span>
+<span id="cb15-65"><a href="#cb15-65"></a>        targetinfo <span class="op">=</span> (argsnum <span class="op">&lt;</span> <span class="dv">3</span> <span class="op">?</span> <span class="fu">decorator</span>(targetinfo) <span class="op">:</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">?</span></span>
+<span id="cb15-66"><a href="#cb15-66"></a>          <span class="fu">decorator</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo) <span class="op">:</span> <span class="fu">decorator</span>(target<span class="op">,</span> key)) <span class="op">||</span> targetinfo<span class="op">;</span></span>
+<span id="cb15-67"><a href="#cb15-67"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetinforesult:"</span><span class="op">,</span> targetinfo)</span>
+<span id="cb15-68"><a href="#cb15-68"></a>      }</span>
+<span id="cb15-69"><a href="#cb15-69"></a>    }</span>
+<span id="cb15-70"><a href="#cb15-70"></a>  <span class="cf">return</span> argsnum <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> targetinfo <span class="op">&amp;&amp;</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(target<span class="op">,</span> key<span class="op">,</span> targetinfo)<span class="op">,</span> targetinfo<span class="op">;</span></span>
+<span id="cb15-71"><a href="#cb15-71"></a>}</span>
+<span id="cb15-72"><a href="#cb15-72"></a><span class="co">// 底层 JS 组合装饰器和目标类 __decorate 函数结束</span></span>
+<span id="cb15-73"><a href="#cb15-73"></a></span>
+<span id="cb15-74"><a href="#cb15-74"></a><span class="co">// 2.装饰器类</span></span>
+<span id="cb15-75"><a href="#cb15-75"></a><span class="kw">function</span> <span class="fu">LoggerInfoDecorator</span>(targetClass) {</span>
+<span id="cb15-76"><a href="#cb15-76"></a><span class="kw">var</span> LoggerInfoDecorator <span class="op">=</span> <span class="co">/** </span><span class="an">@class</span><span class="co"> */</span> (<span class="kw">function</span> (_super) {</span>
+<span id="cb15-77"><a href="#cb15-77"></a>    <span class="fu">__extends</span>(LoggerInfoDecorator<span class="op">,</span> _super)<span class="op">;</span>  <span class="co">// ****继承关系****</span></span>
+<span id="cb15-78"><a href="#cb15-78"></a>    <span class="kw">function</span> <span class="fu">LoggerInfoDecorator</span>() {</span>
+<span id="cb15-79"><a href="#cb15-79"></a>        <span class="kw">var</span> args <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-80"><a href="#cb15-80"></a>        <span class="cf">for</span> (<span class="kw">var</span> _i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> _i <span class="op">&lt;</span> <span class="kw">arguments</span><span class="op">.</span><span class="at">length</span><span class="op">;</span> _i<span class="op">++</span>) {</span>
+<span id="cb15-81"><a href="#cb15-81"></a>            args[_i] <span class="op">=</span> <span class="kw">arguments</span>[_i]<span class="op">;</span></span>
+<span id="cb15-82"><a href="#cb15-82"></a>        }</span>
+<span id="cb15-83"><a href="#cb15-83"></a>        <span class="kw">var</span> _this <span class="op">=</span> _super<span class="op">.</span><span class="fu">apply</span>(<span class="kw">this</span><span class="op">,</span> args) <span class="op">||</span> <span class="kw">this</span><span class="op">;</span></span>
+<span id="cb15-84"><a href="#cb15-84"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Logging INFO targetClass: "</span><span class="op">,</span> targetClass<span class="op">.</span><span class="at">name</span>)<span class="op">;</span></span>
+<span id="cb15-85"><a href="#cb15-85"></a>        <span class="cf">return</span> _this<span class="op">;</span></span>
+<span id="cb15-86"><a href="#cb15-86"></a>    }</span>
+<span id="cb15-87"><a href="#cb15-87"></a>    <span class="cf">return</span> LoggerInfoDecorator<span class="op">;</span></span>
+<span id="cb15-88"><a href="#cb15-88"></a>}(targetClass))<span class="op">;</span></span>
+<span id="cb15-89"><a href="#cb15-89"></a>    <span class="cf">return</span> LoggerInfoDecorator<span class="op">;</span></span>
+<span id="cb15-90"><a href="#cb15-90"></a>}</span>
+<span id="cb15-91"><a href="#cb15-91"></a><span class="co">// 2. 目标类</span></span>
+<span id="cb15-92"><a href="#cb15-92"></a><span class="kw">var</span> Test <span class="op">=</span> <span class="co">/** </span><span class="an">@class</span><span class="co"> */</span> (<span class="kw">function</span> () {</span>
+<span id="cb15-93"><a href="#cb15-93"></a>    <span class="co">// 1. 先执行原来的构造函数</span></span>
+<span id="cb15-94"><a href="#cb15-94"></a>    <span class="kw">function</span> <span class="fu">Test</span>(name) {</span>
+<span id="cb15-95"><a href="#cb15-95"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb15-96"><a href="#cb15-96"></a>    }</span>
+<span id="cb15-97"><a href="#cb15-97"></a>    Test<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">eat</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb15-98"><a href="#cb15-98"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span><span class="op">,</span> <span class="st">"Eating Food"</span>)<span class="op">;</span></span>
+<span id="cb15-99"><a href="#cb15-99"></a>    }<span class="op">;</span></span>
+<span id="cb15-100"><a href="#cb15-100"></a>    Test <span class="op">=</span> <span class="fu">__decorate</span>([</span>
+<span id="cb15-101"><a href="#cb15-101"></a>        LoggerInfoDecorator<span class="op">,</span></span>
+<span id="cb15-102"><a href="#cb15-102"></a>    ]<span class="op">,</span> Test)<span class="op">;</span></span>
+<span id="cb15-103"><a href="#cb15-103"></a>    <span class="cf">return</span> Test<span class="op">;</span></span>
+<span id="cb15-104"><a href="#cb15-104"></a>}())<span class="op">;</span></span>
+<span id="cb15-105"><a href="#cb15-105"></a></span>
+<span id="cb15-106"><a href="#cb15-106"></a><span class="co">// 4.测试</span></span>
+<span id="cb15-107"><a href="#cb15-107"></a><span class="kw">var</span> test <span class="op">=</span> <span class="kw">new</span> <span class="fu">Test</span>(<span class="st">"ok"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul>
+</section>
+<section id="方法装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="方法装饰器">方法装饰器</h2>
+<ul>
+<li><p>包含以下内容</p>
+<ul>
+<li>方法装饰器的实现</li>
+<li>方法装饰器拦截器意义</li>
+<li>拦截器的前置、后置功能实现</li>
+</ul></li>
+<li><p>不带参数方法装饰器实现</p>
+<ul>
+<li><p>代码</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">/* </span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">@param targetClassPrototype 类名</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co">@param methodname : value  方法名</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">@param methodDecri: PropertyDescriptor 数据属性</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co">PropertyDescriptor的定义</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">- 用来控制当前方法的属性</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co">interface PropertyDescriptor {</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co">  configurable?: boolean   // 是否可配置</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a><span class="co">  enumerable?: boolean     // 是否可枚举</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="co">  value?: any              // 方法名</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a><span class="co">  writable?: boolean       // 是否可写</span></span>
+<span id="cb16-14"><a href="#cb16-14"></a><span class="co">  get?(): any              // get属性</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co">  set?(v: any): void       // set属性</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a><span class="co">}</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a><span class="co">*/</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a></span>
+<span id="cb16-19"><a href="#cb16-19"></a><span class="kw">function</span> <span class="fu">MyMethodDecorator</span>(targetClassPrototype<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> methodname<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> methodDecri<span class="op">:</span> PropertyDescriptor) {</span>
+<span id="cb16-20"><a href="#cb16-20"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClassPropertotype: "</span><span class="op">,</span> targetClassPrototype)</span>
+<span id="cb16-21"><a href="#cb16-21"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"key: "</span><span class="op">,</span> methodname)</span>
+<span id="cb16-22"><a href="#cb16-22"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Data Attr: "</span><span class="op">,</span> methodDecri)</span>
+<span id="cb16-23"><a href="#cb16-23"></a>  methodDecri<span class="op">.</span><span class="fu">value</span>() <span class="co">// 当前被装饰的函数，数据属性中的value属性，这里就是执行被修饰的函数</span></span>
+<span id="cb16-24"><a href="#cb16-24"></a>}</span>
+<span id="cb16-25"><a href="#cb16-25"></a></span>
+<span id="cb16-26"><a href="#cb16-26"></a><span class="co">// 目标类</span></span>
+<span id="cb16-27"><a href="#cb16-27"></a><span class="kw">class</span> RoleService {</span>
+<span id="cb16-28"><a href="#cb16-28"></a>  roleName<span class="op">:</span> <span class="dt">string</span> <span class="op">=</span> <span class="st">"Admin"</span></span>
+<span id="cb16-29"><a href="#cb16-29"></a>  <span class="kw">constructor</span> () {}</span>
+<span id="cb16-30"><a href="#cb16-30"></a></span>
+<span id="cb16-31"><a href="#cb16-31"></a>  @MyMethodDecorator</span>
+<span id="cb16-32"><a href="#cb16-32"></a>  <span class="fu">DistribRoles</span>() {</span>
+<span id="cb16-33"><a href="#cb16-33"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Generating Role ..."</span>)</span>
+<span id="cb16-34"><a href="#cb16-34"></a>  }</span>
+<span id="cb16-35"><a href="#cb16-35"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p>带参数方法装饰器实现</p>
+<ul>
+<li><p>代码</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">/* </span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co">@param targetClassPrototype 类名</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="co">@param methodname : value  方法名</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co">@param methodDecri: PropertyDescriptor 数据属性, value 表示的是方法体</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="co">PropertyDescriptor的定义</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="co">- 用来控制当前方法的属性</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="co">interface PropertyDescriptor {</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="co">  configurable?: boolean   // 是否可配置</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="co">  enumerable?: boolean     // 是否可枚举</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a><span class="co">  value?: any              // 方法名</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="co">  writable?: boolean       // 是否可写</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="co">  get?(): any              // get属性</span></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="co">  set?(v: any): void       // set属性</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a><span class="co">}</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="co">*/</span></span>
+<span id="cb17-18"><a href="#cb17-18"></a></span>
+<span id="cb17-19"><a href="#cb17-19"></a><span class="kw">function</span> <span class="fu">MyMethodDecorator</span>(params<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb17-20"><a href="#cb17-20"></a>  <span class="cf">return</span> <span class="kw">function</span> (targetClassPrototype<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> methodname<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> methodDecri<span class="op">:</span> PropertyDescriptor) {</span>
+<span id="cb17-21"><a href="#cb17-21"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"targetClassPropertotype: "</span><span class="op">,</span> targetClassPrototype)</span>
+<span id="cb17-22"><a href="#cb17-22"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"key: "</span><span class="op">,</span> methodname)</span>
+<span id="cb17-23"><a href="#cb17-23"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Data Attr: "</span><span class="op">,</span> methodDecri)</span>
+<span id="cb17-24"><a href="#cb17-24"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Params: "</span><span class="op">,</span> params)</span>
+<span id="cb17-25"><a href="#cb17-25"></a>    methodDecri<span class="op">.</span><span class="fu">value</span>() <span class="co">// 当前被装饰的函数，数据属性中的value属性，这里就是执行被修饰的函数</span></span>
+<span id="cb17-26"><a href="#cb17-26"></a>  }</span>
+<span id="cb17-27"><a href="#cb17-27"></a>}</span>
+<span id="cb17-28"><a href="#cb17-28"></a></span>
+<span id="cb17-29"><a href="#cb17-29"></a><span class="co">// 目标类</span></span>
+<span id="cb17-30"><a href="#cb17-30"></a><span class="kw">class</span> RoleService {</span>
+<span id="cb17-31"><a href="#cb17-31"></a>  roleName<span class="op">:</span> <span class="dt">string</span> <span class="op">=</span> <span class="st">"Admin"</span></span>
+<span id="cb17-32"><a href="#cb17-32"></a>  <span class="kw">constructor</span> () {}</span>
+<span id="cb17-33"><a href="#cb17-33"></a></span>
+<span id="cb17-34"><a href="#cb17-34"></a>  @<span class="fu">MyMethodDecorator</span>(<span class="st">"/Service"</span>)</span>
+<span id="cb17-35"><a href="#cb17-35"></a>  <span class="fu">DistribRoles</span>() {</span>
+<span id="cb17-36"><a href="#cb17-36"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Generating Role ..."</span>)</span>
+<span id="cb17-37"><a href="#cb17-37"></a>  }</span>
+<span id="cb17-38"><a href="#cb17-38"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p>方法拦截器的意义</p>
+<ul>
+<li>改良原有的函数，可以添加前置和后置的处理代码</li>
+</ul></li>
+</ul>
+</section>
+<section id="属性装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="属性装饰器">属性装饰器</h2>
+<ul>
+<li>装饰器参数
+<ul>
+<li>targetClassPrototype: object
+<ul>
+<li>类名</li>
+</ul></li>
+<li>attrname: string | symbol
+<ul>
+<li>属性名</li>
+</ul></li>
+</ul></li>
+<li>属性装饰器的应用场景
+<ul>
+<li><strong>在属性声明时</strong>
+<ul>
+<li>进行拦截</li>
+<li>添加逻辑</li>
+<li>存储相关的元数据</li>
+</ul></li>
+</ul></li>
+<li>属性装饰器应用: 元数据注入
+<ul>
+<li>可以使用属性装饰器<strong>为属性附加额外的元数据</strong>
+<ul>
+<li><p>在某些框架中非常有用，比如Angular的<code>@Input()</code></p></li>
+<li><p>用于定义一个类的属性为<strong>输入属性</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">class</span> MyComponent {</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  @Input title<span class="op">:</span> <span class="dt">string</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul></li>
+<li>属性装饰器应用：验证
+<ul>
+<li>通过属性装饰器来验证类的属性值
+<ul>
+<li><p>可以定义一个<code>@IsPositive</code>装饰器，确保属性值是正数</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">function</span> <span class="fu">IsPositive</span>(target<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> key<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="kw">const</span> storedValue <span class="op">=</span> <span class="kw">this</span>[key]</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(target<span class="op">,</span> key<span class="op">,</span> {</span>
+<span id="cb19-4"><a href="#cb19-4"></a>    <span class="kw">get</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb19-5"><a href="#cb19-5"></a>      <span class="cf">return</span> storedValue</span>
+<span id="cb19-6"><a href="#cb19-6"></a>    }<span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>    <span class="kw">set</span><span class="op">:</span> <span class="kw">function</span>(value) {</span>
+<span id="cb19-8"><a href="#cb19-8"></a>      <span class="cf">if</span> (value <span class="op">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb19-9"><a href="#cb19-9"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">"Value should be a positive number"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10"></a>      }</span>
+<span id="cb19-11"><a href="#cb19-11"></a>      storedValue <span class="op">=</span> value</span>
+<span id="cb19-12"><a href="#cb19-12"></a>    }</span>
+<span id="cb19-13"><a href="#cb19-13"></a>  })</span>
+<span id="cb19-14"><a href="#cb19-14"></a>}</span>
+<span id="cb19-15"><a href="#cb19-15"></a></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="kw">class</span> MyClass {</span>
+<span id="cb19-17"><a href="#cb19-17"></a>  @IsPositive</span>
+<span id="cb19-18"><a href="#cb19-18"></a>  positiveNumber<span class="op">:</span> <span class="dt">number</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li>属性装饰器应用：日志与审计
+<ul>
+<li><p>每次属性值更改时记录日志</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">function</span> <span class="fu">LogChanges</span>(target<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> key<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="kw">let</span> storedValue <span class="op">=</span> <span class="kw">this</span>[key]</span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="bu">Object</span><span class="op">.</span><span class="fu">defineProperty</span>(target<span class="op">,</span> key<span class="op">,</span> {</span>
+<span id="cb20-4"><a href="#cb20-4"></a>    <span class="kw">get</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb20-5"><a href="#cb20-5"></a>      <span class="cf">return</span> storedValue</span>
+<span id="cb20-6"><a href="#cb20-6"></a>    }<span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>    <span class="kw">set</span> <span class="kw">function</span>(value) {</span>
+<span id="cb20-8"><a href="#cb20-8"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Property </span><span class="sc">${</span>key<span class="sc">}</span><span class="vs"> changed from </span><span class="sc">${</span>storedValue<span class="sc">}</span><span class="vs">`</span> to ${value})</span>
+<span id="cb20-9"><a href="#cb20-9"></a>    }</span>
+<span id="cb20-10"><a href="#cb20-10"></a>  })</span>
+<span id="cb20-11"><a href="#cb20-11"></a>}</span>
+<span id="cb20-12"><a href="#cb20-12"></a></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="kw">class</span> MyClass {</span>
+<span id="cb20-14"><a href="#cb20-14"></a>  @LogChanges</span>
+<span id="cb20-15"><a href="#cb20-15"></a>  myProperty<span class="op">:</span> <span class="dt">string</span></span>
+<span id="cb20-16"><a href="#cb20-16"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li>属性装饰器的其他应用场景
+<ul>
+<li>延迟加载/懒加载
+<ul>
+<li>当访问某个属性时，如果数据还没有被加载，则从后端或其他数据源动态加载</li>
+</ul></li>
+<li>自动绑定
+<ul>
+<li>在React中自动绑定方法到当前实例，以便在回调或事件处理程序中使用正确的<code>this</code></li>
+</ul></li>
+<li>存储映射关系
+<ul>
+<li>在ORM框架中，属性装饰器可以用来定义属性与数据库列之间的映射关系</li>
+</ul></li>
+<li>计算属性的缓存
+<ul>
+<li>对于计算成本高的属性，可以使用装饰器来缓存它的值，只在需要时计算</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="参数装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="参数装饰器">参数装饰器</h2>
+<ul>
+<li>含义
+<ul>
+<li>应用于<strong>类构造函数或方法参数</strong>的</li>
+<li>它们在运行时可以接触到<strong>所属的类、方法和参数索引</strong>等信息</li>
+</ul></li>
+<li>参数装饰器的应用场景
+<ul>
+<li>依赖注入
+<ul>
+<li>当类的实例被创建时，所需的依赖会自动被注入到构造函数参数中</li>
+</ul></li>
+<li>元数据标记
+<ul>
+<li>在某些场景下，你可能想为某个参数标记元数据，之后这些元数据可以用于验证、转换或其他目的</li>
+</ul></li>
+<li>日志和审计
+<ul>
+<li>可以用来记录或审计方法调用和参数值，特别是对于某些关键参数</li>
+</ul></li>
+<li>转换或序列化
+<ul>
+<li>在方法调用之前，参数装饰器可以用来转换或序列化参数值</li>
+</ul></li>
+<li>参数校验
+<ul>
+<li>参数装饰器可以与反射元数据结合使用，对方法参数进行类型校验</li>
+</ul></li>
+<li>访问控制和授权
+<ul>
+<li>在某些场景下，可以使用参数装饰器检查用户权限，决定是否允许对某个方法进行访问或操作</li>
+</ul></li>
+<li>关联路由和请求数据
+<ul>
+<li>在NestJS，参数装饰器可以用来<strong>提取路由参数</strong>、查询参数、请求体或请求头</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="访问器装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="访问器装饰器">访问器装饰器</h2>
+<ul>
+<li>定义
+<ul>
+<li>用于拦截类的访问器(<code>get</code>和<code>set</code>)</li>
+</ul></li>
+<li>访问器装饰器的应用场景
+<ul>
+<li>值的验证
+<ul>
+<li><p>在为属性赋值时(通过setter)对其进行验证</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">function</span> <span class="fu">Validate</span>(target<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> key<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> descriptor<span class="op">:</span> PropertyDescriptor) {</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="kw">const</span> originSet <span class="op">=</span> descriptor<span class="op">.</span><span class="at">set</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  descriptor<span class="op">.</span><span class="at">set</span> <span class="op">=</span> <span class="kw">function</span> (value<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb21-4"><a href="#cb21-4"></a>    <span class="cf">if</span> (<span class="op">!</span>value) {</span>
+<span id="cb21-5"><a href="#cb21-5"></a>      <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">'Invalid value'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6"></a>    }</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    originSet<span class="op">?.</span><span class="fu">call</span>(<span class="kw">this</span><span class="op">,</span> value)</span>
+<span id="cb21-8"><a href="#cb21-8"></a>  }</span>
+<span id="cb21-9"><a href="#cb21-9"></a>}</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="kw">class</span> MyClass {</span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="kw">private</span> _name<span class="op">:</span> <span class="dt">string</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a></span>
+<span id="cb21-14"><a href="#cb21-14"></a>  @Validate</span>
+<span id="cb21-15"><a href="#cb21-15"></a>  <span class="kw">set</span> <span class="fu">name</span>(value<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb21-16"><a href="#cb21-16"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_name</span> <span class="op">=</span> value</span>
+<span id="cb21-17"><a href="#cb21-17"></a>  }</span>
+<span id="cb21-18"><a href="#cb21-18"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>日志</p>
+<ul>
+<li><p>在<strong>获取或设置属性</strong>值时进行日志记录</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">function</span> <span class="fu">Log</span>(target<span class="op">:</span> <span class="dt">any</span><span class="op">,</span> key<span class="op">:</span> <span class="dt">string</span><span class="op">,</span> descriptor<span class="op">:</span> PropertyDescriptor) {</span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="kw">const</span> originalGet <span class="op">=</span> descriptor<span class="op">.</span><span class="at">get</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="kw">const</span> originalSet <span class="op">=</span> descriptor<span class="op">.</span><span class="at">set</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a></span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="cf">if</span> (originalGet) {</span>
+<span id="cb22-6"><a href="#cb22-6"></a>    descriptor<span class="op">.</span><span class="at">get</span> <span class="op">=</span> <span class="kw">function</span> () {</span>
+<span id="cb22-7"><a href="#cb22-7"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Getting </span><span class="sc">${</span>key<span class="sc">}</span><span class="vs">`</span>)</span>
+<span id="cb22-8"><a href="#cb22-8"></a>      <span class="cf">return</span> originalGet<span class="op">.</span><span class="fu">call</span>(<span class="kw">this</span>)</span>
+<span id="cb22-9"><a href="#cb22-9"></a>    }</span>
+<span id="cb22-10"><a href="#cb22-10"></a>  }</span>
+<span id="cb22-11"><a href="#cb22-11"></a></span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="cf">if</span> (originalSet) {</span>
+<span id="cb22-13"><a href="#cb22-13"></a>    descriptor<span class="op">.</span><span class="at">set</span> <span class="op">=</span> <span class="kw">function</span> (value<span class="op">:</span> <span class="dt">any</span>) {</span>
+<span id="cb22-14"><a href="#cb22-14"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Setting </span><span class="sc">${</span>key<span class="sc">}</span><span class="vs"> to </span><span class="sc">${</span>value<span class="sc">}</span><span class="vs">`</span>)</span>
+<span id="cb22-15"><a href="#cb22-15"></a>      originalSet<span class="op">.</span><span class="fu">call</span>(<span class="kw">this</span><span class="op">,</span> value)</span>
+<span id="cb22-16"><a href="#cb22-16"></a>    }</span>
+<span id="cb22-17"><a href="#cb22-17"></a>  }</span>
+<span id="cb22-18"><a href="#cb22-18"></a>}</span>
+<span id="cb22-19"><a href="#cb22-19"></a></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="kw">class</span> MyClass {</span>
+<span id="cb22-21"><a href="#cb22-21"></a>  <span class="kw">private</span> _value<span class="op">:</span> <span class="dt">number</span></span>
+<span id="cb22-22"><a href="#cb22-22"></a></span>
+<span id="cb22-23"><a href="#cb22-23"></a>  @Log</span>
+<span id="cb22-24"><a href="#cb22-24"></a>  <span class="kw">get</span> <span class="fu">value</span>()<span class="op">:</span> <span class="dt">number</span> {</span>
+<span id="cb22-25"><a href="#cb22-25"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="at">_value</span></span>
+<span id="cb22-26"><a href="#cb22-26"></a>  }</span>
+<span id="cb22-27"><a href="#cb22-27"></a></span>
+<span id="cb22-28"><a href="#cb22-28"></a>  <span class="kw">set</span> <span class="fu">value</span>(v<span class="op">:</span> <span class="dt">number</span>) {</span>
+<span id="cb22-29"><a href="#cb22-29"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_value</span> <span class="op">=</span> v</span>
+<span id="cb22-30"><a href="#cb22-30"></a>  }</span>
+<span id="cb22-31"><a href="#cb22-31"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p>延迟初始化/懒加载</p>
+<ul>
+<li>在第一次访问属性时初始化它</li>
+</ul></li>
+<li><p>计算属性的缓存</p>
+<ul>
+<li>对于计算代价高昂的属性，可以使用访问器装饰器来缓存其值</li>
+</ul></li>
+<li><p>自动通知</p>
+<ul>
+<li>当属性值改变时，自动触发某些动作或事件</li>
+</ul></li>
+<li><p>数据绑定和观察者模式</p>
+<ul>
+<li>当属性值更改时，通知关联的UI或其他依赖项</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="元数据装饰器" class="level2">
+<h2 class="anchored" data-anchor-id="元数据装饰器">元数据装饰器</h2>
+<ul>
+<li>元数据
+<ul>
+<li>为了帮助类、方法、属性实现一定的功能，而附加在其上的一些数据</li>
+<li>分类
+<ul>
+<li>自定义元数据</li>
+<li>内置元数据(reflect-metadata自带)</li>
+</ul></li>
+</ul></li>
+<li>初步理解
+<ul>
+<li>在定义类或类方法或对象的时候，可以设置一些元数据，我们可以获取到在类与类方法上添加元数据</li>
+<li>需要引入第三方库<code>reflect-metadata</code></li>
+<li>采用<code>@Reflect.metadata</code>来实现</li>
+<li>元数据是指描述东西时用的数据</li>
+</ul></li>
+</ul>
+</section>
+<section id="装饰器执行顺序" class="level2">
+<h2 class="anchored" data-anchor-id="装饰器执行顺序">装饰器执行顺序</h2>
+<ul>
+<li>执行顺序
+<ul>
+<li>属性装饰器</li>
+<li>方法参数装饰器</li>
+<li>方法装饰器</li>
+<li>类装饰器</li>
+</ul></li>
+<li>装饰器的使用方式
+<ul>
+<li>前面顺序的装饰器可以<strong>保存数据</strong></li>
+<li>后面顺序的装饰器可以<strong>获取数据</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="装饰器总结" class="level2">
+<h2 class="anchored" data-anchor-id="装饰器总结">装饰器总结</h2>
+<ul>
+<li>属性装饰器(Property Decorators)
+<ul>
+<li>应用于属性声明
+<ul>
+<li>不可以修改属性的描述</li>
+<li>但可以使用它来<strong>存储关于属性的元数据</strong></li>
+</ul></li>
+<li>属性装饰器的表达式将在运行时作为函数调用，并带有以下两个参数
+<ul>
+<li>静态成员的<strong>类构造函数</strong>，或<strong>实例成员的类原型</strong></li>
+<li>成员名称</li>
+</ul></li>
+</ul></li>
+<li>参数装饰器(Parameter Decorators)
+<ul>
+<li>应用于<strong>类构造函数</strong>或<strong>方法的参数</strong></li>
+<li>参数装饰器在运行时可以<strong>获取关于参数的信息</strong></li>
+<li>参数装饰器的表达式将在运行时作为函数调用，并带有以下三个参数
+<ul>
+<li><strong>静态成员的类构造函数</strong>，或<strong>实例成员的类原型</strong>(the prototype of the class for an instance member)</li>
+<li><strong>成员名称</strong>(the name of member)</li>
+<li><strong>参数</strong>在<strong>函数参数列表</strong>(function parameter list)中的<strong>序号索引</strong>(index of the parameter)</li>
+</ul></li>
+</ul></li>
+<li>方法装饰器(Method Decorators)
+<ul>
+<li>应用于<strong>方法的属性描述符</strong></li>
+<li>可用于观察、修改或替换方法定义</li>
+</ul></li>
+<li>类装饰器(Class Decorators)
+<ul>
+<li>应用于<strong>类的构造函数</strong></li>
+<li>可以用来监视、修改或替换<strong>类的定义</strong></li>
+</ul></li>
+<li>访问器装饰器(Parameter Decorators)
+<ul>
+<li>应用于<strong>对象的访问器</strong>的<strong>属性描述符</strong></li>
+<li>不能同时使用在一个成员的<code>get</code>和<code>set</code>访问器，只能应用于其中之一</li>
+</ul></li>
+<li>案例代码
+<ul>
+<li><p>代码</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">function</span> <span class="fu">ClassDecorator</span>() {</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'ClassDecorator: evaluated'</span>)<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="cf">return</span> <span class="kw">function</span> (target) {</span>
+<span id="cb23-4"><a href="#cb23-4"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'ClassDecorator: called'</span>)<span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>  }</span>
+<span id="cb23-6"><a href="#cb23-6"></a>}</span>
+<span id="cb23-7"><a href="#cb23-7"></a></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="kw">function</span> <span class="fu">PropertyDecorator</span>() {</span>
+<span id="cb23-9"><a href="#cb23-9"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'PropertyDecorator: evaluated'</span>)<span class="op">;</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>    <span class="cf">return</span> <span class="kw">function</span> (target<span class="op">,</span> propertyKey) {</span>
+<span id="cb23-11"><a href="#cb23-11"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'PropertyDecorator: called'</span>)<span class="op">;</span></span>
+<span id="cb23-12"><a href="#cb23-12"></a>    }</span>
+<span id="cb23-13"><a href="#cb23-13"></a>}</span>
+<span id="cb23-14"><a href="#cb23-14"></a></span>
+<span id="cb23-15"><a href="#cb23-15"></a><span class="kw">function</span> <span class="fu">MethodDecorator</span>() {</span>
+<span id="cb23-16"><a href="#cb23-16"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'MethodDecorator: evaluated'</span>)<span class="op">;</span></span>
+<span id="cb23-17"><a href="#cb23-17"></a>    <span class="cf">return</span> <span class="kw">function</span> (target<span class="op">,</span> propertyKey<span class="op">,</span> descriptor) {</span>
+<span id="cb23-18"><a href="#cb23-18"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'MethodDecorator: called'</span>)<span class="op">;</span></span>
+<span id="cb23-19"><a href="#cb23-19"></a>    }</span>
+<span id="cb23-20"><a href="#cb23-20"></a>}</span>
+<span id="cb23-21"><a href="#cb23-21"></a></span>
+<span id="cb23-22"><a href="#cb23-22"></a><span class="kw">function</span> <span class="fu">ParameterDecorator</span>() {</span>
+<span id="cb23-23"><a href="#cb23-23"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'ParameterDecorator: evaluated'</span>)<span class="op">;</span></span>
+<span id="cb23-24"><a href="#cb23-24"></a>    <span class="cf">return</span> <span class="kw">function</span> (target<span class="op">,</span> propertyKey<span class="op">,</span> parameterIndex) {</span>
+<span id="cb23-25"><a href="#cb23-25"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'ParameterDecorator: called'</span>)<span class="op">;</span></span>
+<span id="cb23-26"><a href="#cb23-26"></a>    }</span>
+<span id="cb23-27"><a href="#cb23-27"></a>}</span>
+<span id="cb23-28"><a href="#cb23-28"></a></span>
+<span id="cb23-29"><a href="#cb23-29"></a>@<span class="fu">ClassDecorator</span>()</span>
+<span id="cb23-30"><a href="#cb23-30"></a><span class="kw">class</span> MyClass {</span>
+<span id="cb23-31"><a href="#cb23-31"></a></span>
+<span id="cb23-32"><a href="#cb23-32"></a>    @<span class="fu">PropertyDecorator</span>()</span>
+<span id="cb23-33"><a href="#cb23-33"></a>    myProperty<span class="op">:</span> <span class="dt">string</span><span class="op">;</span></span>
+<span id="cb23-34"><a href="#cb23-34"></a></span>
+<span id="cb23-35"><a href="#cb23-35"></a>    <span class="fu">myMethod</span>(@<span class="fu">ParameterDecorator</span>() param<span class="op">:</span> <span class="dt">string</span>) {</span>
+<span id="cb23-36"><a href="#cb23-36"></a>        @<span class="fu">MethodDecorator</span>()</span>
+<span id="cb23-37"><a href="#cb23-37"></a>    }</span>
+<span id="cb23-38"><a href="#cb23-38"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>执行结果</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource ts number-lines code-with-copy"><code class="sourceCode typescript"><span id="cb24-1"><a href="#cb24-1"></a>PropertyDecorator<span class="op">:</span> evaluated</span>
+<span id="cb24-2"><a href="#cb24-2"></a>ParameterDecorator<span class="op">:</span> evaluated</span>
+<span id="cb24-3"><a href="#cb24-3"></a>MethodDecorator<span class="op">:</span> evaluated</span>
+<span id="cb24-4"><a href="#cb24-4"></a>ClassDecorator<span class="op">:</span> evaluated</span>
+<span id="cb24-5"><a href="#cb24-5"></a>ParameterDecorator<span class="op">:</span> called</span>
+<span id="cb24-6"><a href="#cb24-6"></a>MethodDecorator<span class="op">:</span> called</span>
+<span id="cb24-7"><a href="#cb24-7"></a>PropertyDecorator<span class="op">:</span> called</span>
+<span id="cb24-8"><a href="#cb24-8"></a>ClassDecorator<span class="op">:</span> called</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com">
+      <i class="bi bi-email" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
