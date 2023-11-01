@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/js_object/index.html",
       "/posts/ts_decorator/index.html",
       "/posts/nestjs/index.html",
       "/posts/ls_colors_terminal/index.html",
