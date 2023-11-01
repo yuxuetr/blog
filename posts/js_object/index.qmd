@@ -1,0 +1,551 @@
+---
+title: "Javascript的对象"
+author: "曳影"
+date: "2023-10-31"
+categories: [Javascript]
+---
+
+# Javascript中的对象
+
++ 文本要点
+  - 对象的基础(字面量对象)
+  - 对象的高级创建方式(构造函数)
+  - 超强的对象创建方式(原型链)
+
+## 对象的基础
++ 本节要点
+  - 什么是对象
+  - 什么是属性
+  - 什么是面向对象
+  - 如何创建对象
+  - 属性的工作原理
+  - 给对象添加行为
+  - this的工作原理
+
+### 对象(`object`)
+  - Javascript对象不过是一系列属性(`property`)而已
+
+### 属性
+  - 每个**属性**都有**名称**和**值**
+
+### 面向对象
+  - 在面向对象编程中，我们从**对象的角度**思考问题
+  - **对象**有**状态**和**行为**
+
+### 如何创建对象
+  - 对象将所有的**名称和值**(一起表示即属性)组合在一起
+  - 创建一个包含**一系列属性**的对象，并将其赋给了**一个变量**
+    - 以便使用它来**访问**和**修改**这个对象的属性
+  - 我们根据<font color='red'>**对象文本描述**</font>创建了一个货真价实的**Javascript对象**
+    
+    ```js
+    var chevy = {
+      make: "Chevy",
+      model: "Bel Air",
+      year: 1975,
+      color: "red",
+      passengers: 2,
+      convertible: false,
+      mileage: 1021
+    }
+    ```
+
+### 属性的工作原理
+
++ 如何访问属性
+  - 句点表示法
+  - `objectName.AttrName`
+
++ 如何修改属性
+  - `objectName.AttrName = newValue`
+
++ 如何添加新属性
+  - `objectName.NewAttrName = value`
+
++ 如何将属性用于计算
+  - 可以像使用变量一样使用对象的属性，但是要用句点表示法来访问属性
+  
++ 删除属性
+  - `delete objectName.AttrName`
+
++ 与**句点表示法**等价的属性访问方式
+  - 使用对象名以及用引号和方括号括起来的属性名
+  - `objectName["AttrName"]`
+  - `[]`方式在某些情况下更灵活，如`chevy["co" + "lor"]`
+
+### 变量是如何存储对象的
+
++ 变量
+  - 是容器，用于**存储值**
+
++ 对象的变量
+  - 变量并不实际存储对象
+  - 变量存储指向对象的引用
+  - 引用就像指针，是对象的存储地址
+  - 总之，变量不存储对象本身，而是存储四类指针的东西
+  - 当我们使用**句点表示法**时，Javascript解释器负责根据**引用**获取对象并访问其属性
+  - 变量是获取对象的途径
+
+```shell
+                                   |----------|
+|----------|     |-----------|     |          |
+| Variable |---> | Reference |---> | object   |
+|----------|     |-----------|     |  - attrs |
+                                   |          |
+                                   |----------|
+```
+
++ 可以多念几遍下面的话来理解
+  - 当你将**句点表示法**用于引用变量时，相当于这样说：
+    - 请使用**句点前**的**引用**来获取**相应的对象**
+    - 再访问**句点后**的**指定的属性**
+
+### 函数传递对象
+
++ 对象作为参数传递
+  - 在Javascript中，实参是按值传递的
+    - 这意味着传递的是**实参的副本**
+  - 将对象赋值给变量时，变量存储的是指向对象的引用，而不是对象本身
+  - 调用函数并向它传递一个对象时，传递的是**对象引用的副本**
+    - 相当于多个引用**指向同一个对象**
+      - 这意味着在函数中修改对象属性时，修改的将是**原始对象的属性**
+      - 当函数结束时，在函数中**对对象的修改**依然有效
+
+### 给对象添加行为
+
++ 对象的行为
+  - 对象是活动的，能够做事情
+
++ 给函数添加函数
+  - 可以直接将(匿名)函数赋值给属性
+    ```js
+    var fiat = {
+      make: "Fiat",
+      model: 500,
+      drive: function() {
+        console.log("Zoom zoom")
+      }
+    }
+    ```
++ 调用函数(实际上方法)
+  - 对象中的函数(function)称为方法(method)
+  - 调用对象的方法drive，使用**句点表示法**
+    ```js
+    fiat.drive()
+    ```
+
+### 在方法中访问属性
+
++ 如何在方法中访问对象的属性
+  - **Javascript关键字this**,可使用它来告诉Javascript,你说的是**当前所处的对象**
+    ```js
+    var fiat = {
+      make: "Fiat",
+      started: false,
+      start: function() {
+        this.started = true
+      }
+    }
+    ```
+
+### 关键字`this`的工作原理
+
++ this
+  - 可将`this`视为一个变量，<font color='red'>**指向其方法被调用的对象**</font>
+    - 如果你使用`fiat.start()`,并在方法start中使用**this**
+      - 那么**this**将指向对象**fiat**
+  - 要理解关键字**this**
+    - 关键在于每当方法被调用时，在该方法内都可使用**this**来引用**方法被调用的对象**
+
+## 高级对象的构造技巧
+
+   上面所讲的对象构造方式是使用**对象字面量**来执行其属性来创建对象。
+
+更好的方式我们会使用**对象构造函数**来构造对象。让所有对象都采用相同的**设计蓝图**。
+
+可以确保所有对象包含**相同的属性和方法**，通过构造函数编写的代码将简洁的多。
+
++ 本节要点：
+  - 构造函数
+  - new操作符
+  - 构造函数构造原理
+  - 内置构造函数
+
+#### 对象构造函数
+
++ 简介
+  - 犹如一个小型工厂，能够创建无数类似的对象
+  - 从代码角度看，**构造函数**很像**返回对象的函数**
+
++ 创建构造函数
+  - 先定义构造函数
+  - 再使用它来创建对象
+
++ 定义构造函数
+  - 与常规函数没什么两样
+  - 给构造函数命名时，采用**首字母大写**的方式
+  - 形参用于给属性赋值
+  - 属性名和形参不必相同，但通常相同
+  - 构造函数**什么都没返回**
+  ```js
+  function Dog(name, breed, weight) {
+    this.name = name
+    this.breed = breed
+    this.weight = weight
+  }
+  ```
+
++ 如何使用构造函数
+  - 先创建一个构造函数
+  - 再使用它
+
++ 创建构造函数
+  - 使用`new`运算符
+  ```js
+  var fido = new Dog("Fido", "Mixed", 30)
+  ```
+
+#### 构造函数的工作原理
+
++ `var fido = new Dog("Fido", "Mixed", 30)`
+  1. `new`首先创建一个**新的空对象**
+  2. 接下来`new`设置`this`，其实指向这个新对象
+  3. 设置`this`后，调用**函数Dog**,并将**Fido,Mixed,30**作为实参传递给它
+  4. 接下来执行这个参数的代码，与大多数函数一样，Dog给信创建的`this`对象的属性赋值
+  5. 构造函数Dog执行完毕后，**运算符new**返回**this**--指向新创建的对象的引用
+     - 它**会自动为你返回this**，无需在代码中显式地返回
+     - 指向新对象的引用被返回后，我们将其赋值给**变量fido**
+
+```shell
+|-------| 2.Setting |------| 4.Call  |----------| 
+|  new  |---------->| this |-------->| Function |
+|-------|           |------|         |----------|
+    |                  | 3.Pointing       |
+    |                  V                  |5.Create New Attrs
+    |  1.Create |--------------|          |
+    |---------->| empty object |<---------|
+                |--------------|          |
+|----------|     7.Assignment Reference   | 6.Return Reference
+| Variable |<-----------------------------|
+|----------|
+```
+
+#### 在构造函数中定义方法
+
+   ```js
+   function Dog(name, breed, weight) {
+    this.name = name
+    this.breed = breed
+    this.weight = weight
+   }
+   this.bark = function() {
+    if (this.weight < 25) {
+      console.log(this.name + " says Woof")
+    } else {
+      console.log(this.name + " says Yip")
+    }
+   }
+   ```
+
+### 理解对象实例
+
++ 构造函数创建实例
+  - 每当使用**运算符new**调用构造函数时，都将创建一个**新的对象实例**
+
++ 确定对象是否是指定构造函数的实例
+  - 实际上，创建对象时，**运算符new**在幕后存储了一些信息
+    - 让你随时都能确定对象是由哪个构造函数创建的
+  - **运算符instanceof**
+    - 就是根据这些信息确定对象是否是指定构造函数的实例
+
+## 创建好的对象，也可以有独特的属性
+
++ 使用构造函数
+  - 创建**一致的**对象
+  - 包含相同属性和方法的对象
+
++ 使用构造函数创建对象后，可对其进行修改
+  - 因为构造函数创建的对象是可以修改的
+  ```js
+  var fido = new Dog("Fido", "Mixed", 30)
+  fido.owner = "Bob"  // 添加新属性
+  delete fido.weight  // 删除weight属性
+  ```
+
+### Javascript内置构造函数
+
++ `Date()`
+  - 创建日期对象
+
++ `Array()`
+  - 创建数组
+
++ `Object()`
+  - 使用构造函数`Object`来创建对象
+  - 对象字面量表示`{}`与`new Object()`等价
+
++ `RegExp()`
+  - 创建正则表达式对象
+
++ `Math()`
+  - 执行数学运算任务的属性和方法
+
++ `Error()`
+  - 创建标准错误对象
+
+
+## 超强的对象创建能力
+
+  我们需要再**对象之间建立关系**和**共享代码的方法。Javascript的**对象模型**非常强大。
+
++ Javascript采用的不是基于类的面向对象系统
+  - 而是更强大的原型模型，其中的对象**可继承和扩展其他对象的行为**。
+
++ Javascript没有传统面向对象模型，即从类创建对象模型。
+  - 事实上，Javascript根本就没有类。
+
++ 在Javascript中
+  - 对象从**其他对象**那里继承行为，我们称之为**原型式继承(prototypal inheritance)**
+
++ 本节要点
+  - 原型(链)
+
+### 重复的方法是个问题
+
++ 再谈构造函数
+  - 构造函数每次创建一个对象都有**独立的属性和一组新方法**
+    - 这会影响应用程序的性能，占用计算机资源
+  - 使用构造函数的目的：**试图重用行为**
+    - 但构造函数在**代码层**实现重用行为的目的
+    - 但在**运行阶段**，这种解决方案并不好，每个实例对象都获得自己的方法的副本
+
++ 产生问题的原因
+  - 我们没有充分利用Javascript的对象模型
+  - Javascript对象模型基于**原型**的概念
+  - 在这种模型中，可通过**扩展其他对象(即原型对象)**来创建对象
+
+### 原型是什么
+  
++ 原型
+  - Javascript对象可**从其他对象**那里**继承属性和行为**
+  - 被继承的对象称之为**原型**
+  - 对象继承另一个对象后，便可访问其所有方法和属性
+
+### 继承原型
+
++ 定义原型
+  - 定义所有类型对象(如Dog)都需要的属性和方法
+    - 因为所有(Dog)都将继承它们
+  
+  ```js
+  function Dog() {
+    this.species: "Canine"
+    bark: function(){
+      console.log("Bar bar bar ...")
+    }
+  }
+  ```
+### 继承的工作原理
+
++ 方法继承
+  - 既然方法(bark)并不包含在各个小狗对象中，而是包含在**原型**中
+  - 这正是继承的用武之地
+  - 对对象调用方法时，如果在对象中找不到，将在**原型**中查找它
+
+### 重写原型
+  
++ 继承原型
+  - 并不意味着必须与它完全相同
+  - 在任何情况下，都可重写原型的属性和方法，为此只需在对象实例中提供它们即可
+  - 这是可行的
+    - 因为Javascript总是先在对象实例中查找，如果找不到，再在原型中查找
+
+### 原型从哪里来
+
++ 访问原型
+  - 构造函数的`prototype`属性，这是一个**指向原型的引用**
+  ```js
+  Dog.prototype
+  ```
+
++ 在Javascript中
+  - **函数也是对象**
+  - 几乎所有东西都是对象
+  - 因此函数还可以有属性
+  - 而构造函数都包含属性`prototype`
+
+### 如何设置原型
+
++ 设置方式
+  - 可通过构造函数(Dog)的属性`prototype`来访问**原型对象**
+  - 换句话说，你需要给原型添加属性和方法，这通常是在使用构造函数前进行的
+  ```js
+  function Dog(name, breed, weight) {
+    this.name = name
+    this.breed = breed
+    this.weight = weight
+  }
+  // 设置小狗原型
+  Dog.prototype.species = "Canine"
+  Dog.prototype.bark = function() {
+    if (this.weight > 25) {
+      console.log(this.name + " says Woof!")
+    } else {
+      console.log(this.name + " says Yip!")
+    }
+  }
+  Dog.prototype.run = function() {
+    console.log("Run!")
+  }
+  Dog.prototype.wag = function() {
+    console.log("Wag!")
+  }
+
+  var fido = new Dog("Fido", "Mixed", 33)
+  var fluffy = new Dog("Fluffy", "Poodle", 22)
+  var spot = new Dog("Spot", "Chihuahua", 8)
+
+  fido.bark()
+  fido.run()
+  fido.wag()
+
+  fluffy.bark()
+  fluffy.run()
+  fluffy.wag()
+
+  spot.bark()
+  spot.run()
+  spot.wag()
+
+  // 对象自定义方法
+  spot.bark = function() {
+    console.log(this.name + " says WOOF!")
+  }
+  spot.bark()
+  spot.run()
+  spot.wag()
+  ```
+
+### 原型是动态的
+
++ 在原型中添加**新方法**后
+  - 继承该原型的任何对象都能使用这个方法
+
++ 判断对象的属性是自有的还是原型的
+  - 使用`objectName.hasOwnProperty("AttrName")`
+    - 如`spot.hasOwnProperty("species")`
+    - 返回ture表示是对象自有属性
+    - 返回false表示是不是对象自有的属性
+
+### 建立原型链
+
++ 原型继承
+  - 对象不仅可以继承一个原型的属性
+  - 对象还可以继承一个原型链
+
++ 创建表演犬实例
+  - 需要一个继承小狗原型的对象
+  - 接下来，将新建一个小狗实例变成表演犬原型
+  - 补全原型
+  ```js
+  // 1.
+  function Dog(name, breed, weight) {
+    this.name = name
+    this.breed = breed
+    this.weight = weight
+  }
+  Dog.prototype.bark = function() {
+      console.log(this.name + " says WOOF")
+  }
+
+  // 2
+  function ShowDog(name, breed, weight, handler) {
+    // this.name = name
+    // this.breed = breed
+    // this.weight = weight
+    // 这里调用Dog.call,导致Dog被调用，这里之所以调用call，而不直接调用Dog
+    // - 是因为这样可以控制this的值
+    // - 调用构造函数Dog将设置当前对象的属性
+    Dog.call(this, name, breed, weight)
+    this.handler = handler
+  }
+  ShowDog.prototype = new Dog()
+  ShowDog.prototype.league = "Webvile"
+  ShowDog.prototype.stack = function() {
+    console.log("Stack")
+  }
+  ShowDog.prototype.bait = function() {
+    console.log("Bait")
+  }
+  ShowDog.prototype.gait = function(kind) {
+    console.log(kind + "ing")
+  }
+  ShowDog.prototype.groom = function() {
+    console.log("Groom")
+  }
+  // 3.
+  var scotty = new ShowDog("Scotty", "Scottish Terrier", 15, "Cookie")
+  // 4.
+  scotty.stack()
+  scotty.bark()
+
+  // 5.
+  if (scotty instanceof Dog) {
+    console.log("Scotty is a Dog")
+  }
+  if (scotty instanceof ShowDog) {
+    console.log("Scotty is a ShowDog")
+  }
+
+  console.log("Fido constructor is " + fido.constructor)
+  console.log("Scotty constructor is " + scotty.constructor)
+
+  // 6.
+  ShowDog.prototype = new Dog()
+  // 获取表演犬原型，将其属性`constructor`显式地设置为构造函数ShowDog
+  ShowDog.prototype.constructor = ShowDog()
+  ```
+
+### `Dog.call`详解
+
++ 运算符`new`
+  - 新建一个空对象，并将其赋值给构造函数中的变量`this`
++ `Dog.call`
+  - 没有使用运算符`new`，因此它不会返回任何对象
+  - 上面代码中`this`指向了`new ShowDog()`创建的对象
+
+### Object
+
++ Object是什么
+  - 对象始祖
+  - 所有对象都是它派生而来的
+  - Object实现了多个重要方法，它们是**Javascript对象系统的核心部分**
+
++ 充分发挥继承的威力之重写内置行为
+  - Object中不可重写的属性
+    - constructor
+    - hasOwnProperty
+    - isPrototypeOf
+    - propertyIsEnumerable
+  - Object对象中可重写的属性
+    - toString
+    - toLocaleString
+    - valueOf
+
++ 充分发挥继承的威力之：扩展内置对象
+  - 通过给原型添加方法，可给其所有实例添加新功能
+
+## 总结
+
+```shell
+|----|       |------------|       |------------------|
+| {} | ----> | new Object | ----> | object.prototype |
+|----|       |------------|       |------------------|
+
+   object
+|---------|
+|  attrs  |
+|---------|
+| methods |
+|---------|
+```

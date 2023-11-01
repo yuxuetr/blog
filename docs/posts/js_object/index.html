@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="曳影">
+<meta name="dcterms.date" content="2023-10-31">
+
+<title>曳影 - Javascript的对象</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">曳影</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com" rel="" target=""><i class="bi bi-email" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Javascript的对象</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Javascript</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>曳影 </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 31, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="javascript中的对象" class="level1">
+<h1>Javascript中的对象</h1>
+<ul>
+<li>文本要点
+<ul>
+<li>对象的基础(字面量对象)</li>
+<li>对象的高级创建方式(构造函数)</li>
+<li>超强的对象创建方式(原型链)</li>
+</ul></li>
+</ul>
+<section id="对象的基础" class="level2">
+<h2 class="anchored" data-anchor-id="对象的基础">对象的基础</h2>
+<ul>
+<li>本节要点
+<ul>
+<li>什么是对象</li>
+<li>什么是属性</li>
+<li>什么是面向对象</li>
+<li>如何创建对象</li>
+<li>属性的工作原理</li>
+<li>给对象添加行为</li>
+<li>this的工作原理</li>
+</ul></li>
+</ul>
+<section id="对象object" class="level3">
+<h3 class="anchored" data-anchor-id="对象object">对象(<code>object</code>)</h3>
+<ul>
+<li>Javascript对象不过是一系列属性(<code>property</code>)而已</li>
+</ul>
+</section>
+<section id="属性" class="level3">
+<h3 class="anchored" data-anchor-id="属性">属性</h3>
+<ul>
+<li>每个<strong>属性</strong>都有<strong>名称</strong>和<strong>值</strong></li>
+</ul>
+</section>
+<section id="面向对象" class="level3">
+<h3 class="anchored" data-anchor-id="面向对象">面向对象</h3>
+<ul>
+<li>在面向对象编程中，我们从<strong>对象的角度</strong>思考问题</li>
+<li><strong>对象</strong>有<strong>状态</strong>和<strong>行为</strong></li>
+</ul>
+</section>
+<section id="如何创建对象" class="level3">
+<h3 class="anchored" data-anchor-id="如何创建对象">如何创建对象</h3>
+<ul>
+<li><p>对象将所有的<strong>名称和值</strong>(一起表示即属性)组合在一起</p></li>
+<li><p>创建一个包含<strong>一系列属性</strong>的对象，并将其赋给了<strong>一个变量</strong></p>
+<ul>
+<li>以便使用它来<strong>访问</strong>和<strong>修改</strong>这个对象的属性</li>
+</ul></li>
+<li><p>我们根据<font color="red"><strong>对象文本描述</strong></font>创建了一个货真价实的<strong>Javascript对象</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">var</span> chevy <span class="op">=</span> {</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="dt">make</span><span class="op">:</span> <span class="st">"Chevy"</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="dt">model</span><span class="op">:</span> <span class="st">"Bel Air"</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>  <span class="dt">year</span><span class="op">:</span> <span class="dv">1975</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>  <span class="dt">color</span><span class="op">:</span> <span class="st">"red"</span><span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">passengers</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">convertible</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="dt">mileage</span><span class="op">:</span> <span class="dv">1021</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="属性的工作原理" class="level3">
+<h3 class="anchored" data-anchor-id="属性的工作原理">属性的工作原理</h3>
+<ul>
+<li>如何访问属性
+<ul>
+<li>句点表示法</li>
+<li><code>objectName.AttrName</code></li>
+</ul></li>
+<li>如何修改属性
+<ul>
+<li><code>objectName.AttrName = newValue</code></li>
+</ul></li>
+<li>如何添加新属性
+<ul>
+<li><code>objectName.NewAttrName = value</code></li>
+</ul></li>
+<li>如何将属性用于计算
+<ul>
+<li>可以像使用变量一样使用对象的属性，但是要用句点表示法来访问属性</li>
+</ul></li>
+<li>删除属性
+<ul>
+<li><code>delete objectName.AttrName</code></li>
+</ul></li>
+<li>与<strong>句点表示法</strong>等价的属性访问方式
+<ul>
+<li>使用对象名以及用引号和方括号括起来的属性名</li>
+<li><code>objectName["AttrName"]</code></li>
+<li><code>[]</code>方式在某些情况下更灵活，如<code>chevy["co" + "lor"]</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="变量是如何存储对象的" class="level3">
+<h3 class="anchored" data-anchor-id="变量是如何存储对象的">变量是如何存储对象的</h3>
+<ul>
+<li>变量
+<ul>
+<li>是容器，用于<strong>存储值</strong></li>
+</ul></li>
+<li>对象的变量
+<ul>
+<li>变量并不实际存储对象</li>
+<li>变量存储指向对象的引用</li>
+<li>引用就像指针，是对象的存储地址</li>
+<li>总之，变量不存储对象本身，而是存储四类指针的东西</li>
+<li>当我们使用<strong>句点表示法</strong>时，Javascript解释器负责根据<strong>引用</strong>获取对象并访问其属性</li>
+<li>变量是获取对象的途径</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>                                   |----------|</span>
+<span id="cb2-2"><a href="#cb2-2"></a>|----------|     |-----------|     |          |</span>
+<span id="cb2-3"><a href="#cb2-3"></a>| Variable |---&gt; | Reference |---&gt; | object   |</span>
+<span id="cb2-4"><a href="#cb2-4"></a>|----------|     |-----------|     |  - attrs |</span>
+<span id="cb2-5"><a href="#cb2-5"></a>                                   |          |</span>
+<span id="cb2-6"><a href="#cb2-6"></a>                                   |----------|</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>可以多念几遍下面的话来理解
+<ul>
+<li>当你将<strong>句点表示法</strong>用于引用变量时，相当于这样说：
+<ul>
+<li>请使用<strong>句点前</strong>的<strong>引用</strong>来获取<strong>相应的对象</strong></li>
+<li>再访问<strong>句点后</strong>的<strong>指定的属性</strong></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="函数传递对象" class="level3">
+<h3 class="anchored" data-anchor-id="函数传递对象">函数传递对象</h3>
+<ul>
+<li>对象作为参数传递
+<ul>
+<li>在Javascript中，实参是按值传递的
+<ul>
+<li>这意味着传递的是<strong>实参的副本</strong></li>
+</ul></li>
+<li>将对象赋值给变量时，变量存储的是指向对象的引用，而不是对象本身</li>
+<li>调用函数并向它传递一个对象时，传递的是<strong>对象引用的副本</strong>
+<ul>
+<li>相当于多个引用<strong>指向同一个对象</strong>
+<ul>
+<li>这意味着在函数中修改对象属性时，修改的将是<strong>原始对象的属性</strong></li>
+<li>当函数结束时，在函数中<strong>对对象的修改</strong>依然有效</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="给对象添加行为" class="level3">
+<h3 class="anchored" data-anchor-id="给对象添加行为">给对象添加行为</h3>
+<ul>
+<li>对象的行为
+<ul>
+<li>对象是活动的，能够做事情</li>
+</ul></li>
+<li>给函数添加函数
+<ul>
+<li><p>可以直接将(匿名)函数赋值给属性</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">var</span> fiat <span class="op">=</span> {</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="dt">make</span><span class="op">:</span> <span class="st">"Fiat"</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">model</span><span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">drive</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Zoom zoom"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li>调用函数(实际上方法)
+<ul>
+<li><p>对象中的函数(function)称为方法(method)</p></li>
+<li><p>调用对象的方法drive，使用<strong>句点表示法</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a>fiat<span class="op">.</span><span class="fu">drive</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul>
+</section>
+<section id="在方法中访问属性" class="level3">
+<h3 class="anchored" data-anchor-id="在方法中访问属性">在方法中访问属性</h3>
+<ul>
+<li>如何在方法中访问对象的属性
+<ul>
+<li><p><strong>Javascript关键字this</strong>,可使用它来告诉Javascript,你说的是<strong>当前所处的对象</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">var</span> fiat <span class="op">=</span> {</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="dt">make</span><span class="op">:</span> <span class="st">"Fiat"</span><span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="dt">started</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="dt">start</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">started</span> <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  }</span>
+<span id="cb5-7"><a href="#cb5-7"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ul>
+</section>
+<section id="关键字this的工作原理" class="level3">
+<h3 class="anchored" data-anchor-id="关键字this的工作原理">关键字<code>this</code>的工作原理</h3>
+<ul>
+<li>this
+<ul>
+<li>可将<code>this</code>视为一个变量，<font color="red"><strong>指向其方法被调用的对象</strong></font>
+<ul>
+<li>如果你使用<code>fiat.start()</code>,并在方法start中使用<strong>this</strong>
+<ul>
+<li>那么<strong>this</strong>将指向对象<strong>fiat</strong></li>
+</ul></li>
+</ul></li>
+<li>要理解关键字<strong>this</strong>
+<ul>
+<li>关键在于每当方法被调用时，在该方法内都可使用<strong>this</strong>来引用<strong>方法被调用的对象</strong></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="高级对象的构造技巧" class="level2">
+<h2 class="anchored" data-anchor-id="高级对象的构造技巧">高级对象的构造技巧</h2>
+<p>上面所讲的对象构造方式是使用<strong>对象字面量</strong>来执行其属性来创建对象。</p>
+<p>更好的方式我们会使用<strong>对象构造函数</strong>来构造对象。让所有对象都采用相同的<strong>设计蓝图</strong>。</p>
+<p>可以确保所有对象包含<strong>相同的属性和方法</strong>，通过构造函数编写的代码将简洁的多。</p>
+<ul>
+<li>本节要点：
+<ul>
+<li>构造函数</li>
+<li>new操作符</li>
+<li>构造函数构造原理</li>
+<li>内置构造函数</li>
+</ul></li>
+</ul>
+<section id="对象构造函数" class="level4">
+<h4 class="anchored" data-anchor-id="对象构造函数">对象构造函数</h4>
+<ul>
+<li>简介
+<ul>
+<li>犹如一个小型工厂，能够创建无数类似的对象</li>
+<li>从代码角度看，<strong>构造函数</strong>很像<strong>返回对象的函数</strong></li>
+</ul></li>
+<li>创建构造函数
+<ul>
+<li>先定义构造函数</li>
+<li>再使用它来创建对象</li>
+</ul></li>
+<li>定义构造函数
+<ul>
+<li>与常规函数没什么两样</li>
+<li>给构造函数命名时，采用<strong>首字母大写</strong>的方式</li>
+<li>形参用于给属性赋值</li>
+<li>属性名和形参不必相同，但通常相同</li>
+<li>构造函数<strong>什么都没返回</strong></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">function</span> <span class="fu">Dog</span>(name<span class="op">,</span> breed<span class="op">,</span> weight) {</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">breed</span> <span class="op">=</span> breed</span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">=</span> weight</span>
+<span id="cb6-5"><a href="#cb6-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>如何使用构造函数
+<ul>
+<li>先创建一个构造函数</li>
+<li>再使用它</li>
+</ul></li>
+<li>创建构造函数
+<ul>
+<li>使用<code>new</code>运算符</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">var</span> fido <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>(<span class="st">"Fido"</span><span class="op">,</span> <span class="st">"Mixed"</span><span class="op">,</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="构造函数的工作原理" class="level4">
+<h4 class="anchored" data-anchor-id="构造函数的工作原理">构造函数的工作原理</h4>
+<ul>
+<li><code>var fido = new Dog("Fido", "Mixed", 30)</code>
+<ol type="1">
+<li><code>new</code>首先创建一个<strong>新的空对象</strong></li>
+<li>接下来<code>new</code>设置<code>this</code>，其实指向这个新对象</li>
+<li>设置<code>this</code>后，调用<strong>函数Dog</strong>,并将<strong>Fido,Mixed,30</strong>作为实参传递给它</li>
+<li>接下来执行这个参数的代码，与大多数函数一样，Dog给信创建的<code>this</code>对象的属性赋值</li>
+<li>构造函数Dog执行完毕后，<strong>运算符new</strong>返回<strong>this</strong>–指向新创建的对象的引用
+<ul>
+<li>它<strong>会自动为你返回this</strong>，无需在代码中显式地返回</li>
+<li>指向新对象的引用被返回后，我们将其赋值给<strong>变量fido</strong></li>
+</ul></li>
+</ol></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a>|-------| 2.Setting |------| 4.Call  |----------| </span>
+<span id="cb8-2"><a href="#cb8-2"></a>|  new  |----------&gt;| this |--------&gt;| Function |</span>
+<span id="cb8-3"><a href="#cb8-3"></a>|-------|           |------|         |----------|</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    |                  | 3.Pointing       |</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    |                  V                  |5.Create New Attrs</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    |  1.Create |--------------|          |</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    |----------&gt;| empty object |&lt;---------|</span>
+<span id="cb8-8"><a href="#cb8-8"></a>                |--------------|          |</span>
+<span id="cb8-9"><a href="#cb8-9"></a>|----------|     7.Assignment Reference   | 6.Return Reference</span>
+<span id="cb8-10"><a href="#cb8-10"></a>| Variable |&lt;-----------------------------|</span>
+<span id="cb8-11"><a href="#cb8-11"></a>|----------|</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="在构造函数中定义方法" class="level4">
+<h4 class="anchored" data-anchor-id="在构造函数中定义方法">在构造函数中定义方法</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">function</span> <span class="fu">Dog</span>(name<span class="op">,</span> breed<span class="op">,</span> weight) {</span>
+<span id="cb9-2"><a href="#cb9-2"></a> <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name</span>
+<span id="cb9-3"><a href="#cb9-3"></a> <span class="kw">this</span><span class="op">.</span><span class="at">breed</span> <span class="op">=</span> breed</span>
+<span id="cb9-4"><a href="#cb9-4"></a> <span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">=</span> weight</span>
+<span id="cb9-5"><a href="#cb9-5"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw">this</span><span class="op">.</span><span class="at">bark</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb9-7"><a href="#cb9-7"></a> <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">&lt;</span> <span class="dv">25</span>) {</span>
+<span id="cb9-8"><a href="#cb9-8"></a>   <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says Woof"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9"></a> } <span class="cf">else</span> {</span>
+<span id="cb9-10"><a href="#cb9-10"></a>   <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says Yip"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11"></a> }</span>
+<span id="cb9-12"><a href="#cb9-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="理解对象实例" class="level3">
+<h3 class="anchored" data-anchor-id="理解对象实例">理解对象实例</h3>
+<ul>
+<li>构造函数创建实例
+<ul>
+<li>每当使用<strong>运算符new</strong>调用构造函数时，都将创建一个<strong>新的对象实例</strong></li>
+</ul></li>
+<li>确定对象是否是指定构造函数的实例
+<ul>
+<li>实际上，创建对象时，<strong>运算符new</strong>在幕后存储了一些信息
+<ul>
+<li>让你随时都能确定对象是由哪个构造函数创建的</li>
+</ul></li>
+<li><strong>运算符instanceof</strong>
+<ul>
+<li>就是根据这些信息确定对象是否是指定构造函数的实例</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="创建好的对象也可以有独特的属性" class="level2">
+<h2 class="anchored" data-anchor-id="创建好的对象也可以有独特的属性">创建好的对象，也可以有独特的属性</h2>
+<ul>
+<li>使用构造函数
+<ul>
+<li>创建<strong>一致的</strong>对象</li>
+<li>包含相同属性和方法的对象</li>
+</ul></li>
+<li>使用构造函数创建对象后，可对其进行修改
+<ul>
+<li>因为构造函数创建的对象是可以修改的</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">var</span> fido <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>(<span class="st">"Fido"</span><span class="op">,</span> <span class="st">"Mixed"</span><span class="op">,</span> <span class="dv">30</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>fido<span class="op">.</span><span class="at">owner</span> <span class="op">=</span> <span class="st">"Bob"</span>  <span class="co">// 添加新属性</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">delete</span> fido<span class="op">.</span><span class="at">weight</span>  <span class="co">// 删除weight属性</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<section id="javascript内置构造函数" class="level3">
+<h3 class="anchored" data-anchor-id="javascript内置构造函数">Javascript内置构造函数</h3>
+<ul>
+<li><code>Date()</code>
+<ul>
+<li>创建日期对象</li>
+</ul></li>
+<li><code>Array()</code>
+<ul>
+<li>创建数组</li>
+</ul></li>
+<li><code>Object()</code>
+<ul>
+<li>使用构造函数<code>Object</code>来创建对象</li>
+<li>对象字面量表示<code>{}</code>与<code>new Object()</code>等价</li>
+</ul></li>
+<li><code>RegExp()</code>
+<ul>
+<li>创建正则表达式对象</li>
+</ul></li>
+<li><code>Math()</code>
+<ul>
+<li>执行数学运算任务的属性和方法</li>
+</ul></li>
+<li><code>Error()</code>
+<ul>
+<li>创建标准错误对象</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="超强的对象创建能力" class="level2">
+<h2 class="anchored" data-anchor-id="超强的对象创建能力">超强的对象创建能力</h2>
+<p>我们需要再<strong>对象之间建立关系</strong>和<strong>共享代码的方法。Javascript的</strong>对象模型**非常强大。</p>
+<ul>
+<li>Javascript采用的不是基于类的面向对象系统
+<ul>
+<li>而是更强大的原型模型，其中的对象<strong>可继承和扩展其他对象的行为</strong>。</li>
+</ul></li>
+<li>Javascript没有传统面向对象模型，即从类创建对象模型。
+<ul>
+<li>事实上，Javascript根本就没有类。</li>
+</ul></li>
+<li>在Javascript中
+<ul>
+<li>对象从<strong>其他对象</strong>那里继承行为，我们称之为<strong>原型式继承(prototypal inheritance)</strong></li>
+</ul></li>
+<li>本节要点
+<ul>
+<li>原型(链)</li>
+</ul></li>
+</ul>
+<section id="重复的方法是个问题" class="level3">
+<h3 class="anchored" data-anchor-id="重复的方法是个问题">重复的方法是个问题</h3>
+<ul>
+<li>再谈构造函数
+<ul>
+<li>构造函数每次创建一个对象都有<strong>独立的属性和一组新方法</strong>
+<ul>
+<li>这会影响应用程序的性能，占用计算机资源</li>
+</ul></li>
+<li>使用构造函数的目的：<strong>试图重用行为</strong>
+<ul>
+<li>但构造函数在<strong>代码层</strong>实现重用行为的目的</li>
+<li>但在<strong>运行阶段</strong>，这种解决方案并不好，每个实例对象都获得自己的方法的副本</li>
+</ul></li>
+</ul></li>
+<li>产生问题的原因
+<ul>
+<li>我们没有充分利用Javascript的对象模型</li>
+<li>Javascript对象模型基于<strong>原型</strong>的概念</li>
+<li>在这种模型中，可通过<strong>扩展其他对象(即原型对象)</strong>来创建对象</li>
+</ul></li>
+</ul>
+</section>
+<section id="原型是什么" class="level3">
+<h3 class="anchored" data-anchor-id="原型是什么">原型是什么</h3>
+<ul>
+<li>原型
+<ul>
+<li>Javascript对象可<strong>从其他对象</strong>那里<strong>继承属性和行为</strong></li>
+<li>被继承的对象称之为<strong>原型</strong></li>
+<li>对象继承另一个对象后，便可访问其所有方法和属性</li>
+</ul></li>
+</ul>
+</section>
+<section id="继承原型" class="level3">
+<h3 class="anchored" data-anchor-id="继承原型">继承原型</h3>
+<ul>
+<li>定义原型
+<ul>
+<li>定义所有类型对象(如Dog)都需要的属性和方法
+<ul>
+<li>因为所有(Dog)都将继承它们</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">function</span> <span class="fu">Dog</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">species</span><span class="op">:</span> <span class="st">"Canine"</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="dt">bark</span><span class="op">:</span> <span class="kw">function</span>(){</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Bar bar bar ..."</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  }</span>
+<span id="cb11-6"><a href="#cb11-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h3 id="继承的工作原理" class="anchored">继承的工作原理</h3></li>
+<li>方法继承
+<ul>
+<li>既然方法(bark)并不包含在各个小狗对象中，而是包含在<strong>原型</strong>中</li>
+<li>这正是继承的用武之地</li>
+<li>对对象调用方法时，如果在对象中找不到，将在<strong>原型</strong>中查找它</li>
+</ul></li>
+</ul>
+</section>
+<section id="重写原型" class="level3">
+<h3 class="anchored" data-anchor-id="重写原型">重写原型</h3>
+<ul>
+<li>继承原型
+<ul>
+<li>并不意味着必须与它完全相同</li>
+<li>在任何情况下，都可重写原型的属性和方法，为此只需在对象实例中提供它们即可</li>
+<li>这是可行的
+<ul>
+<li>因为Javascript总是先在对象实例中查找，如果找不到，再在原型中查找</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="原型从哪里来" class="level3">
+<h3 class="anchored" data-anchor-id="原型从哪里来">原型从哪里来</h3>
+<ul>
+<li>访问原型
+<ul>
+<li>构造函数的<code>prototype</code>属性，这是一个<strong>指向原型的引用</strong></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1"></a>Dog<span class="op">.</span><span class="at">prototype</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li>在Javascript中
+<ul>
+<li><strong>函数也是对象</strong></li>
+<li>几乎所有东西都是对象</li>
+<li>因此函数还可以有属性</li>
+<li>而构造函数都包含属性<code>prototype</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="如何设置原型" class="level3">
+<h3 class="anchored" data-anchor-id="如何设置原型">如何设置原型</h3>
+<ul>
+<li>设置方式
+<ul>
+<li>可通过构造函数(Dog)的属性<code>prototype</code>来访问<strong>原型对象</strong></li>
+<li>换句话说，你需要给原型添加属性和方法，这通常是在使用构造函数前进行的</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">function</span> <span class="fu">Dog</span>(name<span class="op">,</span> breed<span class="op">,</span> weight) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name</span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">breed</span> <span class="op">=</span> breed</span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">=</span> weight</span>
+<span id="cb13-5"><a href="#cb13-5"></a>}</span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="co">// 设置小狗原型</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>Dog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">species</span> <span class="op">=</span> <span class="st">"Canine"</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>Dog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">bark</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">&gt;</span> <span class="dv">25</span>) {</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says Woof!"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says Yip!"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13"></a>  }</span>
+<span id="cb13-14"><a href="#cb13-14"></a>}</span>
+<span id="cb13-15"><a href="#cb13-15"></a>Dog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">run</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb13-16"><a href="#cb13-16"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Run!"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18"></a>Dog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">wag</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb13-19"><a href="#cb13-19"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Wag!"</span>)</span>
+<span id="cb13-20"><a href="#cb13-20"></a>}</span>
+<span id="cb13-21"><a href="#cb13-21"></a></span>
+<span id="cb13-22"><a href="#cb13-22"></a><span class="kw">var</span> fido <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>(<span class="st">"Fido"</span><span class="op">,</span> <span class="st">"Mixed"</span><span class="op">,</span> <span class="dv">33</span>)</span>
+<span id="cb13-23"><a href="#cb13-23"></a><span class="kw">var</span> fluffy <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>(<span class="st">"Fluffy"</span><span class="op">,</span> <span class="st">"Poodle"</span><span class="op">,</span> <span class="dv">22</span>)</span>
+<span id="cb13-24"><a href="#cb13-24"></a><span class="kw">var</span> spot <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>(<span class="st">"Spot"</span><span class="op">,</span> <span class="st">"Chihuahua"</span><span class="op">,</span> <span class="dv">8</span>)</span>
+<span id="cb13-25"><a href="#cb13-25"></a></span>
+<span id="cb13-26"><a href="#cb13-26"></a>fido<span class="op">.</span><span class="fu">bark</span>()</span>
+<span id="cb13-27"><a href="#cb13-27"></a>fido<span class="op">.</span><span class="fu">run</span>()</span>
+<span id="cb13-28"><a href="#cb13-28"></a>fido<span class="op">.</span><span class="fu">wag</span>()</span>
+<span id="cb13-29"><a href="#cb13-29"></a></span>
+<span id="cb13-30"><a href="#cb13-30"></a>fluffy<span class="op">.</span><span class="fu">bark</span>()</span>
+<span id="cb13-31"><a href="#cb13-31"></a>fluffy<span class="op">.</span><span class="fu">run</span>()</span>
+<span id="cb13-32"><a href="#cb13-32"></a>fluffy<span class="op">.</span><span class="fu">wag</span>()</span>
+<span id="cb13-33"><a href="#cb13-33"></a></span>
+<span id="cb13-34"><a href="#cb13-34"></a>spot<span class="op">.</span><span class="fu">bark</span>()</span>
+<span id="cb13-35"><a href="#cb13-35"></a>spot<span class="op">.</span><span class="fu">run</span>()</span>
+<span id="cb13-36"><a href="#cb13-36"></a>spot<span class="op">.</span><span class="fu">wag</span>()</span>
+<span id="cb13-37"><a href="#cb13-37"></a></span>
+<span id="cb13-38"><a href="#cb13-38"></a><span class="co">// 对象自定义方法</span></span>
+<span id="cb13-39"><a href="#cb13-39"></a>spot<span class="op">.</span><span class="at">bark</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb13-40"><a href="#cb13-40"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says WOOF!"</span>)</span>
+<span id="cb13-41"><a href="#cb13-41"></a>}</span>
+<span id="cb13-42"><a href="#cb13-42"></a>spot<span class="op">.</span><span class="fu">bark</span>()</span>
+<span id="cb13-43"><a href="#cb13-43"></a>spot<span class="op">.</span><span class="fu">run</span>()</span>
+<span id="cb13-44"><a href="#cb13-44"></a>spot<span class="op">.</span><span class="fu">wag</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="原型是动态的" class="level3">
+<h3 class="anchored" data-anchor-id="原型是动态的">原型是动态的</h3>
+<ul>
+<li>在原型中添加<strong>新方法</strong>后
+<ul>
+<li>继承该原型的任何对象都能使用这个方法</li>
+</ul></li>
+<li>判断对象的属性是自有的还是原型的
+<ul>
+<li>使用<code>objectName.hasOwnProperty("AttrName")</code>
+<ul>
+<li>如<code>spot.hasOwnProperty("species")</code></li>
+<li>返回ture表示是对象自有属性</li>
+<li>返回false表示是不是对象自有的属性</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="建立原型链" class="level3">
+<h3 class="anchored" data-anchor-id="建立原型链">建立原型链</h3>
+<ul>
+<li>原型继承
+<ul>
+<li>对象不仅可以继承一个原型的属性</li>
+<li>对象还可以继承一个原型链</li>
+</ul></li>
+<li>创建表演犬实例
+<ul>
+<li>需要一个继承小狗原型的对象</li>
+<li>接下来，将新建一个小狗实例变成表演犬原型</li>
+<li>补全原型</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">// 1.</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">function</span> <span class="fu">Dog</span>(name<span class="op">,</span> breed<span class="op">,</span> weight) {</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name</span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">breed</span> <span class="op">=</span> breed</span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">weight</span> <span class="op">=</span> weight</span>
+<span id="cb14-6"><a href="#cb14-6"></a>}</span>
+<span id="cb14-7"><a href="#cb14-7"></a>Dog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">bark</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb14-8"><a href="#cb14-8"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">" says WOOF"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9"></a>}</span>
+<span id="cb14-10"><a href="#cb14-10"></a></span>
+<span id="cb14-11"><a href="#cb14-11"></a><span class="co">// 2</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="kw">function</span> <span class="fu">ShowDog</span>(name<span class="op">,</span> breed<span class="op">,</span> weight<span class="op">,</span> handler) {</span>
+<span id="cb14-13"><a href="#cb14-13"></a>  <span class="co">// this.name = name</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>  <span class="co">// this.breed = breed</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>  <span class="co">// this.weight = weight</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>  <span class="co">// 这里调用Dog.call,导致Dog被调用，这里之所以调用call，而不直接调用Dog</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>  <span class="co">// - 是因为这样可以控制this的值</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>  <span class="co">// - 调用构造函数Dog将设置当前对象的属性</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a>  Dog<span class="op">.</span><span class="fu">call</span>(<span class="kw">this</span><span class="op">,</span> name<span class="op">,</span> breed<span class="op">,</span> weight)</span>
+<span id="cb14-20"><a href="#cb14-20"></a>  <span class="kw">this</span><span class="op">.</span><span class="at">handler</span> <span class="op">=</span> handler</span>
+<span id="cb14-21"><a href="#cb14-21"></a>}</span>
+<span id="cb14-22"><a href="#cb14-22"></a>ShowDog<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>()</span>
+<span id="cb14-23"><a href="#cb14-23"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">league</span> <span class="op">=</span> <span class="st">"Webvile"</span></span>
+<span id="cb14-24"><a href="#cb14-24"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">stack</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb14-25"><a href="#cb14-25"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Stack"</span>)</span>
+<span id="cb14-26"><a href="#cb14-26"></a>}</span>
+<span id="cb14-27"><a href="#cb14-27"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">bait</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb14-28"><a href="#cb14-28"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Bait"</span>)</span>
+<span id="cb14-29"><a href="#cb14-29"></a>}</span>
+<span id="cb14-30"><a href="#cb14-30"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">gait</span> <span class="op">=</span> <span class="kw">function</span>(kind) {</span>
+<span id="cb14-31"><a href="#cb14-31"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(kind <span class="op">+</span> <span class="st">"ing"</span>)</span>
+<span id="cb14-32"><a href="#cb14-32"></a>}</span>
+<span id="cb14-33"><a href="#cb14-33"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">groom</span> <span class="op">=</span> <span class="kw">function</span>() {</span>
+<span id="cb14-34"><a href="#cb14-34"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Groom"</span>)</span>
+<span id="cb14-35"><a href="#cb14-35"></a>}</span>
+<span id="cb14-36"><a href="#cb14-36"></a><span class="co">// 3.</span></span>
+<span id="cb14-37"><a href="#cb14-37"></a><span class="kw">var</span> scotty <span class="op">=</span> <span class="kw">new</span> <span class="fu">ShowDog</span>(<span class="st">"Scotty"</span><span class="op">,</span> <span class="st">"Scottish Terrier"</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="st">"Cookie"</span>)</span>
+<span id="cb14-38"><a href="#cb14-38"></a><span class="co">// 4.</span></span>
+<span id="cb14-39"><a href="#cb14-39"></a>scotty<span class="op">.</span><span class="fu">stack</span>()</span>
+<span id="cb14-40"><a href="#cb14-40"></a>scotty<span class="op">.</span><span class="fu">bark</span>()</span>
+<span id="cb14-41"><a href="#cb14-41"></a></span>
+<span id="cb14-42"><a href="#cb14-42"></a><span class="co">// 5.</span></span>
+<span id="cb14-43"><a href="#cb14-43"></a><span class="cf">if</span> (scotty <span class="kw">instanceof</span> Dog) {</span>
+<span id="cb14-44"><a href="#cb14-44"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Scotty is a Dog"</span>)</span>
+<span id="cb14-45"><a href="#cb14-45"></a>}</span>
+<span id="cb14-46"><a href="#cb14-46"></a><span class="cf">if</span> (scotty <span class="kw">instanceof</span> ShowDog) {</span>
+<span id="cb14-47"><a href="#cb14-47"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Scotty is a ShowDog"</span>)</span>
+<span id="cb14-48"><a href="#cb14-48"></a>}</span>
+<span id="cb14-49"><a href="#cb14-49"></a></span>
+<span id="cb14-50"><a href="#cb14-50"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Fido constructor is "</span> <span class="op">+</span> fido<span class="op">.</span><span class="at">constructor</span>)</span>
+<span id="cb14-51"><a href="#cb14-51"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">"Scotty constructor is "</span> <span class="op">+</span> scotty<span class="op">.</span><span class="at">constructor</span>)</span>
+<span id="cb14-52"><a href="#cb14-52"></a></span>
+<span id="cb14-53"><a href="#cb14-53"></a><span class="co">// 6.</span></span>
+<span id="cb14-54"><a href="#cb14-54"></a>ShowDog<span class="op">.</span><span class="at">prototype</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Dog</span>()</span>
+<span id="cb14-55"><a href="#cb14-55"></a><span class="co">// 获取表演犬原型，将其属性`constructor`显式地设置为构造函数ShowDog</span></span>
+<span id="cb14-56"><a href="#cb14-56"></a>ShowDog<span class="op">.</span><span class="at">prototype</span><span class="op">.</span><span class="at">constructor</span> <span class="op">=</span> <span class="fu">ShowDog</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="dog.call详解" class="level3">
+<h3 class="anchored" data-anchor-id="dog.call详解"><code>Dog.call</code>详解</h3>
+<ul>
+<li>运算符<code>new</code>
+<ul>
+<li>新建一个空对象，并将其赋值给构造函数中的变量<code>this</code></li>
+</ul></li>
+<li><code>Dog.call</code>
+<ul>
+<li>没有使用运算符<code>new</code>，因此它不会返回任何对象</li>
+<li>上面代码中<code>this</code>指向了<code>new ShowDog()</code>创建的对象</li>
+</ul></li>
+</ul>
+</section>
+<section id="object" class="level3">
+<h3 class="anchored" data-anchor-id="object">Object</h3>
+<ul>
+<li>Object是什么
+<ul>
+<li>对象始祖</li>
+<li>所有对象都是它派生而来的</li>
+<li>Object实现了多个重要方法，它们是<strong>Javascript对象系统的核心部分</strong></li>
+</ul></li>
+<li>充分发挥继承的威力之重写内置行为
+<ul>
+<li>Object中不可重写的属性
+<ul>
+<li>constructor</li>
+<li>hasOwnProperty</li>
+<li>isPrototypeOf</li>
+<li>propertyIsEnumerable</li>
+</ul></li>
+<li>Object对象中可重写的属性
+<ul>
+<li>toString</li>
+<li>toLocaleString</li>
+<li>valueOf</li>
+</ul></li>
+</ul></li>
+<li>充分发挥继承的威力之：扩展内置对象
+<ul>
+<li>通过给原型添加方法，可给其所有实例添加新功能</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="总结" class="level2">
+<h2 class="anchored" data-anchor-id="总结">总结</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href="#cb15-1"></a>|----|       |------------|       |------------------|</span>
+<span id="cb15-2"><a href="#cb15-2"></a>| {} | ----&gt; | new Object | ----&gt; | object.prototype |</span>
+<span id="cb15-3"><a href="#cb15-3"></a>|----|       |------------|       |------------------|</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a>   object</span>
+<span id="cb15-6"><a href="#cb15-6"></a>|---------|</span>
+<span id="cb15-7"><a href="#cb15-7"></a>|  attrs  |</span>
+<span id="cb15-8"><a href="#cb15-8"></a>|---------|</span>
+<span id="cb15-9"><a href="#cb15-9"></a>| methods |</span>
+<span id="cb15-10"><a href="#cb15-10"></a>|---------|</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, 曳影</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/54yeying">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/54yeying">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../54.yeying@gmail.com">
+      <i class="bi bi-email" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
